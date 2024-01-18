@@ -1,0 +1,29 @@
+@import 'normalize.css';
+/*Link icon: https://pictogrammers.com/library/mdi/ */
+/* import "bootstrap/dist/css/bootstrap.min.css"; */
+/* https://www.npmjs.com/package/react-toastify */
+/* dialogflow.cloud.google.com */
+
+:root {
+    --text-color: #303a4a;
+    --background-color: #fff;
+    --primary-color: #0718C4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    background-color: var(--background-color);
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+}
