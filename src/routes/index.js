@@ -9,7 +9,7 @@ import Cart from '../pages/user/Cart';
 
 const publicRoute = [
     { path: '/', component: Home },
-    { path: '/poduct', component: Product },
+    { path: '/product', component: Product },
     { path: '/blog', component: Blog },
     { path: '/voucher', component: Voucher },
     { path: '/about', component: About },
