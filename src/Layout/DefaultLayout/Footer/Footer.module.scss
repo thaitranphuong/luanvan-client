@@ -4,14 +4,15 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 50rem;
+    min-height: 50rem;
     background-color: #f6f6f6;
-    margin-top: 112px;
+    margin-top: 10rem;
 
     .main {
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
 
         .column {
             display: flex;

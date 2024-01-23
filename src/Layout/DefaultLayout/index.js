@@ -1,4 +1,4 @@
-import Footer from './Footer';
+// import Footer from './Footer';
 import Header from './Header';
 
 function DefaultLayout({ children }) {
@@ -6,7 +6,7 @@ function DefaultLayout({ children }) {
         <>
             <Header />
             {children}
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

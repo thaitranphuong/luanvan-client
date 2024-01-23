@@ -1,5 +1,4 @@
 .wrapper {
-    position: fixed;
     width: 100%;
 
     .head {
@@ -25,10 +24,90 @@
         }
 
         .info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
             margin-left: 2rem;
             margin-right: 2rem;
+            text-decoration: none;
+            color: var(--text-color);
             cursor: pointer;
+
+            .noti {
+                position: relative;
+
+                .bell {
+                    font-size: 1rem;
+                }
+
+                .noti_amount {
+                    position: absolute;
+                    font-size: 1.1rem;
+                    bottom: 1rem;
+                    left: 1.2rem;
+                    padding: 0 0.4rem;
+                    background-color: red;
+                    border-radius: 50%;
+                    color: #fff;
+                }
+
+                .window {
+                    display: none;
+                    position: absolute;
+                    justify-content: center;
+                    align-items: flex-start;
+                    flex-direction: column;
+                    right: 0;
+                    width: 300px;
+                    max-height: 400px;
+                    background-color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0 1px 10px #ccc;
+                    z-index: 1;
+                    animation: showWindow 0.1s linear;
+                    transform-origin: 100% 0%;
+
+                    .window_title {
+                        color: #ccc;
+                        margin-bottom: 1rem;
+                        margin-top: 1rem;
+                        margin-left: 1rem;
+                    }
+
+                    .window_item {
+                        margin-bottom: 1rem;
+                        padding: 0.5rem 1rem;
+                        text-decoration: none;
+
+                        .noti_title {
+                            font-size: 1.4rem;
+                            font-weight: 600;
+                            color: var(--primary-color);
+                        }
+
+                        .noti_content {
+                            color: #949393;
+                        }
+                    }
+
+                    .window_item:hover {
+                        background-color: #ccc;
+                    }
+                }
+
+                @keyframes showWindow {
+                    from {
+                        transform: scale(0);
+                    }
+                
+                }
+            }
+
+            .noti:hover .window {
+                display: flex;
+                color: var(--text-color);
+            }
         }
 
         .info + .info::before {
@@ -40,18 +119,23 @@
             background-color: var(--text-color);
             left: -2rem;
         }
+
+        .info:hover {
+            color: var(--primary-color);
+        }
     }
 
     .body {
+        z-index: 1;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around   ;
         width: 100%;
         height: 8.1rem;
+        background-color: #fff;
 
         .logo {
             max-width: 20rem;
-            margin-left: 10.6rem;
             cursor: pointer;
         }
 
@@ -79,25 +163,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 10.6rem;
 
             .icon_item {
                 cursor: pointer;
-                margin-left: 1.4rem;
+                margin-left: 2rem;
 
-                .cart {
+                .cart, .message {
                     position: relative;
+
+                    .cart_amount, .message_amount {
+                        position: absolute;
+                        font-size: 1.2rem;
+                        bottom: 1.8rem;
+                        left: 1.4rem;
+                        padding: 0 0.4rem;
+                        background-color: red;
+                        border-radius: 50%;
+                        color: #fff;
+                    }
                 }
 
-                .cart_amount {
-                    position: absolute;
-                    font-size: 1.2rem;
-                    bottom: 1.8rem;
-                    left: 1.4rem;
-                    padding: 0 0.5rem;
-                    background-color: red;
+                .avatar {
+                    width: 2.8rem;
                     border-radius: 50%;
-                    color: #fff;
                 }
             }
             
@@ -106,4 +194,17 @@
             }
         }
     }
+
+    .body.fixed {
+        position: fixed;
+        top: 0;
+        animation: show 0.4s linear;
+        box-shadow: 0 2px 10px #e0e0e0;
+    }
+
+    @keyframes show {
+        from {
+            top: -85px;
+        }
+      }
 }

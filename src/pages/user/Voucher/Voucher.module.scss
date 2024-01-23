@@ -1,0 +1,144 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .vouchers {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-left: 150px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+
+
+        .voucher {
+            display: flex;
+            width: 550px;
+            height: 330px;
+            border: 1px solid #000000;
+            margin: 1rem 8rem 1rem 0;
+
+            .left {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                width: 30%;
+                background-color: var(--primary-color);
+
+                .label {
+                    color: #fff;
+                    margin-bottom: 1rem;
+                }
+
+                .name {
+                    font-size: 2rem;
+                    color: #fff;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                }
+            }
+
+            .left::before {
+                display: block;
+                position: absolute;
+                content: "";
+                top: 0;
+                transform: translateY(-50%);
+                left: 50%;
+                width: 20px;
+                height: 20px;
+                background-color: #fff;
+                border-radius: 100%;
+            }
+
+            .left::after {
+                display: block;
+                position: absolute;
+                content: "";
+                bottom: 0;
+                transform: translateY(50%);
+                left: 50%;
+                width: 20px;
+                height: 20px;
+                background-color: #fff;
+                border-radius: 100%;
+            }
+
+            .right {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-direction: column;
+                padding: 20px;
+
+                .info {
+                    padding: 10px 0;
+
+                    .title {
+                        font-size: 4rem;
+                    }
+    
+                    .content {
+                        font-size: 2rem;
+                        color: #606060;
+                    }
+    
+                    .using {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+    
+                        .range {
+
+                            .percentage {
+                                position: relative;
+                                background-color: #ccc;
+                                border-radius: 10px;
+                                width: 150px;
+                                height: 15px;
+
+                                .percentage_value {
+                                    position: absolute;
+                                    left: 0;
+                                    background-color: var(--primary-color);
+                                    top: 0;
+                                    height: 100%;
+                                    border-radius: 10px;
+                                }
+                            }
+            
+                        }
+        
+        
+                        .count {
+                            color: var(--primary-color);
+                            font-size: 2.2rem;
+                            margin-left: 30px;
+                        }
+                    }
+                }
+
+
+
+                .btn {
+                    width: 316px;
+                    height: 77px;
+                    color: #fff;
+                    background-color: var(--primary-color);
+                    font-size: 3rem;
+                    border: none;
+                    border-radius: 10px;
+                    cursor: pointer;
+                }
+
+                .btn:hover {
+                    background-color: #020d87;
+                }
+
+            }
+        }
+    }
+}
