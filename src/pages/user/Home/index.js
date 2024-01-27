@@ -115,7 +115,7 @@ function Home() {
                 </div>
 
                 <div className={styles.products}>
-                    <div key={2} className={styles.product_item}>
+                    <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                         <div className={styles.img_wrapper}>
                             <img className={styles.product_img} src={product} alt="" />
                             <div className={styles.modal_img}>
@@ -129,8 +129,8 @@ function Home() {
                                 <div className={styles.old_price}>290.000₫</div>
                             </div>
                         </div>
-                    </div>
-                    <div key={1} className={styles.product_item}>
+                    </Link>
+                    <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                         <div className={styles.img_wrapper}>
                             <img className={styles.product_img} src={product} alt="" />
                             <div className={styles.modal_img}>
@@ -144,8 +144,8 @@ function Home() {
                                 <div className={styles.old_price}>290.000₫</div>
                             </div>
                         </div>
-                    </div>
-                    <div key={2} className={styles.product_item}>
+                    </Link>
+                    <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                         <div className={styles.img_wrapper}>
                             <img className={styles.product_img} src={product} alt="" />
                             <div className={styles.modal_img}>
@@ -159,8 +159,8 @@ function Home() {
                                 <div className={styles.old_price}>290.000₫</div>
                             </div>
                         </div>
-                    </div>
-                    <div key={1} className={styles.product_item}>
+                    </Link>
+                    <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                         <div className={styles.img_wrapper}>
                             <img className={styles.product_img} src={product} alt="" />
                             <div className={styles.modal_img}>
@@ -174,8 +174,8 @@ function Home() {
                                 <div className={styles.old_price}>290.000₫</div>
                             </div>
                         </div>
-                    </div>
-                    <div key={2} className={styles.product_item}>
+                    </Link>
+                    <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                         <div className={styles.img_wrapper}>
                             <img className={styles.product_img} src={product} alt="" />
                             <div className={styles.modal_img}>
@@ -189,7 +189,7 @@ function Home() {
                                 <div className={styles.old_price}>290.000₫</div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                     <div key={1} className={styles.product_item}>
                         <div className={styles.img_wrapper}>
                             <img className={styles.product_img} src={product} alt="" />
@@ -216,7 +216,7 @@ function Home() {
 
                 <div className={styles.products}>
                     <SlideShow button autoplay={false} slidesToShow={4}>
-                        <div key={1} className={styles.product_item}>
+                        <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -230,8 +230,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={2} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -245,8 +245,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={1} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -260,8 +260,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={2} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -275,8 +275,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={1} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -290,8 +290,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={2} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -305,8 +305,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={1} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -320,8 +320,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={2} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -335,7 +335,7 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </SlideShow>
                 </div>
 
@@ -348,7 +348,7 @@ function Home() {
 
                 <div className={styles.products}>
                     <SlideShow button autoplay={false} slidesToShow={4}>
-                        <div key={1} className={styles.product_item}>
+                        <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -362,8 +362,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={2} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -377,8 +377,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={1} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -392,8 +392,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={2} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -407,8 +407,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={1} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -422,8 +422,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={2} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -437,8 +437,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={1} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={1} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -452,8 +452,8 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
-                        <div key={2} className={styles.product_item}>
+                        </Link>
+                        <Link to={`/product-detail/${1}`} key={2} className={styles.product_item}>
                             <div className={styles.img_wrapper}>
                                 <img className={styles.product_img} src={product} alt="" />
                                 <div className={styles.modal_img}>
@@ -467,7 +467,7 @@ function Home() {
                                     <div className={styles.old_price}>290.000₫</div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </SlideShow>
                 </div>
 
@@ -479,7 +479,7 @@ function Home() {
                 </div>
 
                 <div className={styles.blogs}>
-                    <Link to="blog/blog-detail/:id" className={styles.blog}>
+                    <Link to={`blog/blog-detail/${1}`} className={styles.blog}>
                         <div className={styles.blog_img}>
                             <img className={styles.blog_img_item} src={blog} alt="" />
                         </div>
@@ -496,7 +496,7 @@ function Home() {
                             <Icon path={mdiArrowRight} size={1} />
                         </div>
                     </Link>
-                    <Link to="blog/blog-detail/:id" className={styles.blog}>
+                    <Link to={`blog/blog-detail/${1}`} className={styles.blog}>
                         <div className={styles.blog_img}>
                             <img className={styles.blog_img_item} src={blog} alt="" />
                         </div>
@@ -513,7 +513,7 @@ function Home() {
                             <Icon path={mdiArrowRight} size={1} />
                         </div>
                     </Link>
-                    <Link to="blog/blog-detail/:id" className={styles.blog}>
+                    <Link to={`blog/blog-detail/${1}`} className={styles.blog}>
                         <div className={styles.blog_img}>
                             <img className={styles.blog_img_item} src={blog} alt="" />
                         </div>

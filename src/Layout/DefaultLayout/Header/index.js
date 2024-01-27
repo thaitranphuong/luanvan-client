@@ -14,6 +14,10 @@ function Header() {
     const [fixed, setFixed] = useState(false);
 
     useEffect(() => {
+        scrollToTop();
+    }, [window.location.pathname]);
+
+    useEffect(() => {
         if (window.location.pathname.includes('product')) {
             setActive(2);
         } else if (window.location.pathname.includes('blog')) {
@@ -105,58 +109,38 @@ function Header() {
                     <img className={styles.logo} src={logo} alt=""></img>
                 </Link>
                 <div className={styles.nav}>
-                    <Link
-                        onClick={scrollToTop}
-                        to="/"
-                        className={clsx(styles.nav_item, { [styles.active]: active === 1 })}
-                    >
+                    <Link to="/" className={clsx(styles.nav_item, { [styles.active]: active === 1 })}>
                         TRANG CHỦ
                     </Link>
-                    <Link
-                        onClick={scrollToTop}
-                        to="/product"
-                        className={clsx(styles.nav_item, { [styles.active]: active === 2 })}
-                    >
+                    <Link to="/product" className={clsx(styles.nav_item, { [styles.active]: active === 2 })}>
                         SẢN PHẨM
                     </Link>
-                    <Link
-                        onClick={scrollToTop}
-                        to="/blog"
-                        className={clsx(styles.nav_item, { [styles.active]: active === 3 })}
-                    >
+                    <Link to="/blog" className={clsx(styles.nav_item, { [styles.active]: active === 3 })}>
                         TIN TỨC
                     </Link>
-                    <Link
-                        onClick={scrollToTop}
-                        to="/voucher"
-                        className={clsx(styles.nav_item, { [styles.active]: active === 4 })}
-                    >
+                    <Link to="/voucher" className={clsx(styles.nav_item, { [styles.active]: active === 4 })}>
                         GIẢM GIÁ
                     </Link>
-                    <Link
-                        onClick={scrollToTop}
-                        to="/about"
-                        className={clsx(styles.nav_item, { [styles.active]: active === 5 })}
-                    >
+                    <Link to="/about" className={clsx(styles.nav_item, { [styles.active]: active === 5 })}>
                         GIỚI THIỆU
                     </Link>
                 </div>
                 <div className={styles.icon}>
-                    <div className={styles.icon_item}>
+                    <Link to="/message" className={styles.icon_item}>
                         <div className={styles.message}>
                             <Icon path={mdiMessageText} size={1.4} />
                             <div className={styles.message_amount}>0</div>
                         </div>
-                    </div>
-                    <div className={styles.icon_item}>
+                    </Link>
+                    <Link to="/cart" className={styles.icon_item}>
                         <div className={styles.cart}>
                             <Icon path={mdiCartVariant} size={1.5} />
                             <div className={styles.cart_amount}>0</div>
                         </div>
-                    </div>
-                    <div className={styles.icon_item}>
+                    </Link>
+                    <Link to="/account" className={styles.icon_item}>
                         <img className={styles.avatar} src={avatar} alt="Avatar" />
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>
