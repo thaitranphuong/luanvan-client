@@ -5,9 +5,35 @@ import styles from './ProductDetail.module.scss';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import Icon from '@mdi/react';
-import { mdiCartOutline, mdiHeartOutline, mdiStar } from '@mdi/js';
+import { mdiCamera, mdiCartOutline, mdiHeartOutline, mdiStar } from '@mdi/js';
 
 function ProductDetail() {
+    const htmlContent = {
+        __html: '<span>Giúp bạn trở nên tự tin và năng động hơn. Đôi giày Reebok dành cho nữ này có dây buộc đàn hồi cho phép bạn điều chỉnh chính xác độ vừa vặn. Một chút màu sắc trên phần gót giày giúp chúng nổi bật hơn trong khi vẫn giữ được vẻ ngoài tối giản.</span> <img src="https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lpugswgksc7mb3" > <img src="https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lpugswgksc7mb3" ><div>Giúp bạn trở nên tự tin và năng động hơn. Đôi giày Reebok dành cho nữ này có dây buộc đàn hồi cho phép bạn điều chỉnh chính xác độ vừa vặn. Một chút màu sắc trên phần gót giày giúp chúng nổi bật hơn trong khi vẫn giữ được vẻ ngoài tối giản.</div>',
+    };
+
+    const handleUpload = () => {
+        document.getElementById('fileInput').click();
+    };
+
+    const handleChooseFile = () => {
+        const input = document.getElementById('fileInput');
+        const imageContainer = document.getElementById('image_container');
+        const file = input.files[0];
+        if (file) {
+            imageContainer.innerHTML = '';
+            const reader = new FileReader();
+
+            reader.onload = function () {
+                const img = document.createElement('img');
+                img.width = '150';
+                img.src = reader.result;
+                imageContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     return (
         <>
             <div className={styles.wrapper}>
@@ -145,8 +171,305 @@ function ProductDetail() {
                         </div>
                     </div>
                 </div>
-                <div className={styles.detail}></div>
-                <div className={styles.comment}></div>
+                <div className={styles.detail}>
+                    <div className={styles.detail_title}>CHI TIẾT SẢN PHẨM</div>
+                    <div className={styles.detail_item}>
+                        <div className={styles.detail_list_left}>Danh Mục</div>
+                        <div className={styles.detail_list_right}>Giày Thể Thao</div>
+                    </div>
+                    <div className={styles.detail_item}>
+                        <div className={styles.detail_list_left}>Thương Hiệu</div>
+                        <div className={styles.detail_list_right}>Nike</div>
+                    </div>
+                    <div className={styles.detail_item}>
+                        <div className={styles.detail_list_left}>Chất liệu</div>
+                        <div className={styles.detail_list_right}>Vải - Kim Loại</div>
+                    </div>
+                    <div className={styles.detail_item}>
+                        <div className={styles.detail_list_left}>Xuất Xứ</div>
+                        <div className={styles.detail_list_right}>Việt Nam</div>
+                    </div>
+                    <div className={styles.detail_item}>
+                        <div className={styles.detail_list_left}>Kho Hàng</div>
+                        <div className={styles.detail_list_right}>1</div>
+                    </div>
+                    <div className={styles.detail_title}>MÔ TẢ SẢN PHẨM</div>
+                    <div className={styles.detail_description}>
+                        <div className={styles.detail_description} dangerouslySetInnerHTML={htmlContent} />
+                    </div>
+                </div>
+
+                <div className={styles.comment}>
+                    <div className={styles.comment_left_title}>ĐÁNH GIÁ SẢN PHẨM</div>
+                    <div className={styles.comment_left}>
+                        <div className={styles.comment_left_average}>4.4 / 5</div>
+                        <div className={styles.comment_left_list}>
+                            <img
+                                className={styles.comment_left_item}
+                                src={require('../../../assets/images/start.png')}
+                                alt=""
+                            />
+                            <img
+                                className={styles.comment_left_item}
+                                src={require('../../../assets/images/start.png')}
+                                alt=""
+                            />
+                            <img
+                                className={styles.comment_left_item}
+                                src={require('../../../assets/images/start.png')}
+                                alt=""
+                            />
+                            <img
+                                className={styles.comment_left_item}
+                                src={require('../../../assets/images/start.png')}
+                                alt=""
+                            />
+                            <img
+                                className={styles.comment_left_item}
+                                src={require('../../../assets/images/half-start.png')}
+                                alt=""
+                            />
+                        </div>
+                        <div className={styles.comment_left_total}>(1194 đánh giá)</div>
+                    </div>
+                    <div className={styles.comment_right}>
+                        <div className={styles.comment_right_item}>
+                            <div className={styles.comment_right_item_left}>
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                            </div>
+                            <div className={styles.comment_right_item_right}>
+                                <div className={styles.comment_right_item_right_bar}>
+                                    <div
+                                        style={{ width: `${70}%` }}
+                                        className={styles.comment_right_item_right_bar_cover}
+                                    ></div>
+                                </div>
+                                <div className={styles.comment_right_item_right_amount}>820</div>
+                            </div>
+                        </div>
+                        <div className={styles.comment_right_item}>
+                            <div className={styles.comment_right_item_left}>
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                            </div>
+                            <div className={styles.comment_right_item_right}>
+                                <div className={styles.comment_right_item_right_bar}>
+                                    <div
+                                        style={{ width: `${0}%` }}
+                                        className={styles.comment_right_item_right_bar_cover}
+                                    ></div>
+                                </div>
+                                <div className={styles.comment_right_item_right_amount}>820</div>
+                            </div>
+                        </div>
+                        <div className={styles.comment_right_item}>
+                            <div className={styles.comment_right_item_left}>
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                            </div>
+                            <div className={styles.comment_right_item_right}>
+                                <div className={styles.comment_right_item_right_bar}>
+                                    <div
+                                        style={{ width: `${5}%` }}
+                                        className={styles.comment_right_item_right_bar_cover}
+                                    ></div>
+                                </div>
+                                <div className={styles.comment_right_item_right_amount}>820</div>
+                            </div>
+                        </div>
+                        <div className={styles.comment_right_item}>
+                            <div className={styles.comment_right_item_left}>
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                            </div>
+                            <div className={styles.comment_right_item_right}>
+                                <div className={styles.comment_right_item_right_bar}>
+                                    <div
+                                        style={{ width: `${40}%` }}
+                                        className={styles.comment_right_item_right_bar_cover}
+                                    ></div>
+                                </div>
+                                <div className={styles.comment_right_item_right_amount}>820</div>
+                            </div>
+                        </div>
+                        <div className={styles.comment_right_item}>
+                            <div className={styles.comment_right_item_left}>
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_right_item_left_start}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                            </div>
+                            <div className={styles.comment_right_item_right}>
+                                <div className={styles.comment_right_item_right_bar}>
+                                    <div
+                                        style={{ width: `${10}%` }}
+                                        className={styles.comment_right_item_right_bar_cover}
+                                    ></div>
+                                </div>
+                                <div className={styles.comment_right_item_right_amount}>820</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.comment_box}>
+                        <div className={styles.comment_box_title}>Viết đánh giá</div>
+                        <textarea className={styles.comment_box_input} placeholder="Viết đánh giá của bạn"></textarea>
+                        <div id="image_container" className={styles.modal_upload_image}></div>
+                        <div className={styles.comment_box_action}>
+                            <div className={styles.comment_box_action_upload}>
+                                <Icon onClick={handleUpload} path={mdiCamera} size={2} />
+                                <input
+                                    value={null}
+                                    onChange={handleChooseFile}
+                                    id="fileInput"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                />
+                            </div>
+                            <div className={styles.comment_box_action_start_list}>
+                                <img
+                                    className={styles.comment_box_action_start_item}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_box_action_start_item}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_box_action_start_item}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_box_action_start_item}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                                <img
+                                    className={styles.comment_box_action_start_item}
+                                    src={require('../../../assets/images/none-start.png')}
+                                    alt=""
+                                />
+                            </div>
+                            <button className={styles.comment_box_action_btn}>GỬI</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <Footer />
         </>
