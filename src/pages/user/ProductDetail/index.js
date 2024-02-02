@@ -2,10 +2,10 @@ import ReactImageMagnify from 'react-image-magnify';
 
 import Footer from '../../../Layout/DefaultLayout/Footer';
 import styles from './ProductDetail.module.scss';
-import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import Icon from '@mdi/react';
-import { mdiCamera, mdiCartOutline, mdiHeartOutline, mdiStar } from '@mdi/js';
+import { mdiCamera, mdiCartOutline, mdiHeart, mdiHeartOutline, mdiStar } from '@mdi/js';
+import Head from '../../../components/Head';
 
 function ProductDetail() {
     const htmlContent = {
@@ -20,8 +20,8 @@ function ProductDetail() {
         const input = document.getElementById('fileInput');
         const imageContainer = document.getElementById('image_container');
         const file = input.files[0];
+        imageContainer.innerHTML = '';
         if (file) {
-            imageContainer.innerHTML = '';
             const reader = new FileReader();
 
             reader.onload = function () {
@@ -37,21 +37,12 @@ function ProductDetail() {
     return (
         <>
             <div className={styles.wrapper}>
-                <div className={styles.head}>
-                    <div className={styles.head_left}>
-                        <div className={styles.head_title}>Chi tiết sản phẩm</div>
-                        <div className={styles.head_content}>Thông số chi tiết về sản phẩm</div>
-                    </div>
-
-                    <div className={styles.head_right}>
-                        <Link to="/" className={styles.head_right_item}>
-                            Trang chủ &nbsp;/
-                        </Link>
-                        <Link to="/product" className={styles.head_right_item}>
-                            Sản phẩm
-                        </Link>
-                    </div>
-                </div>
+                <Head
+                    title="Chi tiết sản phẩm"
+                    description="Thông số chi tiết về sản phẩm"
+                    currentPage="Sản phẩm"
+                    link="/product"
+                />
 
                 <div className={styles.product}>
                     <div className={styles.product_left}>
@@ -200,7 +191,7 @@ function ProductDetail() {
                 </div>
 
                 <div className={styles.comment}>
-                    <div className={styles.comment_left_title}>ĐÁNH GIÁ SẢN PHẨM</div>
+                    <div className={styles.comment_title}>ĐÁNH GIÁ SẢN PHẨM</div>
                     <div className={styles.comment_left}>
                         <div className={styles.comment_left_average}>4.4 / 5</div>
                         <div className={styles.comment_left_list}>
@@ -467,6 +458,87 @@ function ProductDetail() {
                                 />
                             </div>
                             <button className={styles.comment_box_action_btn}>GỬI</button>
+                        </div>
+                    </div>
+                    <div className={styles.comment_list}>
+                        <div className={styles.comment_item}>
+                            <img
+                                className={styles.comment_item_avatar}
+                                src={require('../../../assets/images/avatar.png')}
+                                alt=""
+                            />
+                            <div className={styles.comment_item_body}>
+                                <div className={styles.comment_item_body_name}>Trần Phương Thái</div>
+                                <div className={styles.comment_item_body_starts}>
+                                    <img
+                                        className={styles.comment_item_body_start}
+                                        src={require('../../../assets/images/start.png')}
+                                        alt=""
+                                    />
+                                    <img
+                                        className={styles.comment_item_body_start}
+                                        src={require('../../../assets/images/start.png')}
+                                        alt=""
+                                    />
+                                </div>
+                                <div className={styles.comment_item_body_time}>02:52:07 30/01/2024</div>
+                                <div className={styles.comment_item_body_content}>
+                                    asdasdsa asdasd asda sada asdd asdasd asd
+                                </div>
+                                <img
+                                    className={styles.comment_item_body_img}
+                                    src={require('../../../assets/images/product.png')}
+                                    alt=""
+                                />
+                                <div className={styles.comment_item_body_like}>
+                                    {true ? (
+                                        <Icon style={{ cursor: 'pointer', color: 'red' }} path={mdiHeart} size={1} />
+                                    ) : (
+                                        <Icon style={{ cursor: 'pointer', color: '#ccc' }} path={mdiHeart} size={1} />
+                                    )}
+                                    10
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.comment_item}>
+                            <img
+                                className={styles.comment_item_avatar}
+                                src={require('../../../assets/images/avatar.png')}
+                                alt=""
+                            />
+                            <div className={styles.comment_item_body}>
+                                <div className={styles.comment_item_body_name}>Trần Phương Thái</div>
+                                <div className={styles.comment_item_body_starts}>
+                                    <img
+                                        className={styles.comment_item_body_start}
+                                        src={require('../../../assets/images/start.png')}
+                                        alt=""
+                                    />
+                                    <img
+                                        className={styles.comment_item_body_start}
+                                        src={require('../../../assets/images/start.png')}
+                                        alt=""
+                                    />
+                                </div>
+                                <div className={styles.comment_item_body_time}>02:52:07 30/01/2024</div>
+                                <div className={styles.comment_item_body_content}>
+                                    asdasdsa asdasd asda sada asdd asdasd asd
+                                </div>
+                                <img
+                                    className={styles.comment_item_body_img}
+                                    src={require('../../../assets/images/product.png')}
+                                    alt=""
+                                />
+                                <div className={styles.comment_item_body_like}>
+                                    {false ? (
+                                        <Icon style={{ cursor: 'pointer', color: 'red' }} path={mdiHeart} size={1} />
+                                    ) : (
+                                        <Icon style={{ cursor: 'pointer', color: '#ccc' }} path={mdiHeart} size={1} />
+                                    )}
+                                    2
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

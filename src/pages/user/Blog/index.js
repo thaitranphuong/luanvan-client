@@ -6,30 +6,21 @@ import { mdiAccountOutline, mdiCommentTextOutline } from '@mdi/js';
 import Footer from '../../../Layout/DefaultLayout/Footer';
 import styles from './Blog.module.scss';
 import Pagination from '../../../components/Pagination';
+import Head from '../../../components/Head';
 
 function Blog() {
     return (
         <div className={styles.wrapper}>
-            <div className={styles.head}>
-                <div className={styles.head_left}>
-                    <div className={styles.head_title}>Tin tức</div>
-                    <div className={styles.head_content}>
-                        Hãy theo dõi những bài viết để nhận được thông tin mới nhất
-                    </div>
-                </div>
+            <Head
+                title="Tin tức"
+                description="Hãy theo dõi những bài viết để nhận được thông tin mới nhất"
+                currentPage="Tin tức"
+                link="/blog"
+            />
 
-                <div className={styles.head_right}>
-                    <Link to="/" className={styles.head_right_item}>
-                        Trang chủ &nbsp;/
-                    </Link>
-                    <Link to="/blog" className={styles.head_right_item}>
-                        Tin tức
-                    </Link>
-                </div>
-            </div>
             <div className={styles.body}>
                 <div className={styles.body_left}>
-                    <div className={styles.blog_item}>
+                    <Link to={`/blog-detail/${1}`} className={styles.blog_item}>
                         <img
                             className={styles.blog_item_thumbnail}
                             src={require('../../../assets/images/blog.png')}
@@ -51,8 +42,8 @@ function Blog() {
                                 Trần Phương Thái
                             </div>
                         </div>
-                    </div>
-                    <div className={styles.blog_item}>
+                    </Link>
+                    <Link to={`/blog-detail/${1}`} className={styles.blog_item}>
                         <img
                             className={styles.blog_item_thumbnail}
                             src={require('../../../assets/images/blog.png')}
@@ -74,7 +65,7 @@ function Blog() {
                                 Trần Phương Thái
                             </div>
                         </div>
-                    </div>
+                    </Link>
                     <Pagination />
                 </div>
                 <div className={styles.body_right}>

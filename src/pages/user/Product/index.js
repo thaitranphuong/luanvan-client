@@ -8,6 +8,7 @@ import styles from './Product.module.scss';
 import product from '../../../assets/images/product.png';
 import Pagination from '../../../components/Pagination';
 import { useState } from 'react';
+import Head from '../../../components/Head';
 
 function Product() {
     const [closeModal, setCloseModal] = useState(true);
@@ -46,21 +47,13 @@ function Product() {
     return (
         <>
             <div className={styles.wrapper}>
-                <div className={styles.head}>
-                    <div className={styles.head_left}>
-                        <div className={styles.head_title}>Danh mục sản phẩm</div>
-                        <div className={styles.head_content}>Hãy lựa chọn sản phẩm phù hợp với chính bạn nào!</div>
-                    </div>
+                <Head
+                    title="Danh mục sản phẩm"
+                    description="Hãy lựa chọn sản phẩm phù hợp với chính bạn nào!"
+                    currentPage="Sản Phẩm"
+                    link="/product"
+                />
 
-                    <div className={styles.head_right}>
-                        <Link to="/" className={styles.head_right_item}>
-                            Trang chủ &nbsp;/
-                        </Link>
-                        <Link to="/product" className={styles.head_right_item}>
-                            Sản phẩm
-                        </Link>
-                    </div>
-                </div>
                 <div className={styles.body}>
                     <div className={styles.body_left}>
                         <div className={styles.body_category_block}>

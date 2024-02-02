@@ -222,9 +222,9 @@
                         cursor: pointer;
                         min-width: 100px;
                         
-                        .product_right_size_item_text {
+                        // .product_right_size_item_text {
         
-                        }
+                        // }
                     }
 
                     .product_right_size_item.active {
@@ -336,13 +336,13 @@
                 color: #aba9a6;
                 width: 140px;
             }
-            .detail_list_right {
+            // .detail_list_right {
     
-            }
+            // }
         }
 
-        .detail_description {
-        }
+        // .detail_description {
+        // }
     }
 
     .comment {
@@ -351,13 +351,15 @@
         margin: 20px auto 0;
         width: 1200px;
         padding: 15px;
+        margin-top: 100px;
 
-        .comment_left_title {
+        .comment_title {
             display: flex;
             align-items: center;
             width: 100%;
             background-color: #fafafa;
             height: 45px;
+            font-weight: 700;
             padding-left: 10px;
             font-size: 2rem;
             border-bottom: 2px solid var(--primary-color);
@@ -489,6 +491,69 @@
             }
     
         }
+        
+        .comment_list {
+            margin-top: 100px;
+            width: 100%;
+
+            .comment_item {
+                display: flex;
+                width: 100%;
+                margin-top: 20px;
+                border-bottom: 1px solid #d8d8d8;
+                padding-bottom: 20px;
+
+                .comment_item_avatar {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    margin-right: 20px;
+                }
+        
+                .comment_item_body {
+
+                    .comment_item_body_name {
+                        font-size: 1.4rem;
+                        font-weight: 700;
+                        color: #464646;
+                    }
+
+                    .comment_item_body_starts {
+                        width: 100%;
+
+                        .comment_item_body_start {
+                            width: 15px;
+                            height: 15px;
+                        }
+                    }
+                    
+                    .comment_item_body_time {
+                        font-size: 1.2rem;
+                        color: #979797;
+                    }
+
+                    .comment_item_body_content {
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                    }
+                    
+                    .comment_item_body_img {
+                        width: 72px;
+                        height: 72px;
+                        object-fit: cover;
+                    }
+
+                    .comment_item_body_like {
+                        display: flex;
+                        align-items: center;
+                        margin-top: 5px;
+                        color: #4b4b4b;
+                        font-size: 1.4rem;
+                    }
+                }
+            }
+        }
+
         
 
     }
