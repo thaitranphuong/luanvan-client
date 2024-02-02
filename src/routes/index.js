@@ -21,7 +21,10 @@ const publicRoute = [
     { path: '/login', component: Login },
 ];
 
-const privateRoute = [{ path: '/message', component: Message }];
+const privateRoute = [
+    { path: '/message', component: Message },
+    { path: '/Cart', component: Cart },
+];
 
 if (JSON.parse(localStorage.getItem('role_id')) === 1) {
     privateRoute.push(
