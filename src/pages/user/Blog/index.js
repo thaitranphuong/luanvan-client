@@ -7,6 +7,7 @@ import Footer from '../../../Layout/DefaultLayout/Footer';
 import styles from './Blog.module.scss';
 import Pagination from '../../../components/Pagination';
 import Head from '../../../components/Head';
+import BlogRecommend from '../../../components/BlogRecommend';
 
 function Blog() {
     return (
@@ -77,50 +78,7 @@ function Blog() {
                             <div className={clsx(styles.category, { [styles.active]: false })}>Chính trị (1)</div>
                         </div>
                     </div>
-                    <div className={styles.body_right_block}>
-                        <div className={styles.title}>XEM NHIỀU</div>
-                        <div className={styles.blogs}>
-                            <div className={styles.blog}>
-                                <img
-                                    className={styles.right_blog_img}
-                                    src={require('../../../assets/images/blog.png')}
-                                    alt=""
-                                />
-                                <div className={styles.info}>
-                                    <div className={styles.right_blog_title}>
-                                        NTK Nguyễn Hoàng Tú lần đầu kết hợp hội họa đương đại trong BST Xuân Hè 2024
-                                    </div>
-                                    <div className={styles.right_blog_time}>24/01/2024 15:58</div>
-                                </div>
-                            </div>
-                            <div className={styles.blog}>
-                                <img
-                                    className={styles.right_blog_img}
-                                    src={require('../../../assets/images/blog.png')}
-                                    alt=""
-                                />
-                                <div className={styles.info}>
-                                    <div className={styles.right_blog_title}>
-                                        NTK Nguyễn Hoàng Tú lần đầu kết hợp hội họa đương đại trong BST Xuân Hè 2024
-                                    </div>
-                                    <div className={styles.right_blog_time}>24/01/2024 15:58</div>
-                                </div>
-                            </div>
-                            <div className={styles.blog}>
-                                <img
-                                    className={styles.right_blog_img}
-                                    src={require('../../../assets/images/blog.png')}
-                                    alt=""
-                                />
-                                <div className={styles.info}>
-                                    <div className={styles.right_blog_title}>
-                                        NTK Nguyễn Hoàng Tú lần đầu kết hợp hội họa đương đại trong BST Xuân Hè 2024
-                                    </div>
-                                    <div className={styles.right_blog_time}>24/01/2024 15:58</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <BlogRecommend />
                 </div>
             </div>
             <Footer />

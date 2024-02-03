@@ -9,6 +9,7 @@ import Cart from '../pages/user/Cart';
 import Message from '../pages/user/Message';
 import ProductDetail from '../pages/user/ProductDetail';
 import BlogDetail from '../pages/user/BlogDetail';
+import Order from '../pages/user/Order';
 
 const publicRoute = [
     { path: '/', component: Home },
@@ -23,7 +24,8 @@ const publicRoute = [
 
 const privateRoute = [
     { path: '/message', component: Message },
-    { path: '/Cart', component: Cart },
+    { path: '/cart', component: Cart },
+    { path: '/order', component: Order },
 ];
 
 if (JSON.parse(localStorage.getItem('role_id')) === 1) {

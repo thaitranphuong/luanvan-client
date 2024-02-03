@@ -1,10 +1,10 @@
 import ReactImageMagnify from 'react-image-magnify';
-
-import Footer from '../../../Layout/DefaultLayout/Footer';
-import styles from './ProductDetail.module.scss';
 import clsx from 'clsx';
 import Icon from '@mdi/react';
 import { mdiCamera, mdiCartOutline, mdiHeart, mdiHeartOutline, mdiStar } from '@mdi/js';
+
+import Footer from '../../../Layout/DefaultLayout/Footer';
+import styles from './ProductDetail.module.scss';
 import Head from '../../../components/Head';
 
 function ProductDetail() {
