@@ -25,7 +25,7 @@ const publicRoute = [
 const privateRoute = [
     { path: '/message', component: Message },
     { path: '/cart', component: Cart },
-    { path: '/order', component: Order },
+    { path: '/order', component: Order, layout: null },
 ];
 
 if (JSON.parse(localStorage.getItem('role_id')) === 1) {

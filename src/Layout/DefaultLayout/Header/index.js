@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import Icon from '@mdi/react';
-import { mdiBellOutline, mdiCartVariant, mdiMessageText } from '@mdi/js';
+import { mdiCartVariant, mdiMessageText } from '@mdi/js';
 import { Link } from 'react-router-dom';
 
 import styles from './Header.module.scss';
 import logo from '../../../assets/images/logo.png';
 import { useEffect, useState } from 'react';
-import vi from '../../../assets/images/vi.svg';
 import avatar from '../../../assets/images/avatar.png';
+import Head from './Head';
 
 function Header() {
     const [active, setActive] = useState(1);
@@ -50,60 +50,7 @@ function Header() {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.head}>
-                <div className={styles.left}>
-                    <div className={styles.info}>ĐIỆN THOẠI: 0843215643</div>
-                    <div className={styles.info}>EMAIL: THESTYLESHOP@GMAIL.COM</div>
-                </div>
-                <div className={styles.right}>
-                    <Link to="/login" className={styles.info}>
-                        ĐĂNG NHẬP
-                    </Link>
-                    <Link to="/login" className={styles.info}>
-                        ĐĂNG KÝ
-                    </Link>
-                    <div className={styles.info}>
-                        <img src={vi} alt="" width="20px"></img>
-                    </div>
-                    <div className={styles.info}>
-                        <div className={styles.noti}>
-                            <Icon className={styles.bell} path={mdiBellOutline} size={1.2} />
-                            <div className={styles.noti_amount}>0</div>
-                            <div className={styles.window}>
-                                <div className={styles.window_title}>THÔNG BÁO MỚI NHẬN</div>
-                                <Link to="/notification" className={styles.window_item}>
-                                    <div className={styles.noti_title}>Đơn hàng đã được duyệt</div>
-                                    <div className={styles.noti_content}>
-                                        Đơn hàng <strong>12113</strong> đã được duyệt và đang trong quá trình chuẩn bị
-                                        hàng.
-                                    </div>
-                                </Link>
-                                <Link to="/notification" className={styles.window_item}>
-                                    <div className={styles.noti_title}>Đơn hàng đã được duyệt</div>
-                                    <div className={styles.noti_content}>
-                                        Đơn hàng <strong>12113</strong> đã được duyệt và đang trong quá trình chuẩn bị
-                                        hàng.
-                                    </div>
-                                </Link>
-                                <Link to="/notification" className={styles.window_item}>
-                                    <div className={styles.noti_title}>Đơn hàng đã được duyệt</div>
-                                    <div className={styles.noti_content}>
-                                        Đơn hàng <strong>12113</strong> đã được duyệt và đang trong quá trình chuẩn bị
-                                        hàng.
-                                    </div>
-                                </Link>
-                                <Link to="/notification" className={styles.window_item}>
-                                    <div className={styles.noti_title}>Đơn hàng đã được duyệt</div>
-                                    <div className={styles.noti_content}>
-                                        Đơn hàng <strong>12113</strong> đã được duyệt và đang trong quá trình chuẩn bị
-                                        hàng.
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Head />
             <div className={clsx(styles.body, { [styles.fixed]: fixed })}>
                 <Link to="/">
                     <img className={styles.logo} src={logo} alt=""></img>
