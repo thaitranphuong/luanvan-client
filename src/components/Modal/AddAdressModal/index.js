@@ -4,7 +4,7 @@ function AddAdressModal({ setModalAdd }) {
     return (
         <div className={styles.modal_wrapper}>
             <div className={styles.modal}>
-                <div className={styles.modal_title}>Địa chỉ mới</div>
+                <div className={styles.modal_title}>Cập nhật địa chỉ</div>
                 <div className={styles.modal_body}>
                     <input style={{ width: '48%' }} className={styles.modal_body_input} placeholder="Họ và tên" />
                     <input

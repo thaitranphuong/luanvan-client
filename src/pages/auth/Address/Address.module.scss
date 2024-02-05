@@ -8,11 +8,72 @@
         padding: 0 20px;
 
         .head {
+            display: flex;
+            justify-content: space-between;
             border-bottom: 1px solid #ebebeb;
+            padding-bottom: 20px;
 
             .head_title {
                 font-size: 2rem;
             }
+
+            .head_btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #ee4d2d;
+                font-size: 1.6rem;
+                color: #fff;
+                border: none;
+                width: 170px;
+                height: 40px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+        }
+
+        .body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+            .item {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 20px;
+    
+                .item_info {
+        
+                    .item_info_name {
+                        display: inline;
+                        margin-right: 10px;
+                    }
+            
+                    .item_info_phone {
+                        display: inline;
+                    }
+            
+                    .item_info_address {
+                        width: 300px;
+                        font-size: 1.4rem;
+                        color: #a7a9ae;
+                    }
+                }
+        
+        
+                .item_btn {
+                    width: 80px;
+                    height: 30px;
+                    border: 1px solid var(--primary-color);
+                    color: var(--primary-color);
+                    background-color: #fff;
+                    cursor: pointer;
+                }
+            }
+            
+    
         }
     }
+
 }
