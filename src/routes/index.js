@@ -11,6 +11,13 @@ import ProductDetail from '../pages/user/ProductDetail';
 import BlogDetail from '../pages/user/BlogDetail';
 import Order from '../pages/user/Order';
 import VNPay from '../pages/user/VNPay';
+import OTP from '../pages/auth/OTP';
+import Account from '../pages/auth/Account';
+import Address from '../pages/auth/Address';
+import ChangePassword from '../pages/auth/ChangePassword';
+import VoucherWarehouse from '../pages/user/VoucherWarehouse';
+import Purchase from '../pages/user/Purchase';
+import Notification from '../pages/user/Notification';
 
 const publicRoute = [
     { path: '/', component: Home },
@@ -28,6 +35,14 @@ const privateRoute = [
     { path: '/cart', component: Cart },
     { path: '/order', component: Order, layout: null },
     { path: '/payment', component: VNPay, layout: null },
+    { path: '/otp', component: OTP },
+    { path: '/user/account', component: Account },
+    { path: '/user/address', component: Address },
+    { path: '/user/change-password', component: ChangePassword },
+    { path: '/user/voucher', component: VoucherWarehouse },
+    { path: '/user/purchase', component: Purchase },
+    { path: '/user/purchase', component: Purchase },
+    { path: '/user/notification', component: Notification },
 ];
 
 if (JSON.parse(localStorage.getItem('role_id')) === 1) {

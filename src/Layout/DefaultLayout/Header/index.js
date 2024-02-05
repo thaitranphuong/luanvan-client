@@ -85,7 +85,7 @@ function Header() {
                             <div className={styles.cart_amount}>0</div>
                         </div>
                     </Link>
-                    <Link to="/account" className={styles.icon_item}>
+                    <Link to="/user/account" className={styles.icon_item}>
                         <img className={styles.avatar} src={avatar} alt="Avatar" />
                     </Link>
                 </div>

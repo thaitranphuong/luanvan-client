@@ -28,25 +28,25 @@ function Head() {
                         <div className={styles.noti_amount}>0</div>
                         <div className={styles.window}>
                             <div className={styles.window_title}>THÔNG BÁO MỚI NHẬN</div>
-                            <Link to="/notification" className={styles.window_item}>
+                            <Link to="/user/notification" className={styles.window_item}>
                                 <div className={styles.noti_title}>Đơn hàng đã được duyệt</div>
                                 <div className={styles.noti_content}>
                                     Đơn hàng <strong>12113</strong> đã được duyệt và đang trong quá trình chuẩn bị hàng.
                                 </div>
                             </Link>
-                            <Link to="/notification" className={styles.window_item}>
+                            <Link to="/user/notification" className={styles.window_item}>
                                 <div className={styles.noti_title}>Đơn hàng đã được duyệt</div>
                                 <div className={styles.noti_content}>
                                     Đơn hàng <strong>12113</strong> đã được duyệt và đang trong quá trình chuẩn bị hàng.
                                 </div>
                             </Link>
-                            <Link to="/notification" className={styles.window_item}>
+                            <Link to="/user/notification" className={styles.window_item}>
                                 <div className={styles.noti_title}>Đơn hàng đã được duyệt</div>
                                 <div className={styles.noti_content}>
                                     Đơn hàng <strong>12113</strong> đã được duyệt và đang trong quá trình chuẩn bị hàng.
                                 </div>
                             </Link>
-                            <Link to="/notification" className={styles.window_item}>
+                            <Link to="/user/notification" className={styles.window_item}>
                                 <div className={styles.noti_title}>Đơn hàng đã được duyệt</div>
                                 <div className={styles.noti_content}>
                                     Đơn hàng <strong>12113</strong> đã được duyệt và đang trong quá trình chuẩn bị hàng.
