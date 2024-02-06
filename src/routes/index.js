@@ -1,4 +1,6 @@
 //import { Fragment } from 'react';
+import AdminLayout from '../Layout/AdminLayout';
+
 import Login from '../pages/auth/Login';
 import Product from '../pages/user/Product';
 import Home from '../pages/user/Home';
@@ -18,6 +20,8 @@ import ChangePassword from '../pages/auth/ChangePassword';
 import VoucherWarehouse from '../pages/user/VoucherWarehouse';
 import Purchase from '../pages/user/Purchase';
 import Notification from '../pages/user/Notification';
+
+import AdminHome from '../pages/admin/Home';
 
 const publicRoute = [
     { path: '/', component: Home },
@@ -43,6 +47,7 @@ const privateRoute = [
     { path: '/user/purchase', component: Purchase },
     { path: '/user/purchase', component: Purchase },
     { path: '/user/notification', component: Notification },
+    { path: '/admin', component: AdminHome, layout: AdminLayout },
 ];
 
 if (JSON.parse(localStorage.getItem('role_id')) === 1) {

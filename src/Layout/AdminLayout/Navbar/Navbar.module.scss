@@ -1,0 +1,15 @@
+.wrapper {
+    width: 277px;
+    height: calc(100vh - 72px);
+    background-color: #fff;
+    overflow-y: scroll;
+    animation: show 0.2s linear;
+    margin-left: -277px;
+    transition: all 0.15s linear;
+    border-right: 1px solid #ccc;
+}
+
+
+.show {
+    margin-left: 0;
+}
