@@ -1,5 +1,7 @@
+import styles from './Import.module.scss';
+
 function Import() {
-    return <>Import</>;
+    return <div className={styles.wrapper}>Import</div>;
 }
 
 export default Import;

@@ -22,6 +22,20 @@ import Purchase from '../pages/user/Purchase';
 import Notification from '../pages/user/Notification';
 
 import AdminHome from '../pages/admin/Home';
+import AdminBanners from '../pages/admin/Banners';
+import AdminBlog from '../pages/admin/Blog';
+import AdminBrand from '../pages/admin/Brand';
+import AdminCategory from '../pages/admin/Category';
+import AdminImport from '../pages/admin/Import';
+import AdminMessage from '../pages/admin/Message';
+import AdminOrder from '../pages/admin/Order';
+import AdminProduct from '../pages/admin/Product';
+import AdminShipping from '../pages/admin/Shipping';
+import AdminSupplier from '../pages/admin/Supplier';
+import AdminTopic from '../pages/admin/Topic';
+import AdminUser from '../pages/admin/User';
+import AdminVoucher from '../pages/admin/Voucher';
+import AdminWarehouse from '../pages/admin/Warehouse';
 
 const publicRoute = [
     { path: '/', component: Home },
@@ -48,6 +62,20 @@ const privateRoute = [
     { path: '/user/purchase', component: Purchase },
     { path: '/user/notification', component: Notification },
     { path: '/admin', component: AdminHome, layout: AdminLayout },
+    { path: '/admin/banners', component: AdminBanners, layout: AdminLayout },
+    { path: '/admin/blog', component: AdminBlog, layout: AdminLayout },
+    { path: '/admin/brand', component: AdminBrand, layout: AdminLayout },
+    { path: '/admin/category', component: AdminCategory, layout: AdminLayout },
+    { path: '/admin/import', component: AdminImport, layout: AdminLayout },
+    { path: '/admin/message', component: AdminMessage, layout: AdminLayout },
+    { path: '/admin/order', component: AdminOrder, layout: AdminLayout },
+    { path: '/admin/product', component: AdminProduct, layout: AdminLayout },
+    { path: '/admin/shipping', component: AdminShipping, layout: AdminLayout },
+    { path: '/admin/supplier', component: AdminSupplier, layout: AdminLayout },
+    { path: '/admin/topic', component: AdminTopic, layout: AdminLayout },
+    { path: '/admin/user', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/voucher', component: AdminVoucher, layout: AdminLayout },
+    { path: '/admin/warehouse', component: AdminWarehouse, layout: AdminLayout },
 ];
 
 if (JSON.parse(localStorage.getItem('role_id')) === 1) {

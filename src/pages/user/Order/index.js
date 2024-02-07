@@ -108,10 +108,12 @@ function Order() {
                         <img
                             className={clsx(styles.payment_option, { [styles.active]: true })}
                             src={require('../../../assets/images/vnpay.png')}
+                            alt=""
                         />
                         <img
                             className={clsx(styles.payment_option, { [styles.active]: false })}
                             src={require('../../../assets/images/paypal.png')}
+                            alt=""
                         />
                     </div>
 
