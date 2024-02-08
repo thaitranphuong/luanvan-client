@@ -48,11 +48,13 @@ function Home() {
             'Tháng 8',
             'Tháng 9',
             'Tháng 10',
+            'Tháng 11',
+            'Tháng 12',
         ],
         datasets: [
             {
                 label: 'Doanh thu',
-                data: [1, 2, 1, 3, 4, 5, 1, 6, 3, 7],
+                data: [1000, 2000, 1000, 3000, 4000, 5000, 1000, 6000, 3000, 7000, 5000, 1000],
                 backgroundColor: '#6d6dff',
                 fill: true,
                 tension: 0.4,
@@ -216,7 +218,7 @@ function Home() {
                         className={styles.picker_input}
                         selected={selectedMonth}
                         onChange={(date) => setSelectedMonth(date)}
-                        showYearPicker
+                        showMonthYearPicker
                         dateFormat="MM/yyyy"
                     />
                     <Line data={dataRevenueMonth} options={options}></Line>
