@@ -7,6 +7,7 @@ import Pagination from '../../../components/Pagination';
 import SearchBar from '../../../components/SearchBar';
 import AddButton from '../../../components/AddButton';
 import styles from './Product.module.scss';
+import { Link } from 'react-router-dom';
 
 function Product() {
     return (
@@ -15,7 +16,7 @@ function Product() {
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <SearchBar placeholder="Tiềm kiếm theo sản phẩm" />
                     <div>
-                        <AddButton />
+                        <AddButton to="/admin/product/add-product" />
                         <ExcelButton />
                     </div>
                 </div>
@@ -44,9 +45,12 @@ function Product() {
                             <td>a</td>
                             <td>a</td>
                             <td>
-                                <span style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}>
+                                <Link
+                                    to="/admin/product/edit-product"
+                                    style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                >
                                     <Icon path={mdiPen} size={1.5} />
-                                </span>
+                                </Link>
                                 <span style={{ color: 'red', cursor: 'pointer' }}>
                                     <Icon path={mdiTrashCan} size={1.5} />
                                 </span>

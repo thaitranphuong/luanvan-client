@@ -1,9 +1,10 @@
 import clsx from 'clsx';
-import Footer from '../../../Layout/DefaultLayout/Footer';
-import styles from './Message.module.scss';
 import Icon from '@mdi/react';
 import { mdiSend } from '@mdi/js';
 import { useEffect, useRef } from 'react';
+
+import styles from './Message.module.scss';
+import Footer from '../../../Layout/DefaultLayout/Footer';
 
 function Message() {
     const ref = useRef();

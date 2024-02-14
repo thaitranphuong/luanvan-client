@@ -1,6 +1,6 @@
 import styles from './Select.module.scss';
 
-function Select({ label, width, array = [{ id: '', name: '' }] }) {
+function Select({ label, width = '50%', array = [{ id: '', name: '' }] }) {
     return (
         <div style={{ width: `${width}` }} className={styles.wrapper}>
             <div className={styles.label}>{label}</div>

@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom';
 import styles from './AddButton.module.scss';
 
-function AddButton({ onClick }) {
+function AddButton({ to }) {
     return (
-        <button onClick={onClick} className={styles.btn}>
-            +
-        </button>
+        <Link to={to} className={styles.btn}>
+            <div style={{ marginBottom: '4px' }}>+</div>
+        </Link>
     );
 }
 

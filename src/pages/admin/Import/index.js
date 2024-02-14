@@ -7,6 +7,7 @@ import Pagination from '../../../components/Pagination';
 import SearchBar from '../../../components/SearchBar';
 import AddButton from '../../../components/AddButton';
 import styles from './Import.module.scss';
+import { Link } from 'react-router-dom';
 
 function Import() {
     return (
@@ -15,7 +16,7 @@ function Import() {
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div></div>
                     <div>
-                        <AddButton />
+                        <AddButton to="/admin/import/add-import" />
                         <ExcelButton />
                     </div>
                 </div>
@@ -40,9 +41,12 @@ function Import() {
                             <td>a</td>
                             <td>a</td>
                             <td>
-                                <span style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}>
+                                <Link
+                                    to="/admin/import/edit-import"
+                                    style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                >
                                     <Icon path={mdiPen} size={1.5} />
-                                </span>
+                                </Link>
                                 <span style={{ color: 'red', cursor: 'pointer' }}>
                                     <Icon path={mdiTrashCan} size={1.5} />
                                 </span>

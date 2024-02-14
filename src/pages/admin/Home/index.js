@@ -119,7 +119,7 @@ function Home() {
             <div className={styles.description}>Tổng quan về bán hàng</div>
             <div className={styles.cards}>
                 <Link
-                    to=""
+                    to="/admin/order"
                     className={styles.card}
                     style={{
                         borderLeft: '5px solid #721ce9',
@@ -140,7 +140,7 @@ function Home() {
                     </div>
                 </Link>
                 <Link
-                    to=""
+                    to="/admin/message"
                     className={styles.card}
                     style={{
                         borderLeft: '5px solid #ffb300',
@@ -161,7 +161,7 @@ function Home() {
                     </div>
                 </Link>
                 <Link
-                    to=""
+                    to="/admin/user"
                     className={styles.card}
                     style={{
                         borderLeft: '5px solid #9c27b0',
@@ -182,7 +182,7 @@ function Home() {
                     </div>
                 </Link>
                 <Link
-                    to=""
+                    to="/admin/product"
                     className={styles.card}
                     style={{
                         borderLeft: '5px solid #26a69a',
