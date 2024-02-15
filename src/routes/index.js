@@ -48,6 +48,20 @@ import AddSupplier from '../pages/admin/AddSupplier';
 import AddTopic from '../pages/admin/AddTopic';
 import AddVoucher from '../pages/admin/AddVoucher';
 import AddWarehouse from '../pages/admin/AddWarehouse';
+import EditBanners from '../pages/admin/EditBanners';
+import EditBlog from '../pages/admin/EditBlog';
+import EditBrand from '../pages/admin/EditBrand';
+import EditCategory from '../pages/admin/EditCategory';
+import EditImport from '../pages/admin/EditImport';
+import EditProduct from '../pages/admin/EditProduct';
+import EditShipping from '../pages/admin/EditShipping';
+import EditSupplier from '../pages/admin/EditSupplier';
+import EditTopic from '../pages/admin/EditTopic';
+import EditUser from '../pages/admin/EditUser';
+import EditVoucher from '../pages/admin/EditVoucher';
+import EditWarehouse from '../pages/admin/EditWarehouse';
+import ViewOrder from '../pages/admin/ViewOrder';
+import InStock from '../pages/admin/InStock';
 
 const publicRoute = [
     { path: '/', component: Home },
@@ -76,42 +90,44 @@ const privateRoute = [
     { path: '/admin', component: AdminHome, layout: AdminLayout },
     { path: '/admin/banners', component: AdminBanners, layout: AdminLayout },
     { path: '/admin/banners/add-banners', component: AddBanners, layout: AdminLayout },
-    { path: '/admin/banners/edit-banners', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/banners/edit-banners', component: EditBanners, layout: AdminLayout },
     { path: '/admin/blog', component: AdminBlog, layout: AdminLayout },
     { path: '/admin/blog/add-blog', component: AddBlog, layout: AdminLayout },
-    { path: '/admin/blog/edit-blog', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/blog/edit-blog', component: EditBlog, layout: AdminLayout },
     { path: '/admin/brand', component: AdminBrand, layout: AdminLayout },
     { path: '/admin/brand/add-brand', component: AddBrand, layout: AdminLayout },
-    { path: '/admin/brand/edit-brand', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/brand/edit-brand', component: EditBrand, layout: AdminLayout },
     { path: '/admin/category', component: AdminCategory, layout: AdminLayout },
     { path: '/admin/category/add-category', component: AddCategory, layout: AdminLayout },
-    { path: '/admin/category/edit-category', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/category/edit-category', component: EditCategory, layout: AdminLayout },
     { path: '/admin/import', component: AdminImport, layout: AdminLayout },
     { path: '/admin/import/add-import', component: AddImport, layout: AdminLayout },
-    { path: '/admin/import/edit-import', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/import/edit-import', component: EditImport, layout: AdminLayout },
     { path: '/admin/message', component: AdminMessage, layout: AdminLayout },
     { path: '/admin/order', component: AdminOrder, layout: AdminLayout },
+    { path: '/admin/order/view-order', component: ViewOrder, layout: AdminLayout },
     { path: '/admin/product', component: AdminProduct, layout: AdminLayout },
     { path: '/admin/product/add-product', component: AddProduct, layout: AdminLayout },
-    { path: '/admin/product/edit-product', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/product/edit-product', component: EditProduct, layout: AdminLayout },
     { path: '/admin/shipping', component: AdminShipping, layout: AdminLayout },
     { path: '/admin/shipping/add-shipping', component: AddShipping, layout: AdminLayout },
-    { path: '/admin/shipping/edit-shipping', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/shipping/edit-shipping', component: EditShipping, layout: AdminLayout },
     { path: '/admin/supplier', component: AdminSupplier, layout: AdminLayout },
     { path: '/admin/supplier/add-supplier', component: AddSupplier, layout: AdminLayout },
-    { path: '/admin/supplier/edit-supplier', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/supplier/edit-supplier', component: EditSupplier, layout: AdminLayout },
     { path: '/admin/topic', component: AdminTopic, layout: AdminLayout },
     { path: '/admin/topic/add-topic', component: AddTopic, layout: AdminLayout },
-    { path: '/admin/topic/edit-topic', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/topic/edit-topic', component: EditTopic, layout: AdminLayout },
     { path: '/admin/user', component: AdminUser, layout: AdminLayout },
     { path: '/admin/user/add-user', component: AddUser, layout: AdminLayout },
-    { path: '/admin/user/edit-user', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/user/edit-user', component: EditUser, layout: AdminLayout },
     { path: '/admin/voucher', component: AdminVoucher, layout: AdminLayout },
     { path: '/admin/voucher/add-voucher', component: AddVoucher, layout: AdminLayout },
-    { path: '/admin/voucher/edit-voucher', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/voucher/edit-voucher', component: EditVoucher, layout: AdminLayout },
     { path: '/admin/warehouse', component: AdminWarehouse, layout: AdminLayout },
     { path: '/admin/warehouse/add-warehouse', component: AddWarehouse, layout: AdminLayout },
-    { path: '/admin/warehouse/edit-warehouse', component: AdminUser, layout: AdminLayout },
+    { path: '/admin/warehouse/edit-warehouse', component: EditWarehouse, layout: AdminLayout },
+    { path: '/admin/in-stock', component: InStock, layout: AdminLayout },
 ];
 
 if (JSON.parse(localStorage.getItem('role_id')) === 1) {

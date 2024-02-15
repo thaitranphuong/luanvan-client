@@ -1,20 +1,42 @@
 import Icon from '@mdi/react';
-import { mdiPen, mdiTrashCan } from '@mdi/js';
+import { mdiDeveloperBoard } from '@mdi/js';
 
 import Wrapper from '../../../Layout/AdminLayout/Wrapper';
 import ExcelButton from '../../../components/ExcelButton';
 import Pagination from '../../../components/Pagination';
-import SearchBar from '../../../components/SearchBar';
-import AddButton from '../../../components/AddButton';
 import styles from './Order.module.scss';
 import { Link } from 'react-router-dom';
+import Select from '../../../components/Select';
 
 function Order() {
+    const array = [
+        {
+            id: 1,
+            name: 'Chờ xác nhận',
+        },
+        {
+            id: 2,
+            name: 'Đang chuẩn bị hàng',
+        },
+        {
+            id: 3,
+            name: 'Đang giao',
+        },
+        {
+            id: 4,
+            name: 'Đã giao',
+        },
+        {
+            id: 5,
+            name: 'Đã hủy',
+        },
+    ];
+
     return (
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý đơn hàng" detail="Danh sách đơn hàng">
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div></div>
+                    <Select width="300px" array={array} />
                     <div>
                         <ExcelButton />
                     </div>
@@ -44,15 +66,9 @@ function Order() {
                             <td>a</td>
                             <td>a</td>
                             <td>
-                                <Link
-                                    to="/admin/order/edit-order"
-                                    style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                >
-                                    <Icon path={mdiPen} size={1.5} />
+                                <Link to="/admin/order/view-order" style={{ color: 'orange', cursor: 'pointer' }}>
+                                    <Icon path={mdiDeveloperBoard} size={2} />
                                 </Link>
-                                <span style={{ color: 'red', cursor: 'pointer' }}>
-                                    <Icon path={mdiTrashCan} size={1.5} />
-                                </span>
                             </td>
                         </tr>
                     </tbody>
