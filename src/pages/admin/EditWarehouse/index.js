@@ -6,7 +6,7 @@ import SaveButton from '../../../components/SaveButton';
 function EditWarehouse() {
     return (
         <div className={styles.wrapper}>
-            <Wrapper title="Quản lý kho hàng" detail="Thêm kho hàng">
+            <Wrapper title="Quản lý kho hàng" detail="Sửa kho hàng">
                 <Input label="Tên kho" />
                 <Input label="Địa chỉ" />
                 <SaveButton />

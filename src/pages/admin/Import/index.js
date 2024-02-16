@@ -1,13 +1,12 @@
 import Icon from '@mdi/react';
-import { mdiPen, mdiTrashCan } from '@mdi/js';
+import { mdiDeveloperBoard } from '@mdi/js';
+import { Link } from 'react-router-dom';
 
 import Wrapper from '../../../Layout/AdminLayout/Wrapper';
 import ExcelButton from '../../../components/ExcelButton';
 import Pagination from '../../../components/Pagination';
-import SearchBar from '../../../components/SearchBar';
 import AddButton from '../../../components/AddButton';
 import styles from './Import.module.scss';
-import { Link } from 'react-router-dom';
 
 function Import() {
     return (
@@ -43,13 +42,10 @@ function Import() {
                             <td>
                                 <Link
                                     to="/admin/import/edit-import"
-                                    style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                    style={{ marginRight: '20px', color: 'orange', cursor: 'pointer' }}
                                 >
-                                    <Icon path={mdiPen} size={1.5} />
+                                    <Icon path={mdiDeveloperBoard} size={1.5} />
                                 </Link>
-                                <span style={{ color: 'red', cursor: 'pointer' }}>
-                                    <Icon path={mdiTrashCan} size={1.5} />
-                                </span>
                             </td>
                         </tr>
                     </tbody>

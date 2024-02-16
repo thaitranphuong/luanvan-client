@@ -14,11 +14,25 @@ const ImageModal = ({ imageUrl, style }) => {
 
     return (
         <div>
-            <img style={style} src={imageUrl} alt="Image" onClick={openModal} />
+            {imageUrl && (
+                <img
+                    style={{ ...style, cursor: 'pointer', objectFit: 'cover', border: '1px solid #ccc' }}
+                    src={imageUrl}
+                    alt="Image"
+                    onClick={openModal}
+                />
+            )}
 
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Image Modal">
-                <div style={{ textAlign: 'center' }}>
-                    <img src={imageUrl} alt="Image" />
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                    }}
+                >
+                    <img style={{ height: '100%' }} src={imageUrl} alt="" />
                     <button
                         style={{
                             backgroundColor: 'red',

@@ -6,7 +6,7 @@ import SaveButton from '../../../components/SaveButton';
 function EditProduct() {
     return (
         <div className={styles.wrapper}>
-            <Wrapper title="Quản lý sản phẩm" detail="Thêm sản phẩm">
+            <Wrapper title="Quản lý sản phẩm" detail="Sửa sản phẩm">
                 <Input label="Mã code" />
                 <SaveButton />
             </Wrapper>

@@ -6,7 +6,7 @@ import SaveButton from '../../../components/SaveButton';
 function EditCategory() {
     return (
         <div className={styles.wrapper}>
-            <Wrapper title="Quản lý danh mục" detail="Thêm danh mục">
+            <Wrapper title="Quản lý danh mục" detail="Sửa danh mục">
                 <Input label="Tên danh mục" />
                 <Input label="Mã code" />
                 <SaveButton />

@@ -6,7 +6,7 @@ import SaveButton from '../../../components/SaveButton';
 function EditSupplier() {
     return (
         <div className={styles.wrapper}>
-            <Wrapper title="Quản lý nhà cung cấp" detail="Thêm nhà cung cấp">
+            <Wrapper title="Quản lý nhà cung cấp" detail="Sửa nhà cung cấp">
                 <Input label="Tên nhà cung cấp" />
                 <Input label="Số điện thoại" />
                 <Input label="Email" />

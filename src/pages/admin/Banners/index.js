@@ -8,6 +8,7 @@ import SearchBar from '../../../components/SearchBar';
 import styles from './Banners.module.scss';
 import AddButton from '../../../components/AddButton';
 import { Link } from 'react-router-dom';
+import ImageModal from '../../../components/Modal/ImageModal';
 
 function Banners() {
     return (
@@ -35,7 +36,12 @@ function Banners() {
                         <tr>
                             <td>1</td>
                             <td>a</td>
-                            <td>a</td>
+                            <td>
+                                <ImageModal
+                                    style={{ height: '50px' }}
+                                    imageUrl={require('../../../assets/images/product.png')}
+                                />
+                            </td>
                             <td>
                                 <Link
                                     to="/admin/banners/edit-banners"

@@ -7,7 +7,7 @@ import styles from './EditUser.module.scss';
 function EditUser() {
     return (
         <div className={styles.wrapper}>
-            <Wrapper title="Quản lý người dùng" detail="Thêm người dùng">
+            <Wrapper title="Quản lý người dùng" detail="Sửa người dùng">
                 <Input label="Email" />
                 <Input label="Mật khẩu" />
                 <Input label="Họ và tên" />

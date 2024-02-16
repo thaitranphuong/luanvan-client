@@ -8,6 +8,7 @@ import SearchBar from '../../../components/SearchBar';
 import AddButton from '../../../components/AddButton';
 import styles from './Blog.module.scss';
 import { Link } from 'react-router-dom';
+import ImageModal from '../../../components/Modal/ImageModal';
 
 function Blog() {
     return (
@@ -29,6 +30,7 @@ function Blog() {
                             <th>Tiêu đề</th>
                             <th>Chủ đề</th>
                             <th>Hình ảnh</th>
+                            <th>Lượt xem</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
@@ -37,7 +39,13 @@ function Blog() {
                             <td>1</td>
                             <td>a</td>
                             <td>a</td>
-                            <td>a</td>
+                            <td>
+                                <ImageModal
+                                    style={{ height: '50px', width: '50px' }}
+                                    imageUrl={require('../../../assets/images/product.png')}
+                                />
+                            </td>
+                            <td>1</td>
                             <td>
                                 <Link
                                     to="/admin/blog/edit-blog"

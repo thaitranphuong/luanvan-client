@@ -87,3 +87,8 @@ code {
   display: flex;
   justify-content: space-evenly;
 }
+
+.ck.ck-editor__editable_inline>:last-child {
+  margin-bottom: var(--ck-spacing-large);
+  height: 420px;
+}

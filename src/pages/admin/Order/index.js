@@ -11,6 +11,10 @@ import Select from '../../../components/Select';
 function Order() {
     const array = [
         {
+            id: 0,
+            name: 'Tất cả',
+        },
+        {
             id: 1,
             name: 'Chờ xác nhận',
         },

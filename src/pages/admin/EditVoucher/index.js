@@ -7,7 +7,7 @@ import Select from '../../../components/Select';
 function EditVoucher() {
     return (
         <div className={styles.wrapper}>
-            <Wrapper title="Quản lý voucher" detail="Thêm voucher">
+            <Wrapper title="Quản lý voucher" detail="Sửa voucher">
                 <Input label="Mã voucher" />
                 <Select
                     label="Loại giảm giá"

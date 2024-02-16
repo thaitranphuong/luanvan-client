@@ -1,5 +1,5 @@
 import Icon from '@mdi/react';
-import { mdiEye, mdiEyeOff, mdiPen, mdiTrashCan } from '@mdi/js';
+import { mdiEye, mdiEyeOff, mdiPen } from '@mdi/js';
 
 import Wrapper from '../../../Layout/AdminLayout/Wrapper';
 import ExcelButton from '../../../components/ExcelButton';
@@ -8,6 +8,7 @@ import SearchBar from '../../../components/SearchBar';
 import AddButton from '../../../components/AddButton';
 import styles from './Product.module.scss';
 import { Link } from 'react-router-dom';
+import ImageModal from '../../../components/Modal/ImageModal';
 
 function Product() {
     return (
@@ -38,7 +39,12 @@ function Product() {
                         <tr>
                             <td>1</td>
                             <td>a</td>
-                            <td>a</td>
+                            <td>
+                                <ImageModal
+                                    style={{ height: '50px' }}
+                                    imageUrl={require('../../../assets/images/product.png')}
+                                />
+                            </td>
                             <td>a</td>
                             <td>a</td>
                             <td>a</td>

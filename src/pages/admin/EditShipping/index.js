@@ -6,7 +6,7 @@ import SaveButton from '../../../components/SaveButton';
 function EditShipping() {
     return (
         <div className={styles.wrapper}>
-            <Wrapper title="Quản lý loại ship" detail="Thêm loại ship">
+            <Wrapper title="Quản lý loại ship" detail="Sửa loại ship">
                 <Input label="Tên loại ship" />
                 <Input label="Giá tiền" />
                 <SaveButton />
