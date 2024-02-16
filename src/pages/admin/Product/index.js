@@ -31,7 +31,7 @@ function Product() {
                             <th>Hình ảnh</th>
                             <th>Danh mục</th>
                             <th>Thương hiệu</th>
-                            <th>Trạng thái</th>
+                            <th>Đã bán</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
@@ -47,7 +47,7 @@ function Product() {
                             </td>
                             <td>a</td>
                             <td>a</td>
-                            <td>a</td>
+                            <td>100</td>
                             <td>
                                 <Link
                                     to="/admin/product/edit-product"

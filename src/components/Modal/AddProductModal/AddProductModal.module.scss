@@ -1,0 +1,103 @@
+.modal_wrapper {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    z-index: 1;
+
+    .modal {
+        width: 500px;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 20px 10px;
+
+        .title {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .size_input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .add_size_btn {
+                width: 60px;
+                height: 40px;
+                margin-top: 18px;
+                margin-right: 5px;
+                border: none;
+                background-color: rgb(0, 84, 0);
+                cursor: pointer;
+                border-radius: 4px;
+                color: #fff;
+            }
+        }
+
+        .size_container {
+            width: 100%;
+            min-height: 100px;
+            margin: 5px;
+            
+            .size {
+                position: relative;
+                border: 1px solid rgb(0, 98, 0);
+                padding: 5px 10px;
+                margin-right: 10px;
+                font-size: 2rem;
+                color: rgb(0, 98, 0);
+
+                &:hover {
+                    border: 1px solid red;
+                    color: red;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .footer {
+            width: 100%;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #ccc;
+
+            .abort_btn {
+                float: right;
+                padding: 10px 15px;
+                border: none;
+                font-size: 1.4rem;
+                border-radius: 4px;
+                cursor: pointer;
+                background-color: #aaa;
+                margin-right: 10px;
+
+                &:hover {
+                    background-color: #7d7d7d;
+                }
+            }
+
+            .save_btn {
+                float: right;
+                padding: 10px 15px;
+                border: none;
+                font-size: 1.4rem;
+                border-radius: 4px;
+                cursor: pointer;
+                background-color: var(--primary-color);
+                color: #fff;
+
+                &:hover {
+                    background-color: rgb(0, 0, 128);
+                }
+            }
+
+        }
+    }
+}
