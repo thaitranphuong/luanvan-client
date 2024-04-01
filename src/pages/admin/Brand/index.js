@@ -8,16 +8,63 @@ import SearchBar from '../../../components/SearchBar';
 import AddButton from '../../../components/AddButton';
 import styles from './Brand.module.scss';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import api from '../../../utils/api';
+import Excel from '../../../components/Excel';
 
 function Brand() {
+    const [brands, setBrands] = useState([]);
+    const [totalPage, setTotalpage] = useState(1);
+    const [page, setPage] = useState(1);
+    const [name, setName] = useState('');
+
+    const render = async () => {
+        let result = await api.getRequest(`/brand?page=${page}&limit=5&name=${name}`);
+        setTotalpage(result.data.totalPage);
+        setPage(result.data.page);
+        setBrands(result.data.listResult);
+        console.log(result.data.listResult);
+    };
+
+    useEffect(() => {
+        render();
+    }, [page, name]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [name]);
+
+    const handleDelete = async (id) => {
+        let result = await api.deleteRequest(`/brand/${id}`);
+        if (result.statusCode === 200) {
+            render();
+            alert('OK');
+        } else {
+            alert('Loi');
+        }
+    };
+
+    const handleExportFile = async () => {
+        const listExcel = [];
+        let result = await api.getRequest(`/brand/get-all`);
+        result.data.forEach((item) => {
+            listExcel.push({ ...item });
+        });
+        await Excel.exportExcel([...listExcel], 'Danh sách', 'Danh sách');
+    };
+
     return (
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý nhãn hàng" detail="Danh sách nhãn hàng">
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <SearchBar placeholder="Tiềm kiếm theo nhãn hàng" />
+                    <SearchBar
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        placeholder="Tiềm kiếm theo nhãn hàng"
+                    />
                     <div>
                         <AddButton to="/admin/brand/add-brand" />
-                        <ExcelButton />
+                        <ExcelButton onClick={handleExportFile} />
                     </div>
                 </div>
                 <table
@@ -32,26 +79,31 @@ function Brand() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>
-                                <Link
-                                    to="/admin/brand/edit-brand"
-                                    style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                >
-                                    <Icon path={mdiPen} size={1.5} />
-                                </Link>
-                                <span style={{ color: 'red', cursor: 'pointer' }}>
-                                    <Icon path={mdiTrashCan} size={1.5} />
-                                </span>
-                            </td>
-                        </tr>
+                        {brands.map((item, index) => (
+                            <tr key={item.id}>
+                                <td>{index + 1 + (page - 1) * 5}</td>
+                                <td>{item.name}</td>
+                                <td>{item.code}</td>
+                                <td>
+                                    <Link
+                                        to={`/admin/brand/edit-brand/${item.id}`}
+                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                    >
+                                        <Icon path={mdiPen} size={1.5} />
+                                    </Link>
+                                    <span
+                                        onClick={() => handleDelete(item.id)}
+                                        style={{ color: 'red', cursor: 'pointer' }}
+                                    >
+                                        <Icon path={mdiTrashCan} size={1.5} />
+                                    </span>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>
-                    <Pagination />
+                    <Pagination page={page} setPage={setPage} totalPage={totalPage} />
                 </div>
             </Wrapper>
         </div>

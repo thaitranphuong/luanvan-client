@@ -38,7 +38,7 @@ function Banners() {
                             <td>a</td>
                             <td>
                                 <ImageModal
-                                    style={{ height: '50px' }}
+                                    style={{ height: '50px', width: '100px' }}
                                     imageUrl={require('../../../assets/images/product.png')}
                                 />
                             </td>

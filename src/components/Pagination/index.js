@@ -1,20 +1,23 @@
 import clsx from 'clsx';
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './Paginate.module.scss';
 
-function Paginate() {
-    const [page, setPage] = useState(5);
-    const [totalPage, setTotalPage] = useState(10);
-    const listPage = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const [search, setSearch] = useState('');
+function Paginate({ page, setPage, totalPage }) {
+    const [listPage, setListPage] = useState([]);
 
-    const render = () => {};
+    useEffect(() => {
+        setListPage(() => {
+            const listPage = [];
+            for (let i = 1; i <= totalPage; i++) listPage.push(i);
+            return [...listPage];
+        });
+    }, [totalPage]);
 
     const handleChangePage = (pageValue) => {
         if (pageValue >= 1 && pageValue <= totalPage) {
-            render(pageValue, search);
+            setPage(pageValue);
         }
     };
 

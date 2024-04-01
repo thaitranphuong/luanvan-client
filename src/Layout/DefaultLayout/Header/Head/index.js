@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import vi from '../../../../assets/images/vi.svg';
 import styles from './Head.module.scss';
+import { isLogin, logout } from '../../../../utils/localstorage';
 
 function Head() {
     return (
@@ -13,12 +14,26 @@ function Head() {
                 <div className={styles.info}>EMAIL: THESTYLESHOP@GMAIL.COM</div>
             </div>
             <div className={styles.right}>
-                <Link to="/login" className={styles.info}>
-                    ĐĂNG NHẬP
-                </Link>
-                <Link to="/login" className={styles.info}>
-                    ĐĂNG KÝ
-                </Link>
+                {!isLogin() ? (
+                    <>
+                        <Link to="/login" className={styles.info}>
+                            ĐĂNG NHẬP
+                        </Link>
+                        <Link to="/login" className={styles.info}>
+                            ĐĂNG KÝ
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/user/account" className={styles.info}>
+                            {JSON.parse(localStorage.getItem('user')).name}
+                        </Link>
+                        <div onClick={logout} className={styles.info}>
+                            ĐĂNG XUẤT
+                        </div>
+                    </>
+                )}
+
                 <div className={styles.info}>
                     <img src={vi} alt="" width="20px"></img>
                 </div>

@@ -1,10 +1,29 @@
 import clsx from 'clsx';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Footer from '../../../Layout/DefaultLayout/Footer';
 import styles from './Login.module.scss';
-import { useState } from 'react';
+import Api from '../../../utils/api';
+import { isLogin } from '../../../utils/localstorage';
 
 function Login() {
     const [isLeft, setIsLeft] = useState();
+    let [userLogin, setUserLogin] = useState({ email: '', password: '' });
+    const [userSignup, setUserSignup] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+    });
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isLogin()) {
+            navigate('/');
+        }
+    });
 
     const check = (target) => {
         const name = target.name;
@@ -65,7 +84,12 @@ function Login() {
 
     const handleCheck = (e) => check(e.target);
 
-    const handleRegister = () => {
+    const handleChangeUserSignup = (e) => {
+        handleCheck(e);
+        setUserSignup({ ...userSignup, [e.target.name]: e.target.value });
+    };
+
+    const handleRegister = async () => {
         const elementArray = [];
         const nameElement = document.getElementsByName('name')[0];
         const emailElement = document.getElementsByName('email')[0];
@@ -73,8 +97,37 @@ function Login() {
         const pwdElement = document.getElementsByName('password')[0];
         const confirmPwdElement = document.getElementsByName('confirm_password')[0];
         elementArray.push(nameElement, emailElement, phoneElement, pwdElement, confirmPwdElement);
-        if (elementArray.every((target) => check(target))) alert('Ok');
-        else alert('No');
+        if (elementArray.every((target) => check(target))) {
+            localStorage.clear();
+            const result = await Api.postRequest('/auth/signup', userSignup);
+            if (result.data.id === null) alert('Tai khoan da ton tai');
+            else {
+                userLogin = {
+                    email: userSignup.email,
+                    password: userSignup.password,
+                };
+                handleLogin();
+            }
+        }
+    };
+
+    const handleChangeUserLogin = (e) => {
+        setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
+    };
+
+    const handleLogin = async () => {
+        localStorage.clear();
+        const result = await Api.postRequest('/auth/login', userLogin);
+        if (!result) {
+            alert('loi');
+        } else {
+            localStorage.setItem('token', JSON.stringify(result.data.accessToken));
+            localStorage.setItem('user', JSON.stringify(result.data.user));
+
+            if (result.data.user.role === 'admin' || result.data.user.role === 'saler')
+                window.location.pathname = '/admin';
+            else window.location.pathname = '/';
+        }
     };
 
     return (
@@ -83,19 +136,34 @@ function Login() {
                 <div className={styles.full}>
                     <div className={styles.main}>
                         <div className={styles.register}>
-                            <input onBlur={handleCheck} name="name" className={styles.input} placeholder="Họ và tên" />
+                            <input
+                                value={userSignup.name}
+                                onBlur={handleCheck}
+                                onChange={handleChangeUserSignup}
+                                name="name"
+                                className={styles.input}
+                                placeholder="Họ và tên"
+                            />
                             <div id="name" className={styles.error}></div>
-                            <input onChange={handleCheck} name="email" className={styles.input} placeholder="Email" />
+                            <input
+                                value={userSignup.email}
+                                onChange={handleChangeUserSignup}
+                                name="email"
+                                className={styles.input}
+                                placeholder="Email"
+                            />
                             <div id="email" className={styles.error}></div>
                             <input
-                                onChange={handleCheck}
+                                value={userSignup.phone}
+                                onChange={handleChangeUserSignup}
                                 name="phone"
                                 className={styles.input}
                                 placeholder="Số điện thoại"
                             />
                             <div id="phone" className={styles.error}></div>
                             <input
-                                onChange={handleCheck}
+                                value={userSignup.password}
+                                onChange={handleChangeUserSignup}
                                 name="password"
                                 id="password_input"
                                 className={styles.input}
@@ -129,12 +197,27 @@ function Login() {
                                     src={require('../../../assets/images/facebook_logo.png')}
                                 />
                             </div>
-                            <input className={styles.input} placeholder="Email" />
-                            <input className={styles.input} placeholder="Mật khẩu" type="password" />
+                            <input
+                                onChange={handleChangeUserLogin}
+                                name="email"
+                                className={styles.input}
+                                placeholder="Email"
+                                value={userLogin.email}
+                            />
+                            <input
+                                onChange={handleChangeUserLogin}
+                                name="password"
+                                className={styles.input}
+                                placeholder="Mật khẩu"
+                                type="password"
+                                value={userLogin.password}
+                            />
                             <div onClick={() => setIsLeft(false)} className={styles.to_register}>
                                 Chưa có tài khoản?
                             </div>
-                            <button className={styles.btn}>ĐĂNG NHẬP</button>
+                            <button onClick={handleLogin} className={styles.btn}>
+                                ĐĂNG NHẬP
+                            </button>
                             <div className={styles.to_foget_pwd}>Quên mật khẩu?</div>
                         </div>
                     </div>

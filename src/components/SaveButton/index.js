@@ -1,9 +1,11 @@
 import styles from './SaveButton.module.scss';
 
-function SaveButton() {
+function SaveButton({ onClick }) {
     return (
         <div className={styles.wrapper}>
-            <button className={styles.btn}>Lưu thông tin</button>
+            <button onClick={onClick} className={styles.btn}>
+                Lưu thông tin
+            </button>
         </div>
     );
 }

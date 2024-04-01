@@ -1,11 +1,5 @@
-export const token_key = 'token';
-
-export const setToken = (token) => {
-    window.localStorage.setItem(token_key, token);
-};
-
 export const getToken = () => {
-    let token = window.localStorage.getItem(token_key);
+    let token = JSON.parse(window.localStorage.getItem('token'));
     if (!!token) return token;
     return false;
 };
@@ -19,4 +13,5 @@ export const isLogin = () => {
 
 export const logout = () => {
     window.localStorage.clear();
+    window.location.pathname = '/login';
 };
