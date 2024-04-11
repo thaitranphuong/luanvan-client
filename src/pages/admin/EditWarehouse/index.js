@@ -40,7 +40,7 @@ function EditWarehouse() {
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý kho hàng" detail="Sửa kho hàng">
                 <Input value={warehouse.name} onChange={handleChangeWarehouse} name="name" label="Tên kho" />
-                <Input value={warehouse.name} onChange={handleChangeWarehouse} name="address" label="Địa chỉ" />
+                <Input value={warehouse.address} onChange={handleChangeWarehouse} name="address" label="Địa chỉ" />
                 <SaveButton onClick={handleSubmit} />
             </Wrapper>
         </div>

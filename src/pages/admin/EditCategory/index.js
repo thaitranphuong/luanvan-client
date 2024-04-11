@@ -20,7 +20,7 @@ function EditCategory() {
         render();
     }, []);
 
-    const handleChangeCategory = (e) => {
+    const handleChangeInput = (e) => {
         setCategory({
             ...category,
             [e.target.name]: e.target.value,
@@ -39,8 +39,8 @@ function EditCategory() {
     return (
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý danh mục" detail="Sửa danh mục">
-                <Input value={category.name} onChange={handleChangeCategory} name="name" label="Tên danh mục" />
-                <Input value={category.code} onChange={handleChangeCategory} name="code" label="Mã code" />
+                <Input value={category.name} onChange={handleChangeInput} name="name" label="Tên danh mục" />
+                <Input value={category.code} onChange={handleChangeInput} name="code" label="Mã code" />
                 <SaveButton onClick={handleSubmit} />
             </Wrapper>
         </div>

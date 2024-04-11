@@ -11,7 +11,7 @@ function Input({ label, width = '50%', disabled, type, onChange, placeholder, na
                     style={{ backgroundColor: '#e9ecef' }}
                     disabled
                     className={styles.input}
-                    code={'dasdas'}
+                    code={''}
                     value={value}
                 />
             ) : (

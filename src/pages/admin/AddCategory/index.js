@@ -4,7 +4,7 @@ import styles from './AddCategory.module.scss';
 import Wrapper from '../../../Layout/AdminLayout/Wrapper';
 import Input from '../../../components/Input';
 import SaveButton from '../../../components/SaveButton';
-import Api from '../../../utils/api';
+import api from '../../../utils/api';
 
 function AddCategory() {
     const [category, setCategory] = useState({ name: '', code: '' });
@@ -14,7 +14,7 @@ function AddCategory() {
     };
 
     const handleSave = async () => {
-        const result = await Api.postRequest('/category', category);
+        const result = await api.postRequest('/category', category);
         if (result.statusCode === 200) {
             alert('Luu thanh cong');
         } else {

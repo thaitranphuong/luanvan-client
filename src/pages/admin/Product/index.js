@@ -9,16 +9,64 @@ import AddButton from '../../../components/AddButton';
 import styles from './Product.module.scss';
 import { Link } from 'react-router-dom';
 import ImageModal from '../../../components/Modal/ImageModal';
+import api from '../../../utils/api';
+import { useEffect, useState } from 'react';
+import Excel from '../../../components/Excel';
 
 function Product() {
+    const [products, setProducts] = useState([]);
+    const [totalPage, setTotalpage] = useState(1);
+    const [page, setPage] = useState(1);
+    const [name, setName] = useState('');
+
+    const render = async () => {
+        let result = await api.getRequest(`/product?page=${page}&limit=5&name=${name}`);
+        setTotalpage(result.data.totalPage);
+        setPage(result.data.page);
+        setProducts(result.data.listResult);
+    };
+
+    useEffect(() => {
+        render();
+    }, [page, name]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [name]);
+
+    const handleExportFile = async () => {
+        const listExcel = [];
+        let result = await api.getRequest(`/product/get-all`);
+        result.data.forEach((item) => {
+            listExcel.push({ ...item });
+        });
+        await Excel.exportExcel([...listExcel], 'Danh sách', 'Danh sách');
+    };
+
+    const handleHide = async (index) => {
+        const product = { ...products[index], enabled: false };
+        const result = await api.putRequest('/product', product);
+        render();
+    };
+
+    const handleShow = async (index) => {
+        const product = { ...products[index], enabled: true };
+        const result = await api.putRequest('/product', product);
+        render();
+    };
+
     return (
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý sản phẩm" detail="Danh sách sản phẩm">
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <SearchBar placeholder="Tiềm kiếm theo sản phẩm" />
+                    <SearchBar
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        placeholder="Tiềm kiếm theo sản phẩm"
+                    />
                     <div>
                         <AddButton to="/admin/product/add-product" />
-                        <ExcelButton />
+                        <ExcelButton onClick={handleExportFile} />
                     </div>
                 </div>
                 <table
@@ -36,37 +84,48 @@ function Product() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>a</td>
-                            <td>
-                                <ImageModal
-                                    style={{ height: '50px' }}
-                                    imageUrl={require('../../../assets/images/product.png')}
-                                />
-                            </td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>100</td>
-                            <td>
-                                <Link
-                                    to="/admin/product/edit-product"
-                                    style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                >
-                                    <Icon path={mdiPen} size={1.5} />
-                                </Link>
-                                <span style={{ color: 'green', cursor: 'pointer' }}>
-                                    <Icon path={mdiEye} size={1.5} />
-                                </span>
-                                <span style={{ color: 'red', cursor: 'pointer' }}>
-                                    <Icon path={mdiEyeOff} size={1.5} />
-                                </span>
-                            </td>
-                        </tr>
+                        {products.map((item, index) => (
+                            <tr>
+                                <td>{index + 1 + (page - 1) * 5}</td>
+                                <td>{item.name}</td>
+                                <td>
+                                    <ImageModal
+                                        style={{ height: '50px' }}
+                                        imageUrl={'http://localhost:8080/getimage/products/' + item.thumbnail}
+                                    />
+                                </td>
+                                <td>{item.categoryName}</td>
+                                <td>{item.brandName}</td>
+                                <td>{item.soldQuantity}</td>
+                                <td>
+                                    <Link
+                                        to={`/admin/product/edit-product/${item.id}`}
+                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                    >
+                                        <Icon path={mdiPen} size={1.5} />
+                                    </Link>
+                                    {item.enabled ? (
+                                        <span
+                                            onClick={() => handleHide(index)}
+                                            style={{ color: 'green', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiEye} size={1.5} />
+                                        </span>
+                                    ) : (
+                                        <span
+                                            onClick={() => handleShow(index)}
+                                            style={{ color: 'red', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiEyeOff} size={1.5} />
+                                        </span>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>
-                    <Pagination />
+                    <Pagination page={page} setPage={setPage} totalPage={totalPage} />
                 </div>
             </Wrapper>
         </div>

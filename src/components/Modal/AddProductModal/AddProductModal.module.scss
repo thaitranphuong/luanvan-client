@@ -42,6 +42,8 @@
         }
 
         .size_container {
+            display: flex;
+            flex-wrap: wrap;
             width: 100%;
             min-height: 100px;
             margin: 5px;
@@ -51,8 +53,10 @@
                 border: 1px solid rgb(0, 98, 0);
                 padding: 5px 10px;
                 margin-right: 10px;
+                margin-bottom: 10px;
                 font-size: 2rem;
                 color: rgb(0, 98, 0);
+                max-height: 40px;
 
                 &:hover {
                     border: 1px solid red;

@@ -16,9 +16,9 @@ function AddVoucher() {
                         { id: 1, name: 'VNĐ' },
                     ]}
                 />
-                <Input label="Giá trị tối thiểu áp dụng (VNĐ)" type="number" />
-                <Input label="Giá giảm tối đa (VNĐ)" type="number" />
                 <Input label="Chỉ số giảm (VNĐ, %)" type="number" />
+                {/* Nếu là VNĐ thì giá giảm tối đa = chỉ số giảm */}
+                <Input label="Giá giảm tối đa (VNĐ)" type="number" />
                 <Input label="Số lượng" type="number" />
                 <Input label="Thời gian bắt đâu" type="date" />
                 <Input label="Thời gian kết thúc" type="date" />

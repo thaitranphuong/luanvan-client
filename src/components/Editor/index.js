@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styles from './Editor.module.scss';
+import { getToken } from '../../utils/localstorage';
 
-function Editor({ label, content }) {
-    const [data, setData] = useState(content);
-    const htmlContent = { __html: data };
+function Editor({ label, content, onChange, name }) {
+    const htmlContent = { __html: content };
 
     function uploadAdapter(loader) {
         return {
@@ -13,16 +13,20 @@ function Editor({ label, content }) {
                 return new Promise((resolve, reject) => {
                     const body = new FormData();
                     loader.file.then((file) => {
-                        body.append('main_image', file);
-                        fetch(`http://localhost:8080/save2`, {
+                        body.append('image', file);
+                        fetch(`http://localhost:8080/product/image-fulldescription`, {
                             method: 'POST',
+                            headers: {
+                                Authorization: !!getToken() ? 'Bearer ' + getToken() : '',
+                            },
                             body: body,
                         })
                             .then((res) => res.json())
                             .then((res) => {
                                 resolve({
-                                    default: `http://localhost:8080/getimage/${res.name}`,
+                                    default: `http://localhost:8080/getimage/product_fulldescriptions/${res.name}`,
                                 });
+                                console.log(res);
                             })
                             .catch((err) => {
                                 reject(err);
@@ -49,11 +53,15 @@ function Editor({ label, content }) {
                             extraPlugins: [uploadPlugin],
                         }}
                         editor={ClassicEditor}
-                        data={data}
+                        data={content}
                         onChange={(event, editor) => {
-                            const newData = editor.getData();
-                            console.log(newData);
-                            setData(newData);
+                            const newContent = editor.getData();
+                            onChange({
+                                target: {
+                                    name: name,
+                                    value: newContent,
+                                },
+                            });
                         }}
                     />
                 </div>

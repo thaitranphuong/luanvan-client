@@ -77,9 +77,29 @@ const putRequest = async (path, body) => {
     }
 };
 
+const uploadFileRequest = async (path, body) => {
+    try {
+        const params = {
+            method: 'POST',
+            headers: {
+                Authorization: !!getToken() ? 'Bearer ' + getToken() : '',
+            },
+            body: body,
+        };
+
+        const res = await fetch(config.baseURL + path, params);
+
+        const data = await res.json();
+        return { statusCode: res.status, data };
+    } catch (e) {
+        console.log(`error in post Request (${path}) :- `, e);
+    }
+};
+
 export default {
     getRequest,
     postRequest,
     deleteRequest,
     putRequest,
+    uploadFileRequest,
 };
