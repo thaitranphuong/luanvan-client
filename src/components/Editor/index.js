@@ -24,7 +24,7 @@ function Editor({ label, content, onChange, name }) {
                             .then((res) => res.json())
                             .then((res) => {
                                 resolve({
-                                    default: `http://localhost:8080/getimage/product_fulldescriptions/${res.name}`,
+                                    default: `http://localhost:8080/getimage/ckeditor_images/${res.name}`,
                                 });
                                 console.log(res);
                             })

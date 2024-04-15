@@ -6,8 +6,6 @@ import {
     mdiAccountMultiple,
     mdiApplicationImport,
     mdiBagPersonalTag,
-    mdiCash,
-    mdiCurrencyUsd,
     mdiFlag,
     mdiHanger,
     mdiHomeVariant,
@@ -129,20 +127,6 @@ function NavBar({ showNav }) {
             >
                 <Icon className={styles.icon} path={mdiMessageText} size={1.2} />
                 <div className={styles.label}>Quản lý tin nhắn</div>
-            </Link>
-            <Link
-                to="/admin/revenue"
-                className={clsx(styles.item, { [styles.active]: window.location.pathname.includes('revenue') })}
-            >
-                <Icon className={styles.icon} path={mdiCash} size={1.2} />
-                <div className={styles.label}>Thống kê doanh thu</div>
-            </Link>
-            <Link
-                to="/admin/profit"
-                className={clsx(styles.item, { [styles.active]: window.location.pathname.includes('profit') })}
-            >
-                <Icon className={styles.icon} path={mdiCurrencyUsd} size={1.2} />
-                <div className={styles.label}>Thống kê lợi nhuận</div>
             </Link>
             <Link
                 to="/admin/in-stock"

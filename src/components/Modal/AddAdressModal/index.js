@@ -31,7 +31,16 @@ function AddAdressModal({ setModalAdd }) {
                         <option>a</option>
                     </select>
                     <input style={{ width: '100%' }} className={styles.modal_body_input} placeholder="Địa chỉ cụ thể" />
-                    <div className={styles.modal_body_map}></div>
+                    <div className={styles.modal_body_map}>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d125634.44145489468!2d105.76955167736344!3d10.255430501592397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1712994033698!5m2!1svi!2s"
+                            width="100%"
+                            height="100%"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    </div>
                 </div>
 
                 <button className={styles.modal_confirm}>XÁC NHẬN</button>

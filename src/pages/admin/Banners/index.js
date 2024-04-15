@@ -9,16 +9,63 @@ import styles from './Banners.module.scss';
 import AddButton from '../../../components/AddButton';
 import { Link } from 'react-router-dom';
 import ImageModal from '../../../components/Modal/ImageModal';
+import { config } from '../../../utils/config';
+import { useEffect, useState } from 'react';
+import api from '../../../utils/api';
+import Excel from '../../../components/Excel';
 
 function Banners() {
+    const [banners, setBanners] = useState([]);
+    const [totalPage, setTotalpage] = useState(1);
+    const [page, setPage] = useState(1);
+    const [name, setName] = useState('');
+
+    const render = async () => {
+        let result = await api.getRequest(`/banner?page=${page}&limit=5&name=${name}`);
+        setTotalpage(result.data.totalPage);
+        setPage(result.data.page);
+        setBanners(result.data.listResult);
+    };
+
+    useEffect(() => {
+        render();
+    }, [page, name]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [name]);
+
+    const handleDelete = async (id) => {
+        let result = await api.deleteRequest(`/banner/${id}`);
+        if (result.statusCode === 200) {
+            render();
+            alert('OK');
+        } else {
+            alert('Loi');
+        }
+    };
+
+    const handleExportFile = async () => {
+        const listExcel = [];
+        let result = await api.getRequest(`/banner/get-all`);
+        result.data.forEach((item) => {
+            listExcel.push({ ...item });
+        });
+        await Excel.exportExcel([...listExcel], 'Danh sách', 'Danh sách');
+    };
+
     return (
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý băng rôn" detail="Danh sách băng rôn">
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <SearchBar placeholder="Tiềm kiếm theo băng rôn" />
+                    <SearchBar
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        placeholder="Tìm kiếm theo băng rôn"
+                    />
                     <div>
                         <AddButton to="/admin/banners/add-banners" />
-                        <ExcelButton />
+                        <ExcelButton onClick={handleExportFile} />
                     </div>
                 </div>
                 <table
@@ -33,31 +80,37 @@ function Banners() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>a</td>
-                            <td>
-                                <ImageModal
-                                    style={{ height: '50px', width: '100px' }}
-                                    imageUrl={require('../../../assets/images/product.png')}
-                                />
-                            </td>
-                            <td>
-                                <Link
-                                    to="/admin/banners/edit-banners"
-                                    style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                >
-                                    <Icon path={mdiPen} size={1.5} />
-                                </Link>
-                                <span style={{ color: 'red', cursor: 'pointer' }}>
-                                    <Icon path={mdiTrashCan} size={1.5} />
-                                </span>
-                            </td>
-                        </tr>
+                        {banners &&
+                            banners.map((item, index) => (
+                                <tr>
+                                    <td>{index + 1 + (page - 1) * 5}</td>
+                                    <td>{item.name}</td>
+                                    <td>
+                                        <ImageModal
+                                            style={{ height: '50px', width: '100px' }}
+                                            imageUrl={config.baseURL + '/getimage/banners/' + item.image}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Link
+                                            to={`/admin/banners/edit-banners/${item.id}`}
+                                            style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiPen} size={1.5} />
+                                        </Link>
+                                        <span
+                                            onClick={() => handleDelete(item.id)}
+                                            style={{ color: 'red', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiTrashCan} size={1.5} />
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>
-                    <Pagination />
+                    <Pagination page={page} setPage={setPage} totalPage={totalPage} />
                 </div>
             </Wrapper>
         </div>

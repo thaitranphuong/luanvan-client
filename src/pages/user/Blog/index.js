@@ -8,8 +8,40 @@ import styles from './Blog.module.scss';
 import Pagination from '../../../components/Pagination';
 import Head from '../../../components/Head';
 import BlogRecommend from '../../../components/BlogRecommend';
+import { useEffect, useState } from 'react';
+import api from '../../../utils/api';
+import { config } from '../../../utils/config';
+import SearchBar from '../../../components/SearchBar';
 
 function Blog() {
+    const [blogs, setBlogs] = useState([]);
+    const [totalPage, setTotalpage] = useState(1);
+    const [page, setPage] = useState(1);
+    const [name, setName] = useState('');
+    const [topics, setTopics] = useState([]);
+    const [choseTopic, setChoseTopic] = useState('');
+
+    const getTopics = async () => {
+        let result = await api.getRequest(`/topic/get-all`);
+        if (result.statusCode === 200) setTopics(result.data);
+    };
+
+    const render = async () => {
+        let result = await api.getRequest(`/blog?page=${page}&limit=5&name=${name}&topicId=${choseTopic}`);
+        setTotalpage(result.data.totalPage);
+        setPage(result.data.page);
+        setBlogs(result.data.listResult);
+    };
+
+    useEffect(() => {
+        getTopics();
+        render();
+    }, [page, name, choseTopic]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [name, choseTopic]);
+
     return (
         <div className={styles.wrapper}>
             <Head
@@ -21,61 +53,54 @@ function Blog() {
 
             <div className={styles.body}>
                 <div className={styles.body_left}>
-                    <Link to={`/blog-detail/${1}`} className={styles.blog_item}>
-                        <img
-                            className={styles.blog_item_thumbnail}
-                            src={require('../../../assets/images/blog.png')}
-                            alt=""
-                        />
-                        <div className={styles.blog_item_info}>
-                            <div className={styles.blog_item_time}>24/01</div>
-                            <div className={styles.blog_item_title}>
-                                NTK Nguyễn Hoàng Tú lần đầu kết hợp hội họa đương đại trong BST Xuân Hè 2024
-                            </div>
-                            <div className={styles.blog_item_shortdesc}>
-                                VTV.vn - NTK Nguyễn Hoàng Tú và họa sĩ Liêu Nguyễn Hướng Dương hợp tác cho ra đời những
-                                sản phẩm tôn vinh hồn Việt bằng cách kết hợp hội họa đương đại và chất liệu truyền
-                                thống.
-                            </div>
-                            <div className={styles.blog_item_footer}>
-                                <Icon path={mdiCommentTextOutline} size={1.1} />1 Bình luận&nbsp; |&nbsp;
-                                <Icon path={mdiAccountOutline} size={1.3} />
-                                Trần Phương Thái
-                            </div>
-                        </div>
-                    </Link>
-                    <Link to={`/blog-detail/${1}`} className={styles.blog_item}>
-                        <img
-                            className={styles.blog_item_thumbnail}
-                            src={require('../../../assets/images/blog.png')}
-                            alt=""
-                        />
-                        <div className={styles.blog_item_info}>
-                            <div className={styles.blog_item_time}>24/01</div>
-                            <div className={styles.blog_item_title}>
-                                NTK Nguyễn Hoàng Tú lần đầu kết hợp hội họa đương đại trong BST Xuân Hè 2024
-                            </div>
-                            <div className={styles.blog_item_shortdesc}>
-                                VTV.vn - NTK Nguyễn Hoàng Tú và họa sĩ Liêu Nguyễn Hướng Dương hợp tác cho ra đời những
-                                sản phẩm tôn vinh hồn Việt bằng cách kết hợp hội họa đương đại và chất liệu truyền
-                                thống.
-                            </div>
-                            <div className={styles.blog_item_footer}>
-                                <Icon path={mdiCommentTextOutline} size={1.1} />1 Bình luận&nbsp; |&nbsp;
-                                <Icon path={mdiAccountOutline} size={1.3} />
-                                Trần Phương Thái
-                            </div>
-                        </div>
-                    </Link>
-                    <Pagination />
+                    {blogs &&
+                        blogs.map((item) => (
+                            <Link to={`/blog-detail/${item.id}`} className={styles.blog_item}>
+                                <img
+                                    className={styles.blog_item_thumbnail}
+                                    src={config.baseURL + '/getimage/blogs/' + item.thumbnail}
+                                    alt=""
+                                />
+                                <div className={styles.blog_item_info}>
+                                    <div className={styles.blog_item_time}>
+                                        {item.updatedAt.split('-')[2]}/{item.updatedAt.split('-')[1]}
+                                    </div>
+                                    <div className={styles.blog_item_title}>{item.title}</div>
+                                    <div className={styles.blog_item_shortdesc}>{item.shortDescription}</div>
+                                    <div className={styles.blog_item_footer}>
+                                        <Icon path={mdiCommentTextOutline} size={1.1} />
+                                        {item.commentQuantity} Bình luận&nbsp; |&nbsp;
+                                        <Icon path={mdiAccountOutline} size={1.3} />
+                                        {item.authorName}
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    <Pagination page={page} setPage={setPage} totalPage={totalPage} />
                 </div>
                 <div className={styles.body_right}>
+                    <SearchBar onChange={(e) => setName(e.target.value)} placeholder="Tìm bài viết theo tiêu đề" />
+                    <br />
+                    <br />
                     <div className={styles.body_right_block}>
                         <div className={styles.title}>THỂ LOẠI</div>
                         <div className={styles.categories}>
-                            <div className={clsx(styles.category, { [styles.active]: true })}>Tất cả (ALL)</div>
-                            <div className={clsx(styles.category, { [styles.active]: false })}>Thể thao (1)</div>
-                            <div className={clsx(styles.category, { [styles.active]: false })}>Chính trị (1)</div>
+                            <div
+                                onClick={() => setChoseTopic('')}
+                                className={clsx(styles.category, { [styles.active]: !choseTopic })}
+                            >
+                                Tất cả (ALL)
+                            </div>
+                            {topics &&
+                                topics.map((item) => (
+                                    <div
+                                        onClick={() => setChoseTopic(item.id)}
+                                        key={item.id}
+                                        className={clsx(styles.category, { [styles.active]: choseTopic === item.id })}
+                                    >
+                                        {item.name} ({item.blogQuantity})
+                                    </div>
+                                ))}
                         </div>
                     </div>
                     <BlogRecommend />

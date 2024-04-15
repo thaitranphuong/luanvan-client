@@ -61,7 +61,7 @@ function User() {
                     <SearchBar
                         onChange={(e) => setName(e.target.value)}
                         value={name}
-                        placeholder="Tiềm kiếm theo tên người dùng"
+                        placeholder="Tìm kiếm theo tên người dùng"
                     />
                     <div>
                         <AddButton to="/admin/user/add-user" />
@@ -84,40 +84,41 @@ function User() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((item, index) => (
-                            <tr key={item.id}>
-                                <td>{index + 1 + (page - 1) * 5}</td>
-                                <td>{item.email}</td>
-                                <td>{item.name}</td>
-                                <td>{item.phone}</td>
-                                <td>{item.birthday}</td>
-                                <td>{item.gender === true ? 'Nam' : 'Nữ'}</td>
-                                <td>{item.role}</td>
-                                <td>
-                                    <Link
-                                        to={`/admin/user/edit-user/${item.id}`}
-                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiPen} size={1.5} />
-                                    </Link>
-                                    {item.enabled ? (
-                                        <span
-                                            onClick={() => handleHide(index)}
-                                            style={{ color: 'green', cursor: 'pointer' }}
+                        {users &&
+                            users.map((item, index) => (
+                                <tr key={item.id}>
+                                    <td>{index + 1 + (page - 1) * 5}</td>
+                                    <td>{item.email}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.phone}</td>
+                                    <td>{item.birthday}</td>
+                                    <td>{item.gender === true ? 'Nam' : 'Nữ'}</td>
+                                    <td>{item.role}</td>
+                                    <td>
+                                        <Link
+                                            to={`/admin/user/edit-user/${item.id}`}
+                                            style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
                                         >
-                                            <Icon path={mdiEye} size={1.5} />
-                                        </span>
-                                    ) : (
-                                        <span
-                                            onClick={() => handleShow(index)}
-                                            style={{ color: 'red', cursor: 'pointer' }}
-                                        >
-                                            <Icon path={mdiEyeOff} size={1.5} />
-                                        </span>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
+                                            <Icon path={mdiPen} size={1.5} />
+                                        </Link>
+                                        {item.enabled ? (
+                                            <span
+                                                onClick={() => handleHide(index)}
+                                                style={{ color: 'green', cursor: 'pointer' }}
+                                            >
+                                                <Icon path={mdiEye} size={1.5} />
+                                            </span>
+                                        ) : (
+                                            <span
+                                                onClick={() => handleShow(index)}
+                                                style={{ color: 'red', cursor: 'pointer' }}
+                                            >
+                                                <Icon path={mdiEyeOff} size={1.5} />
+                                            </span>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>

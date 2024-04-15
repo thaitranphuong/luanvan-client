@@ -41,9 +41,15 @@
         }
         
         .body_left_content {
+            position: relative;
             margin-top: 10px;
             display: flex;
             flex-direction: column;
+        }
+
+        .body_left_content img {
+            max-width: 100%;
+            object-fit: cover;
         }
 
         .body_left_comment {

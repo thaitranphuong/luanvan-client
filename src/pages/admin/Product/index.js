@@ -12,6 +12,7 @@ import ImageModal from '../../../components/Modal/ImageModal';
 import api from '../../../utils/api';
 import { useEffect, useState } from 'react';
 import Excel from '../../../components/Excel';
+import { config } from '../../../utils/config';
 
 function Product() {
     const [products, setProducts] = useState([]);
@@ -62,7 +63,7 @@ function Product() {
                     <SearchBar
                         onChange={(e) => setName(e.target.value)}
                         value={name}
-                        placeholder="Tiềm kiếm theo sản phẩm"
+                        placeholder="Tìm kiếm theo sản phẩm"
                     />
                     <div>
                         <AddButton to="/admin/product/add-product" />
@@ -84,44 +85,45 @@ function Product() {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((item, index) => (
-                            <tr>
-                                <td>{index + 1 + (page - 1) * 5}</td>
-                                <td>{item.name}</td>
-                                <td>
-                                    <ImageModal
-                                        style={{ height: '50px' }}
-                                        imageUrl={'http://localhost:8080/getimage/products/' + item.thumbnail}
-                                    />
-                                </td>
-                                <td>{item.categoryName}</td>
-                                <td>{item.brandName}</td>
-                                <td>{item.soldQuantity}</td>
-                                <td>
-                                    <Link
-                                        to={`/admin/product/edit-product/${item.id}`}
-                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiPen} size={1.5} />
-                                    </Link>
-                                    {item.enabled ? (
-                                        <span
-                                            onClick={() => handleHide(index)}
-                                            style={{ color: 'green', cursor: 'pointer' }}
+                        {products &&
+                            products.map((item, index) => (
+                                <tr>
+                                    <td>{index + 1 + (page - 1) * 5}</td>
+                                    <td>{item.name}</td>
+                                    <td>
+                                        <ImageModal
+                                            style={{ height: '50px' }}
+                                            imageUrl={config.baseURL + '/getimage/products/' + item.thumbnail}
+                                        />
+                                    </td>
+                                    <td>{item.categoryName}</td>
+                                    <td>{item.brandName}</td>
+                                    <td>{item.soldQuantity}</td>
+                                    <td>
+                                        <Link
+                                            to={`/admin/product/edit-product/${item.id}`}
+                                            style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
                                         >
-                                            <Icon path={mdiEye} size={1.5} />
-                                        </span>
-                                    ) : (
-                                        <span
-                                            onClick={() => handleShow(index)}
-                                            style={{ color: 'red', cursor: 'pointer' }}
-                                        >
-                                            <Icon path={mdiEyeOff} size={1.5} />
-                                        </span>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
+                                            <Icon path={mdiPen} size={1.5} />
+                                        </Link>
+                                        {item.enabled ? (
+                                            <span
+                                                onClick={() => handleHide(index)}
+                                                style={{ color: 'green', cursor: 'pointer' }}
+                                            >
+                                                <Icon path={mdiEye} size={1.5} />
+                                            </span>
+                                        ) : (
+                                            <span
+                                                onClick={() => handleShow(index)}
+                                                style={{ color: 'red', cursor: 'pointer' }}
+                                            >
+                                                <Icon path={mdiEyeOff} size={1.5} />
+                                            </span>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>

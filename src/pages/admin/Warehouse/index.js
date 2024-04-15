@@ -59,7 +59,7 @@ function Warehouse() {
                     <SearchBar
                         onChange={(e) => setName(e.target.value)}
                         value={name}
-                        placeholder="Tiềm kiếm theo tên kho hàng"
+                        placeholder="Tìm kiếm theo tên kho hàng"
                     />
                     <div>
                         <AddButton to="/admin/warehouse/add-warehouse" />
@@ -78,27 +78,28 @@ function Warehouse() {
                         </tr>
                     </thead>
                     <tbody>
-                        {warehouses.map((item, index) => (
-                            <tr>
-                                <td>{index + 1 + (page - 1) * 5}</td>
-                                <td>{item.name}</td>
-                                <td>{item.address}</td>
-                                <td>
-                                    <Link
-                                        to={`/admin/warehouse/edit-warehouse/${item.id}`}
-                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiPen} size={1.5} />
-                                    </Link>
-                                    <span
-                                        onClick={() => handleDelete(item.id)}
-                                        style={{ color: 'red', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiTrashCan} size={1.5} />
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+                        {warehouses &&
+                            warehouses.map((item, index) => (
+                                <tr>
+                                    <td>{index + 1 + (page - 1) * 5}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.address}</td>
+                                    <td>
+                                        <Link
+                                            to={`/admin/warehouse/edit-warehouse/${item.id}`}
+                                            style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiPen} size={1.5} />
+                                        </Link>
+                                        <span
+                                            onClick={() => handleDelete(item.id)}
+                                            style={{ color: 'red', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiTrashCan} size={1.5} />
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>

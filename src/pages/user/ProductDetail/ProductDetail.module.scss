@@ -65,6 +65,7 @@
                     object-fit: cover;
                     margin-bottom: 10px;
                     cursor: pointer;
+                    border: 2px solid transparent;
                 }
 
                 .product_left_sub_image_item + .product_left_sub_image_item {
@@ -72,7 +73,7 @@
                 }
 
                 .product_left_sub_image_item.active {
-                    border: 2px solid var(--primary-color);
+                    border: 2px solid red;
                 }
             }
         }
@@ -98,6 +99,13 @@
                     justify-content: flex-start;
                     align-items: center;
                     color: rgb(255, 145, 0);
+                }
+
+                .product_right_info_start .none {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    color: #ccc;
                 }
     
                 .product_right_info_text {
@@ -166,8 +174,10 @@
 
                 .product_right_color_list {
                     display: flex;
+                    flex-wrap: wrap;
 
                     .product_right_color_item {
+                        margin-bottom: 10px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -210,6 +220,7 @@
 
                 .product_right_size_list {
                     display: flex;
+                    flex-wrap: wrap;
 
                     .product_right_size_item {
                         display: flex;
@@ -221,6 +232,7 @@
                         margin-right: 10px;
                         cursor: pointer;
                         min-width: 100px;
+                        margin-bottom: 10px;
                         
                         // .product_right_size_item_text {
         
@@ -469,6 +481,7 @@
                     .comment_box_action_start_item {
                         cursor: pointer;
                         margin-top: -5px;
+                        width: 30px;
                     }
                 }
         

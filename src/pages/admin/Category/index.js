@@ -59,7 +59,7 @@ function Category() {
                     <SearchBar
                         onChange={(e) => setName(e.target.value)}
                         value={name}
-                        placeholder="Tiềm kiếm theo tên danh mục"
+                        placeholder="Tìm kiếm theo tên danh mục"
                     />
                     <div>
                         <AddButton to="/admin/category/add-category" />
@@ -78,27 +78,28 @@ function Category() {
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((item, index) => (
-                            <tr key={item.id}>
-                                <td>{index + 1 + (page - 1) * 5}</td>
-                                <td>{item.name}</td>
-                                <td>{item.code}</td>
-                                <td>
-                                    <Link
-                                        to={`/admin/category/edit-category/${item.id}`}
-                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiPen} size={1.5} />
-                                    </Link>
-                                    <span
-                                        onClick={() => handleDelete(item.id)}
-                                        style={{ color: 'red', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiTrashCan} size={1.5} />
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+                        {categories &&
+                            categories.map((item, index) => (
+                                <tr key={item.id}>
+                                    <td>{index + 1 + (page - 1) * 5}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.code}</td>
+                                    <td>
+                                        <Link
+                                            to={`/admin/category/edit-category/${item.id}`}
+                                            style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiPen} size={1.5} />
+                                        </Link>
+                                        <span
+                                            onClick={() => handleDelete(item.id)}
+                                            style={{ color: 'red', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiTrashCan} size={1.5} />
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>

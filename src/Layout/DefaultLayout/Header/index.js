@@ -8,10 +8,21 @@ import logo from '../../../assets/images/logo.png';
 import { useEffect, useState } from 'react';
 import avatar from '../../../assets/images/avatar.png';
 import Head from './Head';
+import { getUser } from '../../../utils/localstorage';
+import { config } from '../../../utils/config';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartSelector } from '../../../redux/selectors';
+import { getCart } from '../../../redux/slice/CartSlice';
 
 function Header() {
     const [active, setActive] = useState(1);
     const [fixed, setFixed] = useState(false);
+    const cartItems = useSelector(cartSelector);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getCart());
+    }, []);
 
     useEffect(() => {
         scrollToTop();
@@ -82,12 +93,18 @@ function Header() {
                     <Link to="/cart" className={styles.icon_item}>
                         <div className={styles.cart}>
                             <Icon path={mdiCartVariant} size={1.5} />
-                            <div className={styles.cart_amount}>0</div>
+                            <div className={styles.cart_amount}>{cartItems.length}</div>
                         </div>
                     </Link>
-                    <Link to="/user/account" className={styles.icon_item}>
-                        <img className={styles.avatar} src={avatar} alt="Avatar" />
-                    </Link>
+                    {!!getUser() && (
+                        <Link to="/user/account" className={styles.icon_item}>
+                            <img
+                                className={styles.avatar}
+                                src={getUser().avatar ? config.baseURL + '/getimage/users/' + getUser().avatar : avatar}
+                                alt="Avatar"
+                            />
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>

@@ -59,7 +59,7 @@ function Supplier() {
                     <SearchBar
                         onChange={(e) => setName(e.target.value)}
                         value={name}
-                        placeholder="Tiềm kiếm theo tên nhà cung cấp"
+                        placeholder="Tìm kiếm theo tên nhà cung cấp"
                     />
                     <div>
                         <AddButton to="/admin/supplier/add-supplier" />
@@ -80,29 +80,30 @@ function Supplier() {
                         </tr>
                     </thead>
                     <tbody>
-                        {suppliers.map((item, index) => (
-                            <tr key={item.id}>
-                                <td>{index + 1 + (page - 1) * 5}</td>
-                                <td>{item.name}</td>
-                                <td>{item.phone}</td>
-                                <td>{item.email}</td>
-                                <td>{item.address}</td>
-                                <td>
-                                    <Link
-                                        to={`/admin/supplier/edit-supplier/${item.id}`}
-                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiPen} size={1.5} />
-                                    </Link>
-                                    <span
-                                        onClick={() => handleDelete(item.id)}
-                                        style={{ color: 'red', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiTrashCan} size={1.5} />
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+                        {suppliers &&
+                            suppliers.map((item, index) => (
+                                <tr key={item.id}>
+                                    <td>{index + 1 + (page - 1) * 5}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.phone}</td>
+                                    <td>{item.email}</td>
+                                    <td>{item.address}</td>
+                                    <td>
+                                        <Link
+                                            to={`/admin/supplier/edit-supplier/${item.id}`}
+                                            style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiPen} size={1.5} />
+                                        </Link>
+                                        <span
+                                            onClick={() => handleDelete(item.id)}
+                                            style={{ color: 'red', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiTrashCan} size={1.5} />
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>

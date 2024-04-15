@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Icon from '@mdi/react';
-import { mdiPen, mdiTrashCan } from '@mdi/js';
+import { mdiPen, mdiPencilOffOutline, mdiTrashCan } from '@mdi/js';
 
 import styles from './EditProduct.module.scss';
 import Wrapper from '../../../Layout/AdminLayout/Wrapper';
@@ -39,8 +39,8 @@ function EditProduct() {
         listProductDetailSizes: [],
     });
     const [productDetailImage, setProductDetailImage] = useState();
-    const [listProductDetail, setListProductDetail] = useState([]); //
-    const [listProductDetailImage, setListProductDetailImage] = useState([]); //
+    const [listProductDetail, setListProductDetail] = useState([]);
+    const [listProductDetailImage, setListProductDetailImage] = useState([]);
     const [listProductDetailSize, setListProductDetailSize] = useState([]);
     const [editIndex, setEditIndex] = useState(null);
     const [listRemovedProductDetail, setListRemovedProductDetail] = useState([]);
@@ -259,31 +259,50 @@ function EditProduct() {
                                 </td>
                                 <td>{item.color}</td>
                                 <td style={{ maxWidth: '500px' }}>
+                                    {item.listProductDetailSizes.length > 0 ? (
+                                        item.listProductDetailSizes.map((item, index) => (
+                                            <>
+                                                {index > 0 && ', '}
+                                                {item.size}
+                                            </>
+                                        ))
+                                    ) : (
+                                        <i>Chưa thêm size</i>
+                                    )}
+                                </td>
+                                <td>{item.price}</td>
+                                <td>
                                     {item.listProductDetailSizes.map((item, index) => (
                                         <>
                                             {index > 0 && ', '}
-                                            {item.size}
+                                            {item.quantity}
                                         </>
                                     ))}
                                 </td>
-                                <td>{item.price}</td>
-                                <td>0</td>
                                 <td>
-                                    <span
-                                        onClick={() => {
-                                            setModal(true);
-                                            setEditIndex(index);
-                                        }}
-                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiPen} size={1.5} />
-                                    </span>
-                                    <span
-                                        onClick={() => handleRemoveProductDetail(item, index)}
-                                        style={{ color: 'red', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiTrashCan} size={1.5} />
-                                    </span>
+                                    {item.listProductDetailSizes.reduce((acc, item) => {
+                                        return acc + item.quantity;
+                                    }, 0) > 0 ? (
+                                        <Icon path={mdiPencilOffOutline} size={1.5} />
+                                    ) : (
+                                        <>
+                                            <span
+                                                onClick={() => {
+                                                    setModal(true);
+                                                    setEditIndex(index);
+                                                }}
+                                                style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                            >
+                                                <Icon path={mdiPen} size={1.5} />
+                                            </span>
+                                            <span
+                                                onClick={() => handleRemoveProductDetail(item, index)}
+                                                style={{ color: 'red', cursor: 'pointer' }}
+                                            >
+                                                <Icon path={mdiTrashCan} size={1.5} />
+                                            </span>
+                                        </>
+                                    )}
                                 </td>
                             </tr>
                         ))}

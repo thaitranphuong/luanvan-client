@@ -59,7 +59,7 @@ function Shipping() {
                     <SearchBar
                         onChange={(e) => setName(e.target.value)}
                         value={name}
-                        placeholder="Tiềm kiếm theo tên loại ship"
+                        placeholder="Tìm kiếm theo tên loại ship"
                     />
                     <div>
                         <AddButton to="/admin/shipping/add-shipping" />
@@ -78,27 +78,28 @@ function Shipping() {
                         </tr>
                     </thead>
                     <tbody>
-                        {shippings.map((item, index) => (
-                            <tr key={item.id}>
-                                <td>{index + 1 + (page - 1) * 5}</td>
-                                <td>{item.name}</td>
-                                <td>{item.cost}</td>
-                                <td>
-                                    <Link
-                                        to={`/admin/shipping/edit-shipping/${item.id}`}
-                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiPen} size={1.5} />
-                                    </Link>
-                                    <span
-                                        onClick={() => handleDelete(item.id)}
-                                        style={{ color: 'red', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiTrashCan} size={1.5} />
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+                        {shippings &&
+                            shippings.map((item, index) => (
+                                <tr key={item.id}>
+                                    <td>{index + 1 + (page - 1) * 5}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.cost}</td>
+                                    <td>
+                                        <Link
+                                            to={`/admin/shipping/edit-shipping/${item.id}`}
+                                            style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiPen} size={1.5} />
+                                        </Link>
+                                        <span
+                                            onClick={() => handleDelete(item.id)}
+                                            style={{ color: 'red', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiTrashCan} size={1.5} />
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>

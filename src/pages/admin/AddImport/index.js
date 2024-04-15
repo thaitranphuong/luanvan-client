@@ -7,6 +7,7 @@ import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
 import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
+import { getUser } from '../../../utils/localstorage';
 
 function AddImport() {
     const [suppliers, setSuppliers] = useState([]);
@@ -14,7 +15,21 @@ function AddImport() {
     const [products, setProducts] = useState([]);
     const [productDetails, setProductDetails] = useState([]);
     let [productDetailSizes, setProductDetailSizes] = useState([]);
-    const [_import, setImport] = useState();
+    const [_import, setImport] = useState({
+        employeeId: getUser().id,
+    });
+    const [importDetail, setImportDetail] = useState({
+        quantity: '',
+        price: '',
+        productDetailSizeId: '',
+    });
+    const [importDetails, setImportDetails] = useState([]);
+    const [importDetailName, setImportDetailName] = useState({
+        productName: '',
+        productColor: '',
+        productlSize: '',
+    });
+    const [importDetailNames, setImportDetailNames] = useState([]);
 
     const getSuppliers = async () => {
         let result = await api.getRequest(`/supplier/get-all`);
@@ -41,6 +56,14 @@ function AddImport() {
         setImport({ ..._import, [e.target.name]: e.target.value });
     };
 
+    const handleOnchangeDetail = (e) => {
+        setImportDetail({ ...importDetail, [e.target.name]: e.target.value });
+        if (e.target.name === 'productDetailSizeId')
+            productDetailSizes.forEach((item) => {
+                if (item.id == e.target.value) setImportDetailName({ ...importDetailName, productSize: item.name });
+            });
+    };
+
     const handleChooseProduct = async (e) => {
         const result = await api.getRequest('/product/' + e.target.value);
         if (result.statusCode === 200) {
@@ -51,13 +74,20 @@ function AddImport() {
             setProductDetails(temp);
             setProductDetailSizes([]);
         }
+        products.forEach((item) => {
+            if (item.id == e.target.value)
+                setImportDetailName({ productName: item.name, productColor: '', productSize: '' });
+        });
     };
 
     const handleChooseProductDetail = (e) => {
         let temp = [];
         productDetailSizes = [];
         productDetails.forEach((item) => {
-            if (item.id == e.target.value) temp = [...item.listProductDetailSizes];
+            if (item.id == e.target.value) {
+                temp = [...item.listProductDetailSizes];
+                setImportDetailName({ ...importDetailName, productColor: item.name, productSize: '' });
+            }
         });
         temp.forEach((item) => {
             productDetailSizes.push({ ...item, name: item.size });
@@ -65,38 +95,75 @@ function AddImport() {
         setProductDetailSizes([...productDetailSizes]);
     };
 
-    // const handleSave = async () => {
-    //     const result = await api.postRequest('/category', _import);
-    //     if (result.statusCode === 200) {
-    //         alert('Luu thanh cong');
-    //     } else {
-    //         alert('Loi');
-    //     }
-    // };
+    const handleAddDetail = () => {
+        importDetails.push(importDetail);
+        setImportDetails([...importDetails]);
+        importDetailNames.push(importDetailName);
+        setImportDetailNames([...importDetailNames]);
+        setImportDetail({
+            quantity: '',
+            price: '',
+            productDetailSizeId: '',
+        });
+        setImportDetailName({
+            ...importDetailName,
+            productSize: '',
+        });
+    };
 
-    console.log(_import);
+    const handleRemoveDetail = (index) => {
+        importDetails.splice(index, 1);
+        setImportDetails([...importDetails]);
+        importDetailNames.splice(index, 1);
+        setImportDetailNames([...importDetailNames]);
+    };
+
+    const handleSave = async () => {
+        _import.importDetails = [...importDetails];
+        const result = await api.postRequest('/import', _import);
+        if (result.statusCode === 200) {
+            alert('Luu thanh cong');
+        } else {
+            alert('Loi');
+        }
+    };
 
     return (
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý nhập hàng" detail="Thêm phiếu nhập">
                 <div style={{ border: '1px solid #000', width: '100%', margin: '10px 0' }}></div>
                 <div className={styles.title}>Thông tin phiếu nhập</div>
-                <Select onChange={handleOnchange} name="supplierId" label="Chọn nhà cung cấp" array={suppliers} />
-                <Select onChange={handleOnchange} name="warehouseId" label="Chọn kho hàng" array={warehouses} />
+                <Select onChange={handleOnchange} name="supplierId" label="Nhà cung cấp" array={suppliers} />
+                <Select onChange={handleOnchange} name="warehouseId" label="Kho hàng" array={warehouses} />
                 <div style={{ border: '1px solid #000', width: '100%', margin: '10px 0' }}></div>
                 <div className={styles.title}>Thêm chi tiết phiếu nhập</div>
-                <Select onChange={handleChooseProduct} width="50%" label="Chọn sản phẩm" array={products} />
-                <Select onChange={handleChooseProductDetail} width="25%" label="Chọn màu" array={productDetails} />
+                <Select onChange={handleChooseProduct} width="50%" label="Sản phẩm" array={products} />
+                <Select onChange={handleChooseProductDetail} width="25%" label="Màu" array={productDetails} />
                 <Select
-                    onChange={handleOnchange}
+                    onChange={handleOnchangeDetail}
                     name="productDetailSizeId"
                     width="25%"
-                    label="Chọn kích cỡ"
+                    label="Kích cỡ"
                     array={productDetailSizes}
+                    value={importDetail.productDetailSizeId}
                 />
-                <Input onChange={handleOnchange} name="quantity" label="Số lượng" type="number" />
-                <Input onChange={handleOnchange} name="price" label="Đơn giá (VND)" type="number" />
-                <button className={styles.btn_add}>Thêm</button>
+                <Input
+                    onChange={handleOnchangeDetail}
+                    value={importDetail.quantity}
+                    name="quantity"
+                    label="Số lượng"
+                    type="number"
+                />
+                <Input
+                    onChange={handleOnchangeDetail}
+                    value={importDetail.price}
+                    name="price"
+                    label="Đơn giá (VND)"
+                    type="number"
+                />
+                <button onClick={handleAddDetail} className={styles.btn_add}>
+                    Thêm
+                </button>
                 <div style={{ border: '1px solid #ccc', width: '100%', margin: '10px 0' }}></div>
                 <table
                     style={{ border: '1px solid #ccc', width: '100%', borderCollapse: 'collapse', margin: '20px 5px' }}
@@ -111,18 +178,31 @@ function AddImport() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>
-                                <Icon style={{ cursor: 'pointer', color: 'red' }} path={mdiTrashCan} size={1.5} />
-                            </td>
-                        </tr>
+                        {importDetails.map((item, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                    {importDetailNames[index].productName +
+                                        ' - ' +
+                                        importDetailNames[index].productColor +
+                                        ' - ' +
+                                        importDetailNames[index].productSize}
+                                </td>
+                                <td>{item.quantity}</td>
+                                <td>{item.price}</td>
+                                <td>
+                                    <Icon
+                                        onClick={() => handleRemoveDetail(index)}
+                                        style={{ cursor: 'pointer', color: 'red' }}
+                                        path={mdiTrashCan}
+                                        size={1.5}
+                                    />
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
-                <SaveButton />
+                <SaveButton onClick={handleSave} />
             </Wrapper>
         </div>
     );

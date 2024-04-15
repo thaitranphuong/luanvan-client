@@ -59,7 +59,7 @@ function Topic() {
                     <SearchBar
                         onChange={(e) => setName(e.target.value)}
                         value={name}
-                        placeholder="Tiềm kiếm theo tên chủ đề"
+                        placeholder="Tìm kiếm theo tên chủ đề"
                     />
                     <div>
                         <AddButton to="/admin/topic/add-topic" />
@@ -78,24 +78,25 @@ function Topic() {
                         </tr>
                     </thead>
                     <tbody>
-                        {topics.map((item, index) => (
-                            <tr key={item.id}>
-                                <td>{index + 1 + (page - 1) * 5}</td>
-                                <td>{item.name}</td>
-                                <td>{item.code}</td>
-                                <td>
-                                    <Link
-                                        to={`/admin/topic/edit-topic/${item.id}`}
-                                        style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        <Icon path={mdiPen} size={1.5} />
-                                    </Link>
-                                    <span style={{ color: 'red', cursor: 'pointer' }}>
-                                        <Icon path={mdiTrashCan} size={1.5} />
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+                        {topics &&
+                            topics.map((item, index) => (
+                                <tr key={item.id}>
+                                    <td>{index + 1 + (page - 1) * 5}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.code}</td>
+                                    <td>
+                                        <Link
+                                            to={`/admin/topic/edit-topic/${item.id}`}
+                                            style={{ marginRight: '20px', color: 'blue', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiPen} size={1.5} />
+                                        </Link>
+                                        <span style={{ color: 'red', cursor: 'pointer' }}>
+                                            <Icon path={mdiTrashCan} size={1.5} />
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>

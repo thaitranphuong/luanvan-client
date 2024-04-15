@@ -2,31 +2,22 @@ import clsx from 'clsx';
 
 import styles from './Category.module.scss';
 
-function Category({ title }) {
+function Category({ title, categories, setChoose, chose }) {
     return (
         <div className={styles.body_category_block}>
             <div className={styles.body_category_title}>{title}</div>
             <ul className={styles.body_categories}>
-                <li className={styles.body_category}>
-                    <div className={styles.category_radio}></div>
+                <li onClick={() => setChoose('')} className={styles.body_category}>
+                    <div key={0} className={clsx(styles.category_radio, { [styles.active]: chose === '' })}></div>
                     Tất cả
                 </li>
-                <li className={styles.body_category}>
-                    <div className={clsx(styles.category_radio, { [styles.active]: true })}></div>
-                    Áo thun
-                </li>
-                <li className={styles.body_category}>
-                    <div className={clsx(styles.category_radio, { [styles.active]: false })}></div>
-                    Áo sơ mi
-                </li>
-                <li className={styles.body_category}>
-                    <div className={clsx(styles.category_radio, { [styles.active]: false })}></div>
-                    Quần dài
-                </li>
-                <li className={styles.body_category}>
-                    <div className={clsx(styles.category_radio, { [styles.active]: false })}></div>
-                    Quần đùi
-                </li>
+                {categories &&
+                    categories.map((item) => (
+                        <li onClick={() => setChoose(item.id)} key={item.id} className={styles.body_category}>
+                            <div className={clsx(styles.category_radio, { [styles.active]: chose === item.id })}></div>
+                            {item.name}
+                        </li>
+                    ))}
             </ul>
         </div>
     );

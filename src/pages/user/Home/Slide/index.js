@@ -1,16 +1,10 @@
 import SlideShow from '../../../../components/SlideShow';
 import ProductItem from '../ProductItem';
 
-function Slide() {
+function Slide({ arr }) {
     return (
         <SlideShow button autoplay={false} slidesToShow={4}>
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
+            {arr && arr.map((item) => <ProductItem product={item} />)}
         </SlideShow>
     );
 }

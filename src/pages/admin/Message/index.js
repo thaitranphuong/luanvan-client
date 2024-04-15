@@ -214,7 +214,7 @@ function Message() {
                             <input
                                 onChange={handleMessage}
                                 className={styles.message_input}
-                                placeholder="Nhập tin nhắn đến admin"
+                                placeholder="Nhập tin nhắn đến khách hàng"
                                 value={userData.message}
                             />
                             <button onClick={sendPrivateValue} className={styles.message_send_btn}>

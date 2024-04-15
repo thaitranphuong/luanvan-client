@@ -4,6 +4,12 @@ export const getToken = () => {
     return false;
 };
 
+export const getUser = () => {
+    let user = JSON.parse(window.localStorage.getItem('user'));
+    if (!!user) return user;
+    return false;
+};
+
 export const isLogin = () => {
     if (!!getToken()) {
         return true;
