@@ -85,6 +85,7 @@ function Message() {
                                         senderId: item.senderId,
                                         receiverId: item.receiverId,
                                         senderName: item.senderName,
+                                        avatar: item.avatar,
                                     };
                                     privateChats.get(receiverId).push(chatMessage);
                                 });
@@ -161,7 +162,11 @@ function Message() {
                                 <div className={styles.avatar_container}>
                                     <img
                                         className={styles.avatar_image}
-                                        src={require('../../../assets/images/avatar.png')}
+                                        src={
+                                            item.avatar
+                                                ? config.baseURL + '/getimage/users/' + item.avatar
+                                                : require('../../../assets/images/avatar.png')
+                                        }
                                         alt="Avatar"
                                     />
                                 </div>
@@ -197,7 +202,11 @@ function Message() {
                                 >
                                     <img
                                         className={styles.message_avatar}
-                                        src={require('../../../assets/images/avatar.png')}
+                                        src={
+                                            item.avatar
+                                                ? config.baseURL + '/getimage/users/' + item.avatar
+                                                : require('../../../assets/images/avatar.png')
+                                        }
                                         alt=""
                                     />
                                     <div className={styles.message_block}>

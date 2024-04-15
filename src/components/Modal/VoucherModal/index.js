@@ -1,7 +1,21 @@
+import { useEffect, useState } from 'react';
 import Voucher from '../../Voucher';
 import styles from './VoucherModal.module.scss';
+import api from '../../../utils/api';
+import { getUser } from '../../../utils/localstorage';
 
-function VoucherModal({ setModal, vouchers }) {
+function VoucherModal({ setModal }) {
+    const [vouchers, setVouchers] = useState([]);
+
+    const getVouchers = async () => {
+        let result = await api.getRequest(`/voucher/get-by-user/${getUser().id}`);
+        if (result && result.statusCode === 200 && result.data.listResult) setVouchers(result.data.listResult);
+    };
+
+    useEffect(() => {
+        getVouchers();
+    }, []);
+
     return (
         <div className={styles.modal_wrapper}>
             <div className={styles.modal}>

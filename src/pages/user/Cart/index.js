@@ -7,29 +7,24 @@ import { useState } from 'react';
 import VoucherModal from '../../../components/Modal/VoucherModal';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { cartSelector, voucherSelector, checkoutSelector } from '../../../redux/selectors';
+import { cartSelector, voucherSelector, checkoutSelector, shippingSelector } from '../../../redux/selectors';
 import { config } from '../../../utils/config';
 import cartSlice, { deleteFromCart, changeCartQuantity } from '../../../redux/slice/CartSlice';
 import shippingSlice from '../../../redux/slice/ShippingSlice';
 import api from '../../../utils/api';
 import { useEffect } from 'react';
-import { getUser } from '../../../utils/localstorage';
+import voucherSlice from '../../../redux/slice/VoucherSlice';
 
 function Cart() {
     const [modal, setModal] = useState(false);
     const [shippings, setShippings] = useState([]);
-    const [vouchers, setVouchers] = useState([]);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const cartItems = useSelector(cartSelector);
     const voucher = useSelector(voucherSelector);
     const checkoutProducts = useSelector(checkoutSelector);
-
-    const getVouchers = async () => {
-        let result = await api.getRequest(`/voucher/get-by-user/${getUser().id}`);
-        if (result && result.statusCode === 200 && result.data.listResult) setVouchers(result.data.listResult);
-    };
+    const shipping = useSelector(shippingSelector);
 
     const getShippings = async () => {
         let result = await api.getRequest(`/shipping/get-all`);
@@ -38,7 +33,9 @@ function Cart() {
 
     useEffect(() => {
         getShippings();
-        getVouchers();
+        dispatch(shippingSlice.actions.addShipping({}));
+        dispatch(cartSlice.actions.removeAllCheckoutProduct());
+        dispatch(voucherSlice.actions.addVoucher({}));
     }, []);
 
     const handleDeleteCartItem = (id) => {
@@ -59,7 +56,9 @@ function Cart() {
     };
 
     const handleOrder = () => {
-        navigate('/order');
+        if (checkoutProducts.length <= 0) alert('Chưa chọn sản phẩm');
+        else if (!shipping.cost) alert('Chưa chọn đơn vị vận chuyển');
+        else navigate('/order');
     };
     return (
         <>
@@ -168,30 +167,37 @@ function Cart() {
                         </div>
                         <div className={styles.footer_right_total}>
                             ₫
-                            {(voucher.category
-                                ? checkoutProducts.reduce((acc, item) => {
-                                      return acc + item.quantity * item.productPrice;
-                                  }, 0) -
-                                      voucher._index >=
-                                  0
-                                    ? checkoutProducts.reduce((acc, item) => {
-                                          return acc + item.quantity * item.productPrice;
-                                      }, 0) - voucher._index
-                                    : 0
-                                : (checkoutProducts.reduce((acc, item) => {
-                                      return acc + item.quantity * item.productPrice;
-                                  }, 0) *
-                                      voucher._index) /
-                                      100 <=
-                                  voucher.maxDiscount
-                                ? (checkoutProducts.reduce((acc, item) => {
-                                      return acc + item.quantity * item.productPrice;
-                                  }, 0) *
-                                      (100 - voucher._index)) /
-                                  100
-                                : checkoutProducts.reduce((acc, item) => {
-                                      return acc + item.quantity * item.productPrice;
-                                  }, 0) - voucher.maxDiscount
+                            {(
+                                (checkoutProducts.length > 0
+                                    ? voucher._index
+                                        ? voucher.category
+                                            ? checkoutProducts.reduce((acc, item) => {
+                                                  return acc + item.quantity * item.productPrice;
+                                              }, 0) -
+                                                  voucher._index >=
+                                              0
+                                                ? checkoutProducts.reduce((acc, item) => {
+                                                      return acc + item.quantity * item.productPrice;
+                                                  }, 0) - voucher._index
+                                                : 0
+                                            : (checkoutProducts.reduce((acc, item) => {
+                                                  return acc + item.quantity * item.productPrice;
+                                              }, 0) *
+                                                  voucher._index) /
+                                                  100 <=
+                                              voucher.maxDiscount
+                                            ? (checkoutProducts.reduce((acc, item) => {
+                                                  return acc + item.quantity * item.productPrice;
+                                              }, 0) *
+                                                  (100 - voucher._index)) /
+                                              100
+                                            : checkoutProducts.reduce((acc, item) => {
+                                                  return acc + item.quantity * item.productPrice;
+                                              }, 0) - voucher.maxDiscount
+                                        : checkoutProducts.reduce((acc, item) => {
+                                              return acc + item.quantity * item.productPrice;
+                                          }, 0)
+                                    : 0) + (shipping.cost ? shipping.cost : 0)
                             ).toLocaleString('vi-VN')}
                         </div>
                         <button onClick={handleOrder} className={styles.footer_right_btn}>
@@ -203,7 +209,7 @@ function Cart() {
 
             <Footer />
 
-            {modal && <VoucherModal setModal={setModal} vouchers={vouchers} />}
+            {modal && <VoucherModal setModal={setModal} />}
         </>
     );
 }

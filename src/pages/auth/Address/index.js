@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Footer from '../../../Layout/DefaultLayout/Footer';
 import NavLeft from '../../../components/NavLeft';
 import styles from './Address.module.scss';
 import AddAdressModal from '../../../components/Modal/AddAdressModal';
+import api from '../../../utils/api';
+import { getUser } from '../../../utils/localstorage';
 
 function Address() {
     const [modal, setModal] = useState(false);
+    const [addresses, setAddresses] = useState([]);
+
+    const getAddresses = async () => {
+        const result = await api.getRequest('/address/get-by-user/' + getUser().id);
+        if (result && result.statusCode === 200) setAddresses(result.data);
+    };
+
+    useEffect(() => {
+        getAddresses();
+    }, []);
 
     return (
         <>
@@ -19,30 +31,21 @@ function Address() {
                         </div>
                     </div>
                     <div className={styles.body}>
-                        <div className={styles.item}>
-                            <div className={styles.item_info}>
-                                <div className={styles.item_info_name}>Trần Phương Thái</div>
-                                <div className={styles.item_info_phone}>(0843215643)</div>
-                                <div className={styles.item_info_address}>
-                                    759, tổ 19, khu vực Tân Phước 1 Phường Thuận Hưng, Quận Thốt Nốt, Cần Thơ
+                        {addresses &&
+                            addresses.map((item) => (
+                                <div className={styles.item}>
+                                    <div className={styles.item_info}>
+                                        <div className={styles.item_info_name}>{item.username}</div>
+                                        <div className={styles.item_info_phone}>({item.phone})</div>
+                                        <div className={styles.item_info_address}>
+                                            {item.specification} Phường {item.ward}, Quận {item.district}, {item.city}
+                                        </div>
+                                    </div>
+                                    <button onClick={() => setModal(true)} className={styles.item_btn}>
+                                        Cập nhật
+                                    </button>
                                 </div>
-                            </div>
-                            <button onClick={() => setModal(true)} className={styles.item_btn}>
-                                Cập nhật
-                            </button>
-                        </div>
-                        <div className={styles.item}>
-                            <div className={styles.item_info}>
-                                <div className={styles.item_info_name}>Trần Phương Thái</div>
-                                <div className={styles.item_info_phone}>(0843215643)</div>
-                                <div className={styles.item_info_address}>
-                                    759, tổ 19, khu vực Tân Phước 1 Phường Thuận Hưng, Quận Thốt Nốt, Cần Thơ
-                                </div>
-                            </div>
-                            <button onClick={() => setModal(true)} className={styles.item_btn}>
-                                Cập nhật
-                            </button>
-                        </div>
+                            ))}
                     </div>
                 </div>
             </div>

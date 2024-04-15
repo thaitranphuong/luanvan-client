@@ -4,13 +4,78 @@ import HeaderCustom from '../../../components/HeaderCustom';
 import styles from './Order.module.scss';
 import { mdiMapMarker } from '@mdi/js';
 import ListAddressModal from '../../../components/Modal/ListAddressModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VoucherModal from '../../../components/Modal/VoucherModal';
 import clsx from 'clsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkoutSelector, shippingSelector, voucherSelector } from '../../../redux/selectors';
+import { config } from '../../../utils/config';
+import api from '../../../utils/api';
+import shippingSlice from '../../../redux/slice/ShippingSlice';
+import { getUser } from '../../../utils/localstorage';
 
 function Order() {
     const [modalAddress, setModalAddress] = useState(false);
     const [modalVoucher, setModalVoucher] = useState(false);
+    const [shippings, setShippings] = useState([]);
+    const [addresses, setAddresses] = useState([]);
+    const [address, setAddress] = useState([]);
+
+    const dispatch = useDispatch();
+
+    const voucher = useSelector(voucherSelector);
+    const checkoutProducts = useSelector(checkoutSelector);
+    const shipping = useSelector(shippingSelector);
+
+    const total =
+        (checkoutProducts.length > 0
+            ? voucher._index
+                ? voucher.category
+                    ? checkoutProducts.reduce((acc, item) => {
+                          return acc + item.quantity * item.productPrice;
+                      }, 0) -
+                          voucher._index >=
+                      0
+                        ? checkoutProducts.reduce((acc, item) => {
+                              return acc + item.quantity * item.productPrice;
+                          }, 0) - voucher._index
+                        : 0
+                    : (checkoutProducts.reduce((acc, item) => {
+                          return acc + item.quantity * item.productPrice;
+                      }, 0) *
+                          voucher._index) /
+                          100 <=
+                      voucher.maxDiscount
+                    ? (checkoutProducts.reduce((acc, item) => {
+                          return acc + item.quantity * item.productPrice;
+                      }, 0) *
+                          (100 - voucher._index)) /
+                      100
+                    : checkoutProducts.reduce((acc, item) => {
+                          return acc + item.quantity * item.productPrice;
+                      }, 0) - voucher.maxDiscount
+                : checkoutProducts.reduce((acc, item) => {
+                      return acc + item.quantity * item.productPrice;
+                  }, 0)
+            : 0) + (shipping.cost ? shipping.cost : 0);
+
+    const getAddresses = async () => {
+        const result = await api.getRequest('/address/get-by-user/' + getUser().id);
+        if (result && result.statusCode === 200) {
+            setAddresses(result.data);
+            setAddress(result.data.length > 0 && result.data[0]);
+        }
+    };
+    const getShippings = async () => {
+        let result = await api.getRequest(`/shipping/get-all`);
+        if (result && result.statusCode === 200) setShippings(result.data);
+    };
+
+    useEffect(() => {
+        getShippings();
+        getAddresses();
+    }, []);
+
     return (
         <>
             <HeaderCustom title={'Thanh Toán'} />
@@ -22,9 +87,11 @@ function Order() {
                         &nbsp; Địa Chỉ Nhận Hàng
                     </div>
                     <div className={styles.address_info}>
-                        <div className={styles.address_info_name}>Trần Phương Thái (0843215643)</div>
+                        <div className={styles.address_info_name}>
+                            {address.username} ({address.phone})
+                        </div>
                         <div className={styles.address_info_specific}>
-                            759, tổ 19, khu vực Tân Phước 1, Phường Thuận Hưng, Quận Thốt Nốt, Cần Thơ
+                            {address.specification} Phường {address.ward}, Quận {address.district}, {address.city}
                         </div>
                         <button onClick={() => setModalAddress(true)} className={styles.address_info_btn}>
                             Thay đổi
@@ -43,50 +110,47 @@ function Order() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className={styles.product}>
-                                    <img
-                                        className={styles.product_img}
-                                        src={require('../../../assets/images/product.png')}
-                                        alt=""
-                                    />
-                                    Áo thun unisex nam nữ localbrand blokecore Outerity Sporty Basic | Kem | S
-                                </td>
-                                <td className={styles.price}>₫150,000</td>
-                                <td className={styles.quantity}>3</td>
-                                <td className={styles.total}>₫450,000</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.product}>
-                                    <img
-                                        className={styles.product_img}
-                                        src={require('../../../assets/images/product.png')}
-                                        alt=""
-                                    />
-                                    Áo thun unisex nam nữ localbrand blokecore Outerity Sporty Basic | Kem | S
-                                </td>
-                                <td className={styles.price}>₫150,000</td>
-                                <td className={styles.quantity}>3</td>
-                                <td className={styles.total}>₫450,000</td>
-                            </tr>
+                            {checkoutProducts &&
+                                checkoutProducts.map((item) => (
+                                    <tr key={item.id}>
+                                        <td className={styles.product}>
+                                            <img
+                                                className={styles.product_img}
+                                                src={config.baseURL + '/getimage/product_details/' + item.productImage}
+                                                alt=""
+                                            />
+                                            {item.productName} | {item.productColor} | {item.productSize}
+                                        </td>
+                                        <td className={styles.price}>
+                                            ₫{Math.round(item.productPrice).toLocaleString('vi-VN')}
+                                        </td>
+                                        <td className={styles.quantity}>{item.quantity}</td>
+                                        <td className={styles.total}>
+                                            ₫{Math.round(item.productPrice * item.quantity).toLocaleString('vi-VN')}
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
 
                     <div className={styles.transport}>
                         <div className={styles.transport_title}>Chọn đơn vị vận chuyển</div>
                         <div className={styles.transport_list}>
-                            <div className={styles.transport_item}>
-                                <input name="transport" className={styles.transport_item_radio} type="radio" />
-                                <div className={styles.transport_item_text}>Viettel Post - ₫50,000</div>
-                            </div>
-                            <div className={styles.transport_item}>
-                                <input name="transport" className={styles.transport_item_radio} type="radio" />
-                                <div className={styles.transport_item_text}>Ninja Van - ₫30,000</div>
-                            </div>
-                            <div className={styles.transport_item}>
-                                <input name="transport" className={styles.transport_item_radio} type="radio" />
-                                <div className={styles.transport_item_text}>Giao hàng tiết kiệm - ₫20,000</div>
-                            </div>
+                            {shippings &&
+                                shippings.map((item) => (
+                                    <div key={item.id} className={styles.transport_item}>
+                                        <input
+                                            onClick={() => dispatch(shippingSlice.actions.addShipping(item))}
+                                            name="transport"
+                                            className={styles.transport_item_radio}
+                                            type="radio"
+                                            checked={item.id === shipping.id}
+                                        />
+                                        <div className={styles.transport_item_text}>
+                                            {item.name} - ₫{item.cost.toLocaleString('vi-VN')}
+                                        </div>
+                                    </div>
+                                ))}
                         </div>
                     </div>
 
@@ -94,7 +158,7 @@ function Order() {
                         <div onClick={() => setModalVoucher(true)} className={styles.footer_left}>
                             🏷️ Chọn voucher
                         </div>
-                        <div className={styles.footer_left}>Mã voucher: MAGIAM100$</div>
+                        <div className={styles.footer_left}>Mã voucher: {voucher.name && voucher.name}</div>
                         <div className={styles.footer_right}>
                             Lời nhắn:
                             <input className={styles.footer_right_input} placeholder="Lưu ý cho người bán..." />
@@ -120,20 +184,92 @@ function Order() {
                     <div className={styles.payment_bottom}>
                         <div className={styles.payment_bottom_item}>
                             <div className={styles.payment_bottom_left}>Tổng tiền hàng</div>
-                            <div className={styles.payment_bottom_right}>₫18.000</div>
-                        </div>
-                        <div className={styles.payment_bottom_item}>
-                            <div className={styles.payment_bottom_left}>Phí vận chuyển</div>
-                            <div className={styles.payment_bottom_right}>₫30.000</div>
+                            <div className={styles.payment_bottom_right}>
+                                ₫
+                                {checkoutProducts
+                                    .reduce((acc, item) => {
+                                        return acc + item.quantity * item.productPrice;
+                                    }, 0)
+                                    .toLocaleString('vi-VN')}
+                            </div>
                         </div>
                         <div className={styles.payment_bottom_item}>
                             <div className={styles.payment_bottom_left}>Tổng cộng Voucher giảm giá:</div>
-                            <div className={styles.payment_bottom_right}>-₫540</div>
+                            <div className={styles.payment_bottom_right}>
+                                -₫
+                                {voucher._index &&
+                                    (!voucher.category
+                                        ? (checkoutProducts.reduce((acc, item) => {
+                                              return acc + item.quantity * item.productPrice;
+                                          }, 0) *
+                                              voucher._index) /
+                                              100 <=
+                                          voucher.maxDiscount
+                                            ? (checkoutProducts.reduce((acc, item) => {
+                                                  return acc + item.quantity * item.productPrice;
+                                              }, 0) *
+                                                  voucher._index) /
+                                              100
+                                            : voucher.maxDiscount
+                                        : checkoutProducts.reduce((acc, item) => {
+                                              return acc + item.quantity * item.productPrice;
+                                          }, 0) -
+                                              voucher._index >
+                                          checkoutProducts.reduce((acc, item) => {
+                                              return acc + item.quantity * item.productPrice;
+                                          }, 0)
+                                        ? checkoutProducts.reduce((acc, item) => {
+                                              return acc + item.quantity * item.productPrice;
+                                          }, 0)
+                                        : checkoutProducts.reduce((acc, item) => {
+                                              return acc + item.quantity * item.productPrice;
+                                          }, 0) - voucher._index
+                                    ).toLocaleString('vi-VN')}
+                            </div>
+                        </div>
+
+                        <div className={styles.payment_bottom_item}>
+                            <div className={styles.payment_bottom_left}>Phí vận chuyển</div>
+                            <div className={styles.payment_bottom_right}>
+                                ₫{shipping.cost && shipping.cost.toLocaleString('vi-VN')}
+                            </div>
                         </div>
                         <div className={styles.payment_bottom_item}>
                             <div className={styles.payment_bottom_left}>Tổng thanh toán</div>
                             <div className={clsx(styles.payment_bottom_right, styles.payment_bottom_total)}>
-                                ₫47.460
+                                ₫
+                                {(
+                                    (checkoutProducts.length > 0
+                                        ? voucher._index
+                                            ? voucher.category
+                                                ? checkoutProducts.reduce((acc, item) => {
+                                                      return acc + item.quantity * item.productPrice;
+                                                  }, 0) -
+                                                      voucher._index >=
+                                                  0
+                                                    ? checkoutProducts.reduce((acc, item) => {
+                                                          return acc + item.quantity * item.productPrice;
+                                                      }, 0) - voucher._index
+                                                    : 0
+                                                : (checkoutProducts.reduce((acc, item) => {
+                                                      return acc + item.quantity * item.productPrice;
+                                                  }, 0) *
+                                                      voucher._index) /
+                                                      100 <=
+                                                  voucher.maxDiscount
+                                                ? (checkoutProducts.reduce((acc, item) => {
+                                                      return acc + item.quantity * item.productPrice;
+                                                  }, 0) *
+                                                      (100 - voucher._index)) /
+                                                  100
+                                                : checkoutProducts.reduce((acc, item) => {
+                                                      return acc + item.quantity * item.productPrice;
+                                                  }, 0) - voucher.maxDiscount
+                                            : checkoutProducts.reduce((acc, item) => {
+                                                  return acc + item.quantity * item.productPrice;
+                                              }, 0)
+                                        : 0) + (shipping.cost ? shipping.cost : 0)
+                                ).toLocaleString('vi-VN')}
                             </div>
                         </div>
 
@@ -142,7 +278,14 @@ function Order() {
                 </div>
             </div>
             <Footer />
-            {modalAddress && <ListAddressModal setModal={setModalAddress} />}
+            {modalAddress && (
+                <ListAddressModal
+                    addresses={addresses}
+                    address={address}
+                    setAddress={setAddress}
+                    setModal={setModalAddress}
+                />
+            )}
             {modalVoucher && <VoucherModal setModal={setModalVoucher} />}
         </>
     );

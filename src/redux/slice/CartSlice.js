@@ -14,6 +14,9 @@ const cartSlice = createSlice({
                 item.id === action.payload.id && state.checkoutProducts.splice(index, 1);
             });
         },
+        removeAllCheckoutProduct: (state, action) => {
+            state.checkoutProducts = [];
+        },
     },
     extraReducers: (builder) => {
         builder
