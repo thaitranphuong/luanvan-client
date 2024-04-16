@@ -4,7 +4,7 @@ import HeaderCustom from '../../../components/HeaderCustom';
 import styles from './Order.module.scss';
 import { mdiMapMarker } from '@mdi/js';
 import ListAddressModal from '../../../components/Modal/ListAddressModal';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import VoucherModal from '../../../components/Modal/VoucherModal';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { config } from '../../../utils/config';
 import api from '../../../utils/api';
 import shippingSlice from '../../../redux/slice/ShippingSlice';
 import { getUser } from '../../../utils/localstorage';
+import { useNavigate } from 'react-router-dom';
 
 function Order() {
     const [modalAddress, setModalAddress] = useState(false);
@@ -20,6 +21,8 @@ function Order() {
     const [shippings, setShippings] = useState([]);
     const [addresses, setAddresses] = useState([]);
     const [address, setAddress] = useState([]);
+    const [note, setNote] = useState();
+    const [payment, setPayment] = useState();
 
     const dispatch = useDispatch();
 
@@ -27,37 +30,68 @@ function Order() {
     const checkoutProducts = useSelector(checkoutSelector);
     const shipping = useSelector(shippingSelector);
 
-    const total =
-        (checkoutProducts.length > 0
-            ? voucher._index
-                ? voucher.category
-                    ? checkoutProducts.reduce((acc, item) => {
-                          return acc + item.quantity * item.productPrice;
-                      }, 0) -
-                          voucher._index >=
-                      0
+    const navigate = useNavigate();
+
+    const total = useMemo(
+        () =>
+            (checkoutProducts.length > 0
+                ? voucher._index
+                    ? voucher.category
                         ? checkoutProducts.reduce((acc, item) => {
                               return acc + item.quantity * item.productPrice;
-                          }, 0) - voucher._index
-                        : 0
-                    : (checkoutProducts.reduce((acc, item) => {
-                          return acc + item.quantity * item.productPrice;
-                      }, 0) *
-                          voucher._index) /
-                          100 <=
-                      voucher.maxDiscount
-                    ? (checkoutProducts.reduce((acc, item) => {
-                          return acc + item.quantity * item.productPrice;
-                      }, 0) *
-                          (100 - voucher._index)) /
-                      100
+                          }, 0) -
+                              voucher._index >=
+                          0
+                            ? checkoutProducts.reduce((acc, item) => {
+                                  return acc + item.quantity * item.productPrice;
+                              }, 0) - voucher._index
+                            : 0
+                        : (checkoutProducts.reduce((acc, item) => {
+                              return acc + item.quantity * item.productPrice;
+                          }, 0) *
+                              voucher._index) /
+                              100 <=
+                          voucher.maxDiscount
+                        ? (checkoutProducts.reduce((acc, item) => {
+                              return acc + item.quantity * item.productPrice;
+                          }, 0) *
+                              (100 - voucher._index)) /
+                          100
+                        : checkoutProducts.reduce((acc, item) => {
+                              return acc + item.quantity * item.productPrice;
+                          }, 0) - voucher.maxDiscount
                     : checkoutProducts.reduce((acc, item) => {
                           return acc + item.quantity * item.productPrice;
-                      }, 0) - voucher.maxDiscount
-                : checkoutProducts.reduce((acc, item) => {
+                      }, 0)
+                : 0) + (shipping.cost ? shipping.cost : 0),
+    );
+
+    const discountVoucher = useMemo(() =>
+        !voucher.category
+            ? (checkoutProducts.reduce((acc, item) => {
+                  return acc + item.quantity * item.productPrice;
+              }, 0) *
+                  voucher._index) /
+                  100 <=
+              voucher.maxDiscount
+                ? (checkoutProducts.reduce((acc, item) => {
                       return acc + item.quantity * item.productPrice;
-                  }, 0)
-            : 0) + (shipping.cost ? shipping.cost : 0);
+                  }, 0) *
+                      voucher._index) /
+                  100
+                : voucher.maxDiscount
+            : checkoutProducts.reduce((acc, item) => {
+                  return acc + item.quantity * item.productPrice;
+              }, 0) -
+                  voucher._index >
+              checkoutProducts.reduce((acc, item) => {
+                  return acc + item.quantity * item.productPrice;
+              }, 0)
+            ? checkoutProducts.reduce((acc, item) => {
+                  return acc + item.quantity * item.productPrice;
+              }, 0)
+            : voucher._index,
+    );
 
     const getAddresses = async () => {
         const result = await api.getRequest('/address/get-by-user/' + getUser().id);
@@ -75,6 +109,34 @@ function Order() {
         getShippings();
         getAddresses();
     }, []);
+
+    const handleCheckout = async () => {
+        const result = await api.postRequest('/order', {
+            note: note,
+            payment: payment,
+            status: 0,
+            addressId: address.id,
+            shipperId: '',
+            shippingId: shipping.id,
+            voucherId: voucher.id,
+            discountVoucher: discountVoucher,
+            total: total,
+        });
+        if (result && result.statusCode === 200) {
+            checkoutProducts.forEach(async (item) => {
+                await api.postRequest('/order-item', {
+                    name: item.productName,
+                    image: item.productImage,
+                    quantity: item.productQuantity,
+                    price: item.productPrice,
+                    color: item.productColor,
+                    size: item.productSize,
+                    orderId: result.data,
+                });
+            });
+            navigate('/user/purchase');
+        }
+    };
 
     return (
         <>
@@ -161,21 +223,32 @@ function Order() {
                         <div className={styles.footer_left}>Mã voucher: {voucher.name && voucher.name}</div>
                         <div className={styles.footer_right}>
                             Lời nhắn:
-                            <input className={styles.footer_right_input} placeholder="Lưu ý cho người bán..." />
+                            <input
+                                onChange={(e) => setNote(e.target.value)}
+                                className={styles.footer_right_input}
+                                placeholder="Lưu ý cho người bán..."
+                            />
                         </div>
                     </div>
                 </div>
                 <div className={styles.payment}>
                     <div className={styles.payment_top}>
                         <div className={styles.payment_title}>Phương thức thanh toán</div>
-                        <div className={clsx(styles.payment_option, { [styles.active]: false })}>COD</div>
+                        <div
+                            onClick={() => setPayment('COD')}
+                            className={clsx(styles.payment_option, { [styles.active]: payment === 'COD' })}
+                        >
+                            COD
+                        </div>
                         <img
-                            className={clsx(styles.payment_option, { [styles.active]: true })}
+                            onClick={() => setPayment('VNPAY')}
+                            className={clsx(styles.payment_option, { [styles.active]: payment === 'VNPAY' })}
                             src={require('../../../assets/images/vnpay.png')}
                             alt=""
                         />
                         <img
-                            className={clsx(styles.payment_option, { [styles.active]: false })}
+                            onClick={() => setPayment('PAYPAL')}
+                            className={clsx(styles.payment_option, { [styles.active]: payment === 'PAYPAL' })}
                             src={require('../../../assets/images/paypal.png')}
                             alt=""
                         />
@@ -197,34 +270,7 @@ function Order() {
                             <div className={styles.payment_bottom_left}>Tổng cộng Voucher giảm giá:</div>
                             <div className={styles.payment_bottom_right}>
                                 -₫
-                                {voucher._index &&
-                                    (!voucher.category
-                                        ? (checkoutProducts.reduce((acc, item) => {
-                                              return acc + item.quantity * item.productPrice;
-                                          }, 0) *
-                                              voucher._index) /
-                                              100 <=
-                                          voucher.maxDiscount
-                                            ? (checkoutProducts.reduce((acc, item) => {
-                                                  return acc + item.quantity * item.productPrice;
-                                              }, 0) *
-                                                  voucher._index) /
-                                              100
-                                            : voucher.maxDiscount
-                                        : checkoutProducts.reduce((acc, item) => {
-                                              return acc + item.quantity * item.productPrice;
-                                          }, 0) -
-                                              voucher._index >
-                                          checkoutProducts.reduce((acc, item) => {
-                                              return acc + item.quantity * item.productPrice;
-                                          }, 0)
-                                        ? checkoutProducts.reduce((acc, item) => {
-                                              return acc + item.quantity * item.productPrice;
-                                          }, 0)
-                                        : checkoutProducts.reduce((acc, item) => {
-                                              return acc + item.quantity * item.productPrice;
-                                          }, 0) - voucher._index
-                                    ).toLocaleString('vi-VN')}
+                                {voucher._index && discountVoucher.toLocaleString('vi-VN')}
                             </div>
                         </div>
 
@@ -273,7 +319,9 @@ function Order() {
                             </div>
                         </div>
 
-                        <button className={styles.payment_bottom_btn}>ĐẶT HÀNG</button>
+                        <button onClick={handleCheckout} className={styles.payment_bottom_btn}>
+                            ĐẶT HÀNG
+                        </button>
                     </div>
                 </div>
             </div>
@@ -284,6 +332,7 @@ function Order() {
                     address={address}
                     setAddress={setAddress}
                     setModal={setModalAddress}
+                    getAddresses={getAddresses}
                 />
             )}
             {modalVoucher && <VoucherModal setModal={setModalVoucher} />}

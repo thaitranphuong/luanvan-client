@@ -30,51 +30,58 @@
         } 
 
         .modal_body {
+            
+            .modal_body_addresses {
+                overflow-y: scroll;
+                max-height: 70vh;
 
-            .modal_body_item +.modal_body_item {
-                border-top: 1px solid #f5f5f5;
-            }
-
-            .modal_body_item {
-                display: flex;
-                padding: 20px;
-
-
-                .modal_body_radio {
-                    width: 20px;
-                    height: 20px;
-                    border: 2px solid #ccc;
-                    border-radius: 50%;
-                    cursor: pointer;
-                }
-
-                .modal_body_radio.active {
-                    border: 7px solid var(--primary-color);
+                .modal_body_item +.modal_body_item {
+                    border-top: 1px solid #f5f5f5;
                 }
     
-                .modal_body_main {
-                    flex: 1;
-                    margin-left: 10px;
-                    margin-right: 20px;
-
+                .modal_body_item {
+                    display: flex;
+                    padding: 20px;
     
-                    .modal_body_main_name {
-                        font-weight: 700;
+    
+                    .modal_body_radio {
+                        width: 20px;
+                        height: 20px;
+                        border: 2px solid #ccc;
+                        border-radius: 50%;
+                        cursor: pointer;
                     }
     
-                    .modal_body_specific {
-                        margin-top: 5px;
-                        font-size: 1.4rem;
-                        color: #898989;
+                    .modal_body_radio.active {
+                        border: 7px solid var(--primary-color);
                     }
+        
+                    .modal_body_main {
+                        flex: 1;
+                        margin-left: 10px;
+                        margin-right: 20px;
     
-                }
-    
-                .modal_body_btn {
-                    color: blue;
-                    cursor: pointer;
+        
+                        .modal_body_main_name {
+                            font-weight: 700;
+                        }
+        
+                        .modal_body_specific {
+                            margin-top: 5px;
+                            font-size: 1.4rem;
+                            color: #898989;
+                        }
+        
+                    }
+        
+                    .modal_body_btn {
+                        color: blue;
+                        cursor: pointer;
+                    }
                 }
             }
+
+            
 
 
         } 

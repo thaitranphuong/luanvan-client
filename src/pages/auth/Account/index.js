@@ -3,17 +3,17 @@ import Footer from '../../../Layout/DefaultLayout/Footer';
 import NavLeft from '../../../components/NavLeft';
 import styles from './Account.module.scss';
 import api from '../../../utils/api';
-import { getUser } from '../../../utils/localstorage';
+import { getUser, setUser } from '../../../utils/localstorage';
 import { config } from '../../../utils/config';
 
 function Account() {
-    const [user, setUser] = useState({});
+    const [user, setCurrentUser] = useState({});
     const [image, setImage] = useState();
     const id = getUser().id;
 
     const render = async () => {
         let result = await api.getRequest(`/user/${id}`);
-        setUser(result.data);
+        setCurrentUser(result.data);
     };
 
     useEffect(() => {
@@ -21,7 +21,7 @@ function Account() {
     }, []);
 
     const handleChangeInput = (e) => {
-        setUser({
+        setCurrentUser({
             ...user,
             [e.target.name]: e.target.value,
         });
@@ -38,7 +38,7 @@ function Account() {
         if (file) {
             const reader = new FileReader();
             setImage(file);
-            setUser({ ...user, avatar: file.name });
+            setCurrentUser({ ...user, avatar: file.name });
             reader.onload = function () {
                 imageContainer.innerHTML = `<img style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover;" src=${reader.result} alt="avatar" />`;
             };
@@ -52,7 +52,11 @@ function Account() {
             const formData = new FormData();
             formData.append('image', image);
             result = await api.uploadFileRequest('/uploadimage/users', formData);
-            if (result && result.statusCode === 200) alert('Luu thanh cong');
+            if (result && result.statusCode === 200) {
+                alert('Luu thanh cong');
+                result = await api.getRequest('/user/' + getUser().id);
+                if (result && result.statusCode === 200) setUser(result.data);
+            }
         }
     };
 

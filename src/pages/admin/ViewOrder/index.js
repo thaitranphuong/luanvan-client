@@ -5,13 +5,36 @@ import clsx from 'clsx';
 import Wrapper from '../../../Layout/AdminLayout/Wrapper';
 import styles from './ViewOrder.module.scss';
 import ImageModal from '../../../components/Modal/ImageModal';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import api from '../../../utils/api';
+import { config } from '../../../utils/config';
 
 function ViewOrder() {
+    const [order, setOrder] = useState({});
+
+    const id = useParams().id;
+
+    const render = async () => {
+        let result = await api.getRequest(`/order/${id}`);
+        setOrder(result.data);
+    };
+
+    useEffect(() => {
+        render();
+    }, []);
+
+    const handleChangeStatus = async (status) => {
+        setOrder({ ...order, status: status });
+        let result = await api.putRequest(`/order`, { ...order, status: status });
+        if (result && result.statusCode === 200) render();
+    };
+
     return (
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý đơn hàng" detail="Chi tiết đơn hàng">
                 <div className={styles.inner_wrapper}>
-                    <div className={styles.account}>Tài khoản khách hàng: Trần Phương Thái</div>
+                    <div className={styles.account}>Tài khoản khách hàng: {order.username}</div>
                     <div className={styles.address}>
                         <div className={styles.address_border_top}></div>
                         <div className={styles.address_title}>
@@ -19,10 +42,10 @@ function ViewOrder() {
                             &nbsp; Địa Chỉ Nhận Hàng
                         </div>
                         <div className={styles.address_info}>
-                            <div className={styles.address_info_name}>Trần Phương Thái (0843215643)</div>
-                            <div className={styles.address_info_specific}>
-                                759, tổ 19, khu vực Tân Phước 1, Phường Thuận Hưng, Quận Thốt Nốt, Cần Thơ
+                            <div className={styles.address_info_name}>
+                                {order.addressName} ({order.phone})
                             </div>
+                            <div className={styles.address_info_specific}>{order.addressFull}</div>
                         </div>
                     </div>
 
@@ -37,32 +60,28 @@ function ViewOrder() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td className={styles.product}>
-                                        <img
-                                            className={styles.product_img}
-                                            src={require('../../../assets/images/product.png')}
-                                            alt=""
-                                        />
-                                        Áo thun unisex nam nữ localbrand blokecore Outerity Sporty Basic | Kem | S
-                                    </td>
-                                    <td className={styles.price}>₫150,000</td>
-                                    <td className={styles.quantity}>3</td>
-                                    <td className={styles.total}>₫450,000</td>
-                                </tr>
-                                <tr>
-                                    <td className={styles.product}>
-                                        <img
-                                            className={styles.product_img}
-                                            src={require('../../../assets/images/product.png')}
-                                            alt=""
-                                        />
-                                        Áo thun unisex nam nữ localbrand blokecore Outerity Sporty Basic | Kem | S
-                                    </td>
-                                    <td className={styles.price}>₫150,000</td>
-                                    <td className={styles.quantity}>3</td>
-                                    <td className={styles.total}>₫450,000</td>
-                                </tr>
+                                {order &&
+                                    order.orderItems &&
+                                    order.orderItems.map((item) => (
+                                        <tr key={item.id}>
+                                            <td className={styles.product}>
+                                                <img
+                                                    className={styles.product_img}
+                                                    src={
+                                                        item.image &&
+                                                        config.baseURL + '/getimage/product_details/' + item.image
+                                                    }
+                                                    alt=""
+                                                />
+                                                {item.name} | {item.color} | {item.size}
+                                            </td>
+                                            <td className={styles.price}>₫{item.price.toLocaleString('vi-VN')}</td>
+                                            <td className={styles.quantity}>{item.quantity}</td>
+                                            <td className={styles.total}>
+                                                ₫{(item.price * item.quantity).toLocaleString('vi-VN')}
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
 
@@ -70,42 +89,41 @@ function ViewOrder() {
                             <div className={styles.transport_title}>Đơn vị vận chuyển</div>
                             <div className={styles.transport_list}>
                                 <div className={styles.transport_item}>
-                                    <div className={styles.transport_item_text}>Viettel Post - ₫50,000</div>
+                                    <div className={styles.transport_item_text}>
+                                        {order && order.shippingName} - ₫
+                                        {order && order.shippingCost && order.shippingCost.toLocaleString('vi-VN')}
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className={styles.footer}>
                             <div className={styles.footer_left}>🏷️ Voucher</div>
-                            <div className={styles.footer_left}>Mã voucher: MAGIAM100$</div>
+                            <div className={styles.footer_left}>Mã voucher: {order.voucherName}</div>
                             <div className={styles.footer_right}>
                                 Lời nhắn:
-                                <input disabled className={styles.footer_right_input} value="asdasdsa" />
+                                <input disabled className={styles.footer_right_input} value={order.note} />
                             </div>
                         </div>
                     </div>
                     <div className={styles.payment}>
                         <div className={styles.payment_top}>
                             <div className={styles.payment_title}>Phương thức thanh toán</div>
-                            <div className={clsx(styles.payment_option)}>COD</div>
-                            {/* <img
-                                className={clsx(styles.payment_option)}
-                                src={require('../../../assets/images/vnpay.png')}
-                                alt=""
-                            />
-                            <img
-                                className={clsx(styles.payment_option)}
-                                src={require('../../../assets/images/paypal.png')}
-                                alt=""
-                            /> */}
+                            <div className={clsx(styles.payment_option)}>{order.payment}</div>
                         </div>
                         <div className={styles.payment_top}>
                             <div className={styles.payment_title}>Trạng thái đơn hàng</div>
-                            <div className={clsx(styles.payment_option)}>Chờ xác nhận</div>
-                            {/* <div className={clsx(styles.payment_option)}>Đang chuẩn bị hàng</div>
-                            <div className={clsx(styles.payment_option)}>Đang giao hàng</div>
-                            <div className={clsx(styles.payment_option)}>Đã giao hàng</div>
-                            <div className={clsx(styles.payment_option)}>Đã hủy</div> */}
+                            {(order.status === 0 && <div className={clsx(styles.payment_option)}>Chờ xác nhận</div>) ||
+                                (order.status === 1 && (
+                                    <div className={clsx(styles.payment_option)}>Đang chuẩn bị hàng</div>
+                                )) ||
+                                (order.status === 2 && (
+                                    <div className={clsx(styles.payment_option)}>Đang giao hàng</div>
+                                )) ||
+                                (order.status === 3 && (
+                                    <div className={clsx(styles.payment_option)}>Đã giao hàng</div>
+                                )) ||
+                                (order.status === 4 && <div className={clsx(styles.payment_option)}>Đã hủy</div>)}
                         </div>
                         <div className={styles.payment_top}>
                             <div className={styles.payment_title}>Hình ảnh giao hàng</div>
@@ -119,7 +137,7 @@ function ViewOrder() {
                             >
                                 <ImageModal
                                     style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                                    imageUrl={require('../../../assets/images/product.png')}
+                                    imageUrl={order && order.image && config.baseURL + '/getimage/order/' + order.image}
                                 />
                             </div>
                         </div>
@@ -127,26 +145,59 @@ function ViewOrder() {
                         <div className={styles.payment_bottom}>
                             <div className={styles.payment_bottom_item}>
                                 <div className={styles.payment_bottom_left}>Tổng tiền hàng</div>
-                                <div className={styles.payment_bottom_right}>₫18.000</div>
+                                <div className={styles.payment_bottom_right}>
+                                    ₫
+                                    {order &&
+                                        order.orderItems &&
+                                        order.orderItems
+                                            .reduce((acc, item) => acc + item.price * item.quantity, 0)
+                                            .toLocaleString('vi-VN')}
+                                </div>
                             </div>
                             <div className={styles.payment_bottom_item}>
                                 <div className={styles.payment_bottom_left}>Phí vận chuyển</div>
-                                <div className={styles.payment_bottom_right}>₫30.000</div>
+                                <div className={styles.payment_bottom_right}>
+                                    ₫{order && order.shippingCost && order.shippingCost.toLocaleString('vi-VN')}
+                                </div>
                             </div>
                             <div className={styles.payment_bottom_item}>
                                 <div className={styles.payment_bottom_left}>Tổng cộng Voucher giảm giá:</div>
-                                <div className={styles.payment_bottom_right}>-₫540</div>
+                                <div className={styles.payment_bottom_right}>
+                                    -₫{order && order.discountVoucher && order.discountVoucher.toLocaleString('vi-VN')}
+                                </div>
                             </div>
                             <div className={styles.payment_bottom_item}>
                                 <div className={styles.payment_bottom_left}>Tổng thanh toán</div>
                                 <div className={clsx(styles.payment_bottom_right, styles.payment_bottom_total)}>
-                                    ₫47.460
+                                    ₫{order && order.total && order.total.toLocaleString('vi-VN')}
                                 </div>
                             </div>
 
-                            <button className={styles.payment_bottom_btn}>XÁC NHẬN</button>
-                            {/* <button className={styles.payment_bottom_btn}>GIAO HÀNG</button> */}
-                            <button className={styles.abort_bottom_btn}>HỦY ĐƠN</button>
+                            {order &&
+                                ((order.status === 0 && (
+                                    <>
+                                        <button
+                                            onClick={() => handleChangeStatus(1)}
+                                            className={styles.payment_bottom_btn}
+                                        >
+                                            XÁC NHẬN
+                                        </button>
+                                        <button
+                                            onClick={() => handleChangeStatus(4)}
+                                            className={styles.abort_bottom_btn}
+                                        >
+                                            HỦY ĐƠN
+                                        </button>
+                                    </>
+                                )) ||
+                                    (order.status === 1 && (
+                                        <button
+                                            onClick={() => handleChangeStatus(2)}
+                                            className={styles.payment_bottom_btn}
+                                        >
+                                            GIAO HÀNG
+                                        </button>
+                                    )))}
                         </div>
                     </div>
                 </div>

@@ -7,31 +7,63 @@ import Pagination from '../../../components/Pagination';
 import styles from './Order.module.scss';
 import { Link } from 'react-router-dom';
 import Select from '../../../components/Select';
+import { useEffect, useState } from 'react';
+import api from '../../../utils/api';
+import Excel from '../../../components/Excel';
 
 function Order() {
+    const [orders, setOrders] = useState([]);
+    const [totalPage, setTotalpage] = useState(1);
+    const [page, setPage] = useState(1);
+    const [status, setStatus] = useState('');
+
+    const render = async () => {
+        let result = await api.getRequest(`/order?page=${page}&limit=5&status=${status}`);
+        setTotalpage(result.data.totalPage);
+        setPage(result.data.page);
+        setOrders(result.data.listResult);
+    };
+
+    useEffect(() => {
+        render();
+    }, [page, status]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [status]);
+
+    const handleExportFile = async () => {
+        const listExcel = [];
+        let result = await api.getRequest(`/order/get-all`);
+        result.data.forEach((item) => {
+            listExcel.push({ ...item });
+        });
+        await Excel.exportExcel([...listExcel], 'Danh sách', 'Danh sách');
+    };
+
     const array = [
         {
-            id: 0,
+            id: '',
             name: 'Tất cả',
         },
         {
-            id: 1,
+            id: 0,
             name: 'Chờ xác nhận',
         },
         {
-            id: 2,
+            id: 1,
             name: 'Đang chuẩn bị hàng',
         },
         {
-            id: 3,
+            id: 2,
             name: 'Đang giao',
         },
         {
-            id: 4,
+            id: 3,
             name: 'Đã giao',
         },
         {
-            id: 5,
+            id: 4,
             name: 'Đã hủy',
         },
     ];
@@ -40,9 +72,9 @@ function Order() {
         <div className={styles.wrapper}>
             <Wrapper title="Quản lý đơn hàng" detail="Danh sách đơn hàng">
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Select width="300px" array={array} />
+                    <Select onChange={(e) => setStatus(e.target.value)} width="300px" array={array} />
                     <div>
-                        <ExcelButton />
+                        <ExcelButton onClick={handleExportFile} />
                     </div>
                 </div>
                 <table
@@ -61,24 +93,36 @@ function Order() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>
-                                <Link to="/admin/order/view-order" style={{ color: 'orange', cursor: 'pointer' }}>
-                                    <Icon path={mdiDeveloperBoard} size={2} />
-                                </Link>
-                            </td>
-                        </tr>
+                        {orders &&
+                            orders.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.username}</td>
+                                    <td>{item.phone}</td>
+                                    <td>{item.createdTime}</td>
+                                    <td>{item.shippingName}</td>
+                                    <td>
+                                        {(item.status === 0 && 'Chờ xác nhận') ||
+                                            (item.status === 1 && 'Đang chuẩn bị hàng') ||
+                                            (item.status === 2 && 'Đang giao hàng') ||
+                                            (item.status === 3 && 'Đã nhận hàng') ||
+                                            (item.status === 4 && 'Đã hủy đơn')}
+                                    </td>
+                                    <td>{item.shipperName}</td>
+                                    <td>
+                                        <Link
+                                            to={'/admin/order/view-order/' + item.id}
+                                            style={{ color: 'orange', cursor: 'pointer' }}
+                                        >
+                                            <Icon path={mdiDeveloperBoard} size={2} />
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div style={{ width: '100%' }}>
-                    <Pagination />
+                    <Pagination page={page} setPage={setPage} totalPage={totalPage} />
                 </div>
             </Wrapper>
         </div>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import vi from '../../../../assets/images/vi.svg';
 import styles from './Head.module.scss';
-import { isLogin, logout } from '../../../../utils/localstorage';
+import { getUser, isLogin, logout } from '../../../../utils/localstorage';
 
 function Head() {
     return (
@@ -26,7 +26,7 @@ function Head() {
                 ) : (
                     <>
                         <Link to="/user/account" className={styles.info}>
-                            {JSON.parse(localStorage.getItem('user')).name}
+                            {getUser().name}
                         </Link>
                         <div onClick={logout} className={styles.info}>
                             ĐĂNG XUẤT

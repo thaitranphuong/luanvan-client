@@ -10,6 +10,10 @@ export const getUser = () => {
     return false;
 };
 
+export const setUser = (user) => {
+    localStorage.setItem('user', JSON.stringify(user));
+};
+
 export const isLogin = () => {
     if (!!getToken()) {
         return true;

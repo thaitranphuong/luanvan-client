@@ -57,6 +57,8 @@
                             top: 0;
                             margin: auto;
                             width: 40px;
+                            height: 40px;
+                            object-fit: cover;
                             border-radius: 50%;
                         }
                     }
@@ -90,6 +92,12 @@
                             .last_message {
                                 font-size: 1.3rem;
                                 color: #828282;
+                                line-height: 20px;
+                                overflow: hidden;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 1;
+                                display: -webkit-box;
+
                             }
     
                             .unseen_message {
@@ -139,6 +147,7 @@
                         width: 40px;
                         height: 40px;
                         border-radius: 50%;
+                        object-fit: cover;
                     }
         
                     .message_block {
@@ -148,6 +157,7 @@
                         box-shadow: 0 1px 5px #ccc;
                         margin: 0 6px;
                         min-width: 150px;
+                        max-width: 400px;
     
                         .message_name {
                             color: #969696;

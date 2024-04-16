@@ -60,16 +60,33 @@
                         color: #a7a9ae;
                     }
                 }
-        
-        
-                .item_btn {
-                    width: 80px;
-                    height: 30px;
-                    border: 1px solid var(--primary-color);
-                    color: var(--primary-color);
-                    background-color: #fff;
-                    cursor: pointer;
+                
+                .btn {
+                    display: flex;
+                    flex-direction: column;
+
+                    .item_btn {
+                        width: 80px;
+                        height: 30px;
+                        border: 1px solid var(--primary-color);
+                        color: var(--primary-color);
+                        background-color: #fff;
+                        cursor: pointer;
+                        margin-bottom: 10px;
+                    }
+
+                    .item_btn_remove {
+                        width: 80px;
+                        height: 30px;
+                        border: 1px solid red;
+                        color: red;
+                        background-color: #fff;
+                        cursor: pointer;
+                        margin-bottom: 10px;
+                    }
                 }
+        
+        
             }
             
     

@@ -7,7 +7,7 @@ import SockJS from 'sockjs-client';
 
 import Wrapper from '../../../Layout/AdminLayout/Wrapper';
 import styles from './Message.module.scss';
-import { getToken } from '../../../utils/localstorage';
+import { getToken, getUser } from '../../../utils/localstorage';
 import { config } from '../../../utils/config';
 
 var stompClient = null;
@@ -19,12 +19,13 @@ function Message() {
     let [listAdmins, setListAdmins] = useState([]);
     const [tab, setTab] = useState(1);
     const [userData, setUserData] = useState({
-        userId: JSON.parse(localStorage.getItem('user')).id,
-        userName: JSON.parse(localStorage.getItem('user')).name,
+        userId: getUser().id,
+        userName: getUser().name,
         receiverId: '',
         connected: false,
         message: '',
-        role: JSON.parse(localStorage.getItem('user')).role,
+        avatar: getUser().avatar,
+        role: getUser().role,
     });
 
     useEffect(() => {
@@ -71,17 +72,10 @@ function Message() {
                             .then((res) => res.json())
                             .then((res) => {
                                 res.forEach((item) => {
-                                    var dateObject = new Date(item.createdTime);
-
-                                    var day = dateObject.getDate();
-                                    var month = dateObject.getMonth() + 1;
-                                    var year = dateObject.getFullYear();
-
-                                    var formattedDate = day + '/' + month + '/' + year;
                                     const chatMessage = {
                                         content: item.content,
                                         isRead: item.isRead,
-                                        createdTime: formattedDate,
+                                        createdTime: item.createdTime,
                                         senderId: item.senderId,
                                         receiverId: item.receiverId,
                                         senderName: item.senderName,
@@ -119,30 +113,35 @@ function Message() {
     };
 
     const sendPrivateValue = () => {
-        if (stompClient) {
-            var currentTime = new Date();
+        if (userData.message)
+            if (stompClient) {
+                var currentTime = new Date();
+                var day = currentTime.getDate();
+                var month = currentTime.getMonth() + 1;
+                var year = currentTime.getFullYear();
+                var hour = currentTime.getHours() <= 12 ? currentTime.getHours() : '0' + (currentTime.getHours() - 12);
+                var minute = currentTime.getMinutes();
+                var second = currentTime.getSeconds();
+                var formattedDate = hour + ':' + minute + ':' + second + ' ' + day + '/' + month + '/' + year;
 
-            var day = currentTime.getDate();
-            var month = currentTime.getMonth() + 1;
-            var year = currentTime.getFullYear();
-            var formattedDate = day + '/' + month + '/' + year;
-            var chatMessage = {
-                senderId: userData.userId,
-                receiverId: tab,
-                content: userData.message,
-                isRead: false,
-                createdTime: formattedDate,
-                senderName: userData.userName,
-            };
+                var chatMessage = {
+                    senderId: userData.userId,
+                    receiverId: tab,
+                    content: userData.message,
+                    isRead: false,
+                    createdTime: formattedDate,
+                    senderName: userData.userName,
+                    avatar: userData.avatar,
+                };
 
-            if (userData.userId !== tab) {
-                privateChats.get(tab).push({ ...chatMessage });
-                setPrivateChats(new Map(privateChats));
-                delete chatMessage.createdTime;
+                if (userData.userId !== tab) {
+                    privateChats.get(tab).push({ ...chatMessage });
+                    setPrivateChats(new Map(privateChats));
+                    chatMessage.createdTime = new Date();
+                }
+                stompClient.send('/app/private-message', {}, JSON.stringify(chatMessage));
+                setUserData({ ...userData, message: '' });
             }
-            stompClient.send('/app/private-message', {}, JSON.stringify(chatMessage));
-            setUserData({ ...userData, message: '' });
-        }
     };
 
     return (
@@ -196,7 +195,7 @@ function Message() {
                     <div className={styles.right}>
                         <div ref={ref} className={styles.message_container}>
                             {!!privateChats.get(tab) &&
-                                privateChats.get(tab).map((item, index) => (
+                                privateChats.get(tab).map((item) => (
                                     <div
                                         className={clsx(styles.message_item, {
                                             [styles.message_item_seft]: userData.userId === item.senderId,

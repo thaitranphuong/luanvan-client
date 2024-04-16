@@ -111,7 +111,7 @@ if (getToken()) {
             { path: '/admin/import/edit-import/:id', component: EditImport, layout: AdminLayout },
             { path: '/admin/message', component: AdminMessage, layout: AdminLayout },
             { path: '/admin/order', component: AdminOrder, layout: AdminLayout },
-            { path: '/admin/order/view-order', component: ViewOrder, layout: AdminLayout },
+            { path: '/admin/order/view-order/:id', component: ViewOrder, layout: AdminLayout },
             { path: '/admin/product', component: AdminProduct, layout: AdminLayout },
             { path: '/admin/product/add-product', component: AddProduct, layout: AdminLayout },
             { path: '/admin/product/edit-product/:id', component: EditProduct, layout: AdminLayout },
