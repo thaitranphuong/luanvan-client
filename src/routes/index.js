@@ -140,7 +140,7 @@ if (getToken()) {
     if (JSON.parse(localStorage.getItem('user')).role === 'customer') {
         privateRoute.push(
             { path: '/message', component: Message },
-            { path: '/cart', component: Cart },
+            { path: '/cart', component: Cart, layout: null },
             { path: '/order', component: Order, layout: null },
             { path: '/payment', component: VNPay, layout: null },
             { path: '/otp', component: OTP },
@@ -151,7 +151,6 @@ if (getToken()) {
             { path: '/user/purchase', component: Purchase },
             { path: '/user/purchase', component: Purchase },
             { path: '/user/notification', component: Notification },
-            //{ path: '/auth/account/:id', component: Account }, //sử dụng useParams của react router dom để lấy id
         );
     }
 }

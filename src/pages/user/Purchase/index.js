@@ -103,8 +103,10 @@ function Purchase() {
                                                 (item.status === 1 && 'Đang chuẩn bị hàng') ||
                                                 (item.status === 2 && 'Đang giao hàng') ||
                                                 (item.status === 3 && 'Đã nhận hàng') ||
-                                                (item.status === 4 && 'Đã hủy đơn')}{' '}
-                                            | {item.payment === 'COD' ? 'Chưa thanh toán' : 'Đã thanh toán'}
+                                                (item.status === 4 && 'Đã hủy đơn')}
+                                            {item.status !== 3 &&
+                                                item.status !== 4 &&
+                                                ' | ' + (item.payment === 'COD' ? 'Chưa thanh toán' : 'Đã thanh toán')}
                                         </div>
                                     </div>
                                     <div className={styles.item_top_body}>

@@ -131,7 +131,6 @@ function ProductDetail() {
     const handleAddToCart = () => {
         if (!!size && cartItem.quantity > 0) {
             dispatch(addToCart(cartItem));
-            alert('Thêm vào giỏ hàng thành công');
         }
     };
 

@@ -38,8 +38,9 @@ function Cart() {
         dispatch(voucherSlice.actions.addVoucher({}));
     }, []);
 
-    const handleDeleteCartItem = (id) => {
-        dispatch(deleteFromCart(id));
+    const handleDeleteCartItem = (cartItem) => {
+        dispatch(cartSlice.actions.removeCheckoutProduct(cartItem));
+        dispatch(deleteFromCart(cartItem.id));
     };
 
     const handleChangeQuantity = (cartItem, quantity) => {
@@ -51,8 +52,7 @@ function Cart() {
         if (quantity < 0) return;
         const temp = { ...cartItem, quantity: quantity };
         dispatch(changeCartQuantity(temp));
-        dispatch(cartSlice.actions.removeCheckoutProduct(cartItem));
-        dispatch(cartSlice.actions.addCheckoutProduct(cartItem));
+        dispatch(cartSlice.actions.changeCheckoutProduct(temp));
     };
 
     const handleOrder = () => {
@@ -127,7 +127,7 @@ function Cart() {
                                         ₫{Math.round(item.productPrice * item.quantity).toLocaleString('vi-VN')}
                                     </div>
                                     <Icon
-                                        onClick={() => handleDeleteCartItem(item.id)}
+                                        onClick={() => handleDeleteCartItem(item)}
                                         className={styles.product_remove}
                                         path={mdiTrashCanOutline}
                                         size={1.5}

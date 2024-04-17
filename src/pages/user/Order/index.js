@@ -14,6 +14,7 @@ import api from '../../../utils/api';
 import shippingSlice from '../../../redux/slice/ShippingSlice';
 import { getUser } from '../../../utils/localstorage';
 import { useNavigate } from 'react-router-dom';
+import { getCart } from '../../../redux/slice/CartSlice';
 
 function Order() {
     const [modalAddress, setModalAddress] = useState(false);
@@ -127,14 +128,15 @@ function Order() {
                 await api.postRequest('/order-item', {
                     name: item.productName,
                     image: item.productImage,
-                    quantity: item.productQuantity,
+                    quantity: item.quantity,
                     price: item.productPrice,
                     color: item.productColor,
                     size: item.productSize,
                     orderId: result.data,
+                    cartItemId: item.id,
                 });
             });
-            navigate('/user/purchase');
+            window.location.pathname = '/user/purchase';
         }
     };
 
