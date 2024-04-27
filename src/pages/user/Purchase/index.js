@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
 import { getUser } from '../../../utils/localstorage';
 import { config } from '../../../utils/config';
+import { notify } from '../../../utils/notify';
 
 function Purchase() {
     const [orders, setOrders] = useState([]);
@@ -18,19 +19,34 @@ function Purchase() {
     };
 
     useEffect(() => {
+        setTimeout(() => {
+            if (localStorage.getItem('orderStatus')) {
+                notify('Đặt hàng thành công');
+                localStorage.removeItem('orderStatus');
+            }
+        }, 500);
+    }, []);
+
+    useEffect(() => {
         getOrders();
     }, [status]);
 
     const handleAbortOrder = async (index) => {
         const orderItem = { ...orders[index], status: 4 };
         const result = await api.putRequest('/order', orderItem);
-        if (result && result.statusCode === 200) getOrders();
+        if (result && result.statusCode === 200) {
+            getOrders();
+            notify('Đã hủy đơn hàng');
+        }
     };
 
     const handleFulfillOrder = async (index) => {
         const orderItem = { ...orders[index], status: 3 };
         const result = await api.putRequest('/order', orderItem);
-        if (result && result.statusCode === 200) getOrders();
+        if (result && result.statusCode === 200) {
+            getOrders();
+            notify('Xác nhận nhận hàng thành công');
+        }
     };
 
     return (

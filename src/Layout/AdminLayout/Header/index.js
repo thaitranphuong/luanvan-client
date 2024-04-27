@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { useState } from 'react';
 import avatar from '../../../assets/images/avatar.png';
-import { getUser } from '../../../utils/localstorage';
+import { getUser, logout } from '../../../utils/localstorage';
 import { config } from '../../../utils/config';
 
 function Header({ showNav, setShowNav }) {
@@ -37,7 +37,7 @@ function Header({ showNav, setShowNav }) {
                                 Đổi mật khẩu
                             </Link>
                         </div>
-                        <div className={styles.window_bottom}>
+                        <div onClick={logout} className={styles.window_bottom}>
                             <div className={styles.window_item}>
                                 <Icon style={{ color: '#b9b9b9', marginRight: '15px' }} path={mdiLogout} size={1.7} />
                                 Đăng xuất

@@ -4,9 +4,13 @@ import Input from '../../../components/Input';
 import SaveButton from '../../../components/SaveButton';
 import { useState } from 'react';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddSupplier() {
     const [supplier, setSupplier] = useState({});
+
+    const navigate = useNavigate();
 
     const handleOnchange = (e) => {
         setSupplier({ ...supplier, [e.target.name]: e.target.value });
@@ -14,10 +18,11 @@ function AddSupplier() {
 
     const handleSave = async () => {
         const result = await api.postRequest('/supplier', supplier);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/supplier');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

@@ -8,6 +8,8 @@ import { mdiTrashCan } from '@mdi/js';
 import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
 import { getUser } from '../../../utils/localstorage';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddImport() {
     const [suppliers, setSuppliers] = useState([]);
@@ -30,6 +32,8 @@ function AddImport() {
         productlSize: '',
     });
     const [importDetailNames, setImportDetailNames] = useState([]);
+
+    const navigate = useNavigate();
 
     const getSuppliers = async () => {
         let result = await api.getRequest(`/supplier/get-all`);
@@ -121,10 +125,11 @@ function AddImport() {
     const handleSave = async () => {
         _import.importDetails = [...importDetails];
         const result = await api.postRequest('/import', _import);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/import');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

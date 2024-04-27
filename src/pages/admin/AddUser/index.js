@@ -5,9 +5,13 @@ import SaveButton from '../../../components/SaveButton';
 import Select from '../../../components/Select';
 import styles from './AddUser.module.scss';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddUser() {
     const [user, setUser] = useState({ name: '', code: '' });
+
+    const navigate = useNavigate();
 
     const handleOnchange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -15,10 +19,11 @@ function AddUser() {
 
     const handleSave = async () => {
         const result = await api.postRequest('/user', user);
-        if (result.statusCode === 200 && result.data.id !== null) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200 && result.data.id !== null) {
+            notify('Lưu thành công');
+            navigate('/admin/user');
         } else {
-            alert('Email da ton tai');
+            notifyError('Lưu không thành công');
         }
     };
 

@@ -5,6 +5,7 @@ import styles from './Account.module.scss';
 import api from '../../../utils/api';
 import { getUser, setUser } from '../../../utils/localstorage';
 import { config } from '../../../utils/config';
+import { notify } from '../../../utils/notify';
 
 function Account() {
     const [user, setCurrentUser] = useState({});
@@ -53,7 +54,7 @@ function Account() {
             formData.append('image', image);
             result = await api.uploadFileRequest('/uploadimage/users', formData);
             if (result && result.statusCode === 200) {
-                alert('Luu thanh cong');
+                notify('Cập nhật tài khoản thành công');
                 result = await api.getRequest('/user/' + getUser().id);
                 if (result && result.statusCode === 200) setUser(result.data);
             }

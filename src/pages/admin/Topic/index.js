@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
 import Excel from '../../../components/Excel';
+import { notify, notifyError } from '../../../utils/notify';
 
 function Topic() {
     const [topics, setTopics] = useState([]);
@@ -35,11 +36,11 @@ function Topic() {
 
     const handleDelete = async (id) => {
         let result = await api.deleteRequest(`/topic/${id}`);
-        if (result.statusCode === 200) {
+        if (result && result.statusCode === 200) {
             render();
-            alert('OK');
+            notify('Xóa thành công');
         } else {
-            alert('Loi');
+            notifyError('Xóa không thành công');
         }
     };
 
@@ -91,7 +92,10 @@ function Topic() {
                                         >
                                             <Icon path={mdiPen} size={1.5} />
                                         </Link>
-                                        <span style={{ color: 'red', cursor: 'pointer' }}>
+                                        <span
+                                            onClick={() => handleDelete(item.id)}
+                                            style={{ color: 'red', cursor: 'pointer' }}
+                                        >
                                             <Icon path={mdiTrashCan} size={1.5} />
                                         </span>
                                     </td>

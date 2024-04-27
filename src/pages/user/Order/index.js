@@ -14,7 +14,6 @@ import api from '../../../utils/api';
 import shippingSlice from '../../../redux/slice/ShippingSlice';
 import { getUser } from '../../../utils/localstorage';
 import { useNavigate } from 'react-router-dom';
-import { getCart } from '../../../redux/slice/CartSlice';
 
 function Order() {
     const [modalAddress, setModalAddress] = useState(false);
@@ -26,12 +25,11 @@ function Order() {
     const [payment, setPayment] = useState();
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const voucher = useSelector(voucherSelector);
     const checkoutProducts = useSelector(checkoutSelector);
     const shipping = useSelector(shippingSelector);
-
-    const navigate = useNavigate();
 
     const total = useMemo(
         () =>
@@ -112,7 +110,7 @@ function Order() {
     }, []);
 
     const handleCheckout = async () => {
-        const result = await api.postRequest('/order', {
+        const order = {
             note: note,
             payment: payment,
             status: 0,
@@ -122,21 +120,29 @@ function Order() {
             voucherId: voucher.id,
             discountVoucher: discountVoucher,
             total: total,
-        });
-        if (result && result.statusCode === 200) {
-            checkoutProducts.forEach(async (item) => {
-                await api.postRequest('/order-item', {
-                    name: item.productName,
-                    image: item.productImage,
-                    quantity: item.quantity,
-                    price: item.productPrice,
-                    color: item.productColor,
-                    size: item.productSize,
-                    orderId: result.data,
-                    cartItemId: item.id,
+        };
+        if (payment === 'COD') {
+            const result = await api.postRequest('/order', order);
+            if (result && result.statusCode === 200) {
+                checkoutProducts.forEach(async (item) => {
+                    await api.postRequest('/order-item', {
+                        name: item.productName,
+                        image: item.productImage,
+                        quantity: item.quantity,
+                        price: item.productPrice,
+                        color: item.productColor,
+                        size: item.productSize,
+                        orderId: result.data,
+                        cartItemId: item.id,
+                    });
                 });
-            });
-            window.location.pathname = '/user/purchase';
+                localStorage.setItem('orderStatus', true);
+                window.location.pathname = '/user/purchase';
+            }
+        } else if (payment === 'VNPAY') {
+            localStorage.setItem('order', JSON.stringify(order));
+            localStorage.setItem('checkoutProducts', JSON.stringify(checkoutProducts));
+            navigate('/payment-vnpay');
         }
     };
 

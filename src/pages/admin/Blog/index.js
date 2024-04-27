@@ -13,6 +13,7 @@ import { config } from '../../../utils/config';
 import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
 import Excel from '../../../components/Excel';
+import { notify, notifyError } from '../../../utils/notify';
 
 function Blog() {
     const [blogs, setBlogs] = useState([]);
@@ -37,11 +38,11 @@ function Blog() {
 
     const handleDelete = async (id) => {
         let result = await api.deleteRequest(`/blog/${id}`);
-        if (result.statusCode === 200) {
+        if (result && result.statusCode === 200) {
             render();
-            alert('OK');
+            notify('Xóa thành công');
         } else {
-            alert('Loi');
+            notifyError('Xóa không thành công');
         }
     };
 

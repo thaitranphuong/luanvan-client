@@ -11,6 +11,7 @@ import AddButton from '../../../components/AddButton';
 import styles from './Category.module.scss';
 import api from '../../../utils/api';
 import Excel from '../../../components/Excel';
+import { notify, notifyError } from '../../../utils/notify';
 
 function Category() {
     const [categories, setCategories] = useState([]);
@@ -35,11 +36,11 @@ function Category() {
 
     const handleDelete = async (id) => {
         let result = await api.deleteRequest(`/category/${id}`);
-        if (result.statusCode === 200) {
+        if (result && result.statusCode === 200) {
             render();
-            alert('OK');
+            notify('Xóa thành công');
         } else {
-            alert('Loi');
+            notifyError('Xóa không thành công');
         }
     };
 

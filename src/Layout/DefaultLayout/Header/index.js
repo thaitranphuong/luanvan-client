@@ -84,12 +84,12 @@ function Header() {
                     </Link>
                 </div>
                 <div className={styles.icon}>
-                    <Link to="/message" className={styles.icon_item}>
+                    <a href="/message" className={styles.icon_item}>
                         <div className={styles.message}>
                             <Icon path={mdiMessageText} size={1.4} />
                             <div className={styles.message_amount}>0</div>
                         </div>
-                    </Link>
+                    </a>
                     <Link to="/cart" className={styles.icon_item}>
                         <div className={styles.cart}>
                             <Icon path={mdiCartVariant} size={1.5} />

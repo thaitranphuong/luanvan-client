@@ -5,9 +5,13 @@ import Wrapper from '../../../Layout/AdminLayout/Wrapper';
 import Input from '../../../components/Input';
 import SaveButton from '../../../components/SaveButton';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddCategory() {
     const [category, setCategory] = useState({ name: '', code: '' });
+
+    const navigate = useNavigate();
 
     const handleOnchange = (e) => {
         setCategory({ ...category, [e.target.name]: e.target.value });
@@ -15,10 +19,11 @@ function AddCategory() {
 
     const handleSave = async () => {
         const result = await api.postRequest('/category', category);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/category');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

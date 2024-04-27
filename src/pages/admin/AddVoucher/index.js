@@ -5,9 +5,13 @@ import SaveButton from '../../../components/SaveButton';
 import Select from '../../../components/Select';
 import { useState } from 'react';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddVoucher() {
     const [voucher, setVoucher] = useState();
+
+    const navigate = useNavigate();
 
     const handleOnchange = (e) => {
         setVoucher({ ...voucher, [e.target.name]: e.target.value });
@@ -15,10 +19,11 @@ function AddVoucher() {
 
     const handleSave = async () => {
         const result = await api.postRequest('/voucher', voucher);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/voucher');
         } else {
-            alert('Ma voucher da ton tai');
+            notifyError('Mã voucher đã tồn tại');
         }
     };
 

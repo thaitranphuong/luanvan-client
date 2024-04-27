@@ -4,9 +4,13 @@ import Input from '../../../components/Input';
 import SaveButton from '../../../components/SaveButton';
 import api from '../../../utils/api';
 import { useState } from 'react';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddTopic() {
     const [topic, setTopic] = useState({ name: '', code: '' });
+
+    const navigate = useNavigate();
 
     const handleOnchange = (e) => {
         setTopic({ ...topic, [e.target.name]: e.target.value });
@@ -14,10 +18,11 @@ function AddTopic() {
 
     const handleSave = async () => {
         const result = await api.postRequest('/topic', topic);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/topic');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

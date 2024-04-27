@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
 import Excel from '../../../components/Excel';
+import { notify, notifyError } from '../../../utils/notify';
 
 function Supplier() {
     const [suppliers, setSuppliers] = useState([]);
@@ -35,11 +36,11 @@ function Supplier() {
 
     const handleDelete = async (id) => {
         let result = await api.deleteRequest(`/supplier/${id}`);
-        if (result.statusCode === 200) {
+        if (result && result.statusCode === 200) {
             render();
-            alert('OK');
+            notify('Xóa thành công');
         } else {
-            alert('Loi');
+            notifyError('Xóa không thành công');
         }
     };
 

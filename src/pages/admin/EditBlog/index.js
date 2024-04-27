@@ -11,12 +11,15 @@ import Editor from '../../../components/Editor';
 import { config } from '../../../utils/config';
 import { useParams } from 'react-router-dom';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function EditBlog() {
     const [blog, setBlog] = useState({});
     const [image, setImage] = useState(null);
     const [topics, setTopics] = useState([]);
 
+    const navigate = useNavigate();
     const id = useParams().id;
 
     const getTopics = async () => {
@@ -57,10 +60,11 @@ function EditBlog() {
             await api.uploadFileRequest('/uploadimage/blogs', formData);
         }
         const result = await api.putRequest('/blog', blog);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/blog');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
     return (

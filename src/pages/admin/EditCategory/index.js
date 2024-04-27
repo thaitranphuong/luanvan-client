@@ -4,11 +4,13 @@ import Input from '../../../components/Input';
 import SaveButton from '../../../components/SaveButton';
 import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { notify, notifyError } from '../../../utils/notify';
 
 function EditCategory() {
     const [category, setCategory] = useState({});
 
+    const navigate = useNavigate();
     const id = useParams().id;
 
     const render = async () => {
@@ -29,10 +31,11 @@ function EditCategory() {
 
     const handleSubmit = async () => {
         const result = await api.putRequest('/category', category);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/category');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

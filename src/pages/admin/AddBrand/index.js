@@ -4,9 +4,13 @@ import Input from '../../../components/Input';
 import SaveButton from '../../../components/SaveButton';
 import { useState } from 'react';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddBrand() {
     const [brand, setBrand] = useState({ name: '', code: '' });
+
+    const navigate = useNavigate();
 
     const handleOnchange = (e) => {
         setBrand({ ...brand, [e.target.name]: e.target.value });
@@ -14,10 +18,11 @@ function AddBrand() {
 
     const handleSave = async () => {
         const result = await api.postRequest('/brand', brand);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/brand');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

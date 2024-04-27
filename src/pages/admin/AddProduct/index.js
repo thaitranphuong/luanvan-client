@@ -12,6 +12,8 @@ import Select from '../../../components/Select';
 import Editor from '../../../components/Editor';
 import AddProductModal from '../../../components/Modal/AddProductModal';
 import api from '../../../utils/api';
+import { notify } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddProduct() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -42,6 +44,8 @@ function AddProduct() {
     const [listProductDetailImage, setListProductDetailImage] = useState([]);
     const [listProductDetailSize, setListProductDetailSize] = useState([]);
     const [editIndex, setEditIndex] = useState(null);
+
+    const navigate = useNavigate();
 
     const getCategories = async () => {
         let result = await api.getRequest(`/category/get-all`);
@@ -116,7 +120,8 @@ function AddProduct() {
                     });
                 }
             });
-            alert('Thanh cong');
+            notify('Lưu thành công');
+            navigate('/admin/product');
         }
     };
 

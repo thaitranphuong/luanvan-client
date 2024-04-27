@@ -11,13 +11,13 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
 import Excel from '../../../components/Excel';
+import { notify, notifyError } from '../../../utils/notify';
 
 function User() {
     const [users, setUsers] = useState([]);
     const [totalPage, setTotalpage] = useState(1);
     const [page, setPage] = useState(1);
     const [name, setName] = useState('');
-    console.log(users);
 
     const render = async () => {
         let result = await api.getRequest(`/user?page=${page}&limit=5&name=${name}`);
@@ -37,13 +37,23 @@ function User() {
     const handleHide = async (index) => {
         const user = { ...users[index], enabled: false };
         const result = await api.putRequest('/user', user);
-        render();
+        if (result && result.statusCode === 200) {
+            render();
+            notify('Vô hiệu hóa tài khoản thành công');
+        } else {
+            alert('Vô hiệu hóa tài khoản không thành công');
+        }
     };
 
     const handleShow = async (index) => {
         const user = { ...users[index], enabled: true };
         const result = await api.putRequest('/user', user);
-        render();
+        if (result && result.statusCode === 200) {
+            render();
+            notify('Khôi phục tài khoản thành công');
+        } else {
+            notifyError('Khôi phục tài khoản không thành công');
+        }
     };
 
     const handleExportFile = async () => {

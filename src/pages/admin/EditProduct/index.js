@@ -13,6 +13,8 @@ import Editor from '../../../components/Editor';
 import AddProductModal from '../../../components/Modal/AddProductModal';
 import api from '../../../utils/api';
 import { useParams } from 'react-router-dom';
+import { notify } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function EditProduct() {
     const [imageUrl, setImageUrl] = useState();
@@ -45,6 +47,7 @@ function EditProduct() {
     const [editIndex, setEditIndex] = useState(null);
     const [listRemovedProductDetail, setListRemovedProductDetail] = useState([]);
 
+    const navigate = useNavigate();
     const id = useParams().id;
 
     const render = async () => {
@@ -162,6 +165,8 @@ function EditProduct() {
             }
         });
         await api.postRequest('/product-detail/delete-batch', listRemovedProductDetail);
+        notify('Lưu thành công');
+        navigate('/admin/product');
     };
 
     return (

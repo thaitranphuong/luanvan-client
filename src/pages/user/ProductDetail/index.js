@@ -14,9 +14,11 @@ import { getUser } from '../../../utils/localstorage';
 import Pagination from '../../../components/Pagination';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../redux/slice/CartSlice';
+import { notify, notifyError } from '../../../utils/notify';
 
 function ProductDetail() {
     const [product, setProduct] = useState({ thumbnail: '', star: 1 });
+    const [price, setPrice] = useState();
     const [colorId, setColorId] = useState();
     const [size, setSize] = useState();
     const [sizes, setSizes] = useState([]);
@@ -104,8 +106,9 @@ function ProductDetail() {
         }
     };
 
-    const handleChooseColor = (colorId, index) => {
-        setColorId(colorId);
+    const handleChooseColor = (color, index) => {
+        setColorId(color.id);
+        setPrice(color.price);
         setSize();
         setCartItem({ ...cartItem, productId: null });
         setSizes(product.listProductDetail[index].listProductDetailSizes);
@@ -121,7 +124,7 @@ function ProductDetail() {
     const handleChangeQuantity = (quantity) => {
         quantity = parseInt(quantity);
         if (quantity > size.quantity) {
-            alert('Số lượng sản phẩm lớn hơn sản phẩm có sẵn');
+            notifyError('Số lượng sản phẩm lớn hơn sản phẩm có sẵn');
             quantity = size.quantity;
         }
         if (quantity < 0) return;
@@ -131,6 +134,9 @@ function ProductDetail() {
     const handleAddToCart = () => {
         if (!!size && cartItem.quantity > 0) {
             dispatch(addToCart(cartItem));
+            notify('Thêm vào giỏ hàng thành công', 'top-center');
+        } else {
+            notifyError('Chưa kích thước chọn sản phẩm');
         }
     };
 
@@ -252,13 +258,16 @@ function ProductDetail() {
                         <div className={styles.product_right_price}>
                             <div className={styles.product_right_price_new}>
                                 ₫
-                                {product &&
-                                    Math.round(
-                                        product.showedPrice - (product.showedPrice * product.percentDiscount) / 100,
-                                    ).toLocaleString('vi-VN')}
+                                {Math.round(
+                                    price
+                                        ? (price * (100 - product.percentDiscount)) / 100
+                                        : product &&
+                                              product.showedPrice -
+                                                  (product.showedPrice * product.percentDiscount) / 100,
+                                ).toLocaleString('vi-VN')}
                             </div>
                             <div className={styles.product_right_price_old}>
-                                ₫{product && Math.round(product.showedPrice).toLocaleString('vi-VN')}
+                                ₫{Math.round(price ? price : product && product.showedPrice).toLocaleString('vi-VN')}
                             </div>
                             <div className={styles.product_right_price_discount}>
                                 {product && product.percentDiscount}% GIẢM
@@ -275,7 +284,7 @@ function ProductDetail() {
                                     product.listProductDetail.map((item, index) => (
                                         <div
                                             key={item.id}
-                                            onClick={() => handleChooseColor(item.id, index)}
+                                            onClick={() => handleChooseColor(item, index)}
                                             className={clsx(styles.product_right_color_item, {
                                                 [styles.active]: colorId === item.id,
                                             })}

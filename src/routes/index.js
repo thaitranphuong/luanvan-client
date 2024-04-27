@@ -64,6 +64,7 @@ import ViewOrder from '../pages/admin/ViewOrder';
 import InStock from '../pages/admin/InStock';
 
 import { getToken } from '../utils/localstorage';
+import VNPayResult from '../pages/user/VNPayResult';
 
 const publicRoute = [
     { path: '/', component: Home },
@@ -79,12 +80,16 @@ const publicRoute = [
 const privateRoute = [];
 
 if (getToken()) {
-    if (JSON.parse(localStorage.getItem('user')).role === 'admin') {
+    if (
+        JSON.parse(localStorage.getItem('user')).role === 'admin' ||
+        JSON.parse(localStorage.getItem('user')).role === 'saler'
+    ) {
         privateRoute.push(
             { path: '/message', component: Message },
             { path: '/cart', component: Cart },
             { path: '/order', component: Order, layout: null },
-            { path: '/payment', component: VNPay, layout: null },
+            { path: '/payment-vnpay', component: VNPay, layout: null },
+            { path: '/payment-vnpay/result', component: VNPayResult, layout: null },
             { path: '/otp', component: OTP },
             { path: '/user/account', component: Account },
             { path: '/user/address', component: Address },
@@ -142,13 +147,13 @@ if (getToken()) {
             { path: '/message', component: Message },
             { path: '/cart', component: Cart, layout: null },
             { path: '/order', component: Order, layout: null },
-            { path: '/payment', component: VNPay, layout: null },
+            { path: '/payment-vnpay', component: VNPay, layout: null },
+            { path: '/payment-vnpay/result', component: VNPayResult, layout: null },
             { path: '/otp', component: OTP },
             { path: '/user/account', component: Account },
             { path: '/user/address', component: Address },
             { path: '/user/change-password', component: ChangePassword },
             { path: '/user/voucher', component: VoucherWarehouse },
-            { path: '/user/purchase', component: Purchase },
             { path: '/user/purchase', component: Purchase },
             { path: '/user/notification', component: Notification },
         );

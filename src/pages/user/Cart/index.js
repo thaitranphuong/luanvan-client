@@ -14,6 +14,8 @@ import shippingSlice from '../../../redux/slice/ShippingSlice';
 import api from '../../../utils/api';
 import { useEffect } from 'react';
 import voucherSlice from '../../../redux/slice/VoucherSlice';
+import { notifyError } from '../../../utils/notify';
+import HeaderCustom from '../../../components/HeaderCustom';
 
 function Cart() {
     const [modal, setModal] = useState(false);
@@ -46,7 +48,7 @@ function Cart() {
     const handleChangeQuantity = (cartItem, quantity) => {
         quantity = parseInt(quantity);
         if (quantity > cartItem.productQuantity) {
-            alert('Số lượng sản phẩm lớn hơn sản phẩm có sẵn');
+            notifyError('Số lượng sản phẩm lớn hơn sản phẩm có sẵn');
             return;
         }
         if (quantity < 0) return;
@@ -56,12 +58,13 @@ function Cart() {
     };
 
     const handleOrder = () => {
-        if (checkoutProducts.length <= 0) alert('Chưa chọn sản phẩm');
-        else if (!shipping.cost) alert('Chưa chọn đơn vị vận chuyển');
+        if (checkoutProducts.length <= 0) notifyError('Chưa chọn sản phẩm');
+        else if (!shipping.cost) notifyError('Chưa chọn đơn vị vận chuyển');
         else navigate('/order');
     };
     return (
         <>
+            <HeaderCustom title={'Giỏ hàng'} />
             <div className={styles.wrapper}>
                 <div className={styles.head}>
                     <div className={styles.head_left}>

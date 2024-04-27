@@ -5,10 +5,13 @@ import SaveButton from '../../../components/SaveButton';
 import api from '../../../utils/api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function EditSupplier() {
     const [supplier, setSupplier] = useState({});
 
+    const navigate = useNavigate();
     const id = useParams().id;
 
     const render = async () => {
@@ -29,10 +32,11 @@ function EditSupplier() {
 
     const handleSubmit = async () => {
         const result = await api.putRequest('/supplier', supplier);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/supplier');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

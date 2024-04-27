@@ -10,11 +10,15 @@ import TextArea from '../../../components/TextArea';
 import Editor from '../../../components/Editor';
 import { getUser } from '../../../utils/localstorage';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddBlog() {
     const [blog, setBlog] = useState({ authorId: getUser().id });
     const [image, setImage] = useState(null);
     const [topics, setTopics] = useState([]);
+
+    const navigate = useNavigate();
 
     const getTopics = async () => {
         let result = await api.getRequest(`/topic/get-all`);
@@ -48,10 +52,11 @@ function AddBlog() {
         formData.append('blog', blob);
         formData.append('thumbnail', image);
         const result = await api.uploadFileRequest('/blog', formData);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/blog');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

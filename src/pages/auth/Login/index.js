@@ -6,6 +6,7 @@ import Footer from '../../../Layout/DefaultLayout/Footer';
 import styles from './Login.module.scss';
 import Api from '../../../utils/api';
 import { isLogin } from '../../../utils/localstorage';
+import { notify, notifyError } from '../../../utils/notify';
 
 function Login() {
     const [isLeft, setIsLeft] = useState();
@@ -100,7 +101,7 @@ function Login() {
         if (elementArray.every((target) => check(target))) {
             localStorage.clear();
             const result = await Api.postRequest('/auth/signup', userSignup);
-            if (result.data.id === null) alert('Tai khoan da ton tai');
+            if (result.data.id === null) notifyError('Email khoản đã tồn tại');
             else {
                 userLogin = {
                     email: userSignup.email,
@@ -119,10 +120,11 @@ function Login() {
         localStorage.clear();
         const result = await Api.postRequest('/auth/login', userLogin);
         if (!result) {
-            alert('loi');
+            notifyError('Đăng nhập không thành công');
         } else {
             localStorage.setItem('token', JSON.stringify(result.data.accessToken));
             localStorage.setItem('user', JSON.stringify(result.data.user));
+            notify('Đăng nhập thành công');
 
             if (result.data.user.role === 'admin' || result.data.user.role === 'saler')
                 window.location.pathname = '/admin';

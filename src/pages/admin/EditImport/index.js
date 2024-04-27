@@ -6,7 +6,6 @@ import api from '../../../utils/api';
 
 function EditImport() {
     const [_import, setImport] = useState({});
-
     const id = useParams().id;
 
     const render = async () => {

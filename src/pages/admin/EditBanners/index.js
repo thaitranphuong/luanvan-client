@@ -6,12 +6,14 @@ import { useEffect, useState } from 'react';
 import ImageModal from '../../../components/Modal/ImageModal';
 import { config } from '../../../utils/config';
 import api from '../../../utils/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { notify, notifyError } from '../../../utils/notify';
 
 function EditBanners() {
     const [banner, setBanner] = useState({});
     const [image, setImage] = useState(null);
 
+    const navigate = useNavigate();
     const id = useParams().id;
 
     const handleChangeFile = (e) => {
@@ -47,10 +49,11 @@ function EditBanners() {
             await api.uploadFileRequest('/uploadimage/banners', formData);
         }
         const result = await api.putRequest('/banner', banner);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/banners');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

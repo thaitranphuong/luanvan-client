@@ -6,10 +6,14 @@ import Input from '../../../components/Input';
 import SaveButton from '../../../components/SaveButton';
 import ImageModal from '../../../components/Modal/ImageModal';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function AddBanners() {
     const [banner, setBanner] = useState({ name: '', image: '' });
     const [image, setImage] = useState(null);
+
+    const navigate = useNavigate();
 
     const handleOnchange = (e) => {
         setBanner({ ...banner, [e.target.name]: e.target.value });
@@ -34,10 +38,11 @@ function AddBanners() {
         formData.append('banner', blob);
         formData.append('image', image);
         const result = await api.uploadFileRequest('/banner', formData);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/banners');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
 

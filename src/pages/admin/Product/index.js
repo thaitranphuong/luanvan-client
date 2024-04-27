@@ -13,6 +13,7 @@ import api from '../../../utils/api';
 import { useEffect, useState } from 'react';
 import Excel from '../../../components/Excel';
 import { config } from '../../../utils/config';
+import { notify, notifyError } from '../../../utils/notify';
 
 function Product() {
     const [products, setProducts] = useState([]);
@@ -47,13 +48,23 @@ function Product() {
     const handleHide = async (index) => {
         const product = { ...products[index], enabled: false };
         const result = await api.putRequest('/product', product);
-        render();
+        if (result && result.statusCode === 200) {
+            render();
+            notify('Ẩn sản phẩm thành công');
+        } else {
+            notifyError('Ẩn sản phẩm không thành công');
+        }
     };
 
     const handleShow = async (index) => {
         const product = { ...products[index], enabled: true };
         const result = await api.putRequest('/product', product);
-        render();
+        if (result && result.statusCode === 200) {
+            render();
+            notify('Hiện sản phẩm thành công');
+        } else {
+            notifyError('Hiện sản phẩm không thành công');
+        }
     };
 
     return (
@@ -81,7 +92,7 @@ function Product() {
                             <th>Danh mục</th>
                             <th>Thương hiệu</th>
                             <th>Đã bán</th>
-                            <th>Thao tác</th>
+                            <th style={{ minWidth: '100px' }}>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -6,10 +6,13 @@ import Select from '../../../components/Select';
 import styles from './EditUser.module.scss';
 import api from '../../../utils/api';
 import { useParams } from 'react-router-dom';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function EditUser() {
     const [user, setUser] = useState({});
 
+    const navigate = useNavigate();
     const id = useParams().id;
 
     const render = async () => {
@@ -30,10 +33,11 @@ function EditUser() {
 
     const handleSubmit = async () => {
         const result = await api.putRequest('/user', user);
-        if (result.statusCode === 200 && result.id !== null) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200 && result.id !== null) {
+            notify('Lưu thành công');
+            navigate('/admin/user');
         } else {
-            alert('Email da ton tai');
+            notifyError('Lưu không thành công');
         }
     };
     return (

@@ -7,6 +7,7 @@ import Pagination from '../../../components/Pagination';
 import { useEffect, useState } from 'react';
 import api from '../../../utils/api';
 import { getUser } from '../../../utils/localstorage';
+import { notify } from '../../../utils/notify';
 
 function Voucher() {
     const [vouchers, setVouchers] = useState([]);
@@ -27,7 +28,7 @@ function Voucher() {
     const handleSave = async (voucherId) => {
         let result = await api.postRequest(`/voucher/${getUser().id}/${voucherId}`);
         if (result.statusCode === 200) {
-            alert('OK');
+            notify('Lưu voucher thành công');
             render();
         }
     };

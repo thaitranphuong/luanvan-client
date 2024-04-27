@@ -5,10 +5,13 @@ import SaveButton from '../../../components/SaveButton';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../../utils/api';
+import { notify, notifyError } from '../../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
 function EditTopic() {
     const [topic, setTopic] = useState({});
 
+    const navigate = useNavigate();
     const id = useParams().id;
 
     const render = async () => {
@@ -29,10 +32,11 @@ function EditTopic() {
 
     const handleSubmit = async () => {
         const result = await api.putRequest('/topic', topic);
-        if (result.statusCode === 200) {
-            alert('Luu thanh cong');
+        if (result && result.statusCode === 200) {
+            notify('Lưu thành công');
+            navigate('/admin/topic');
         } else {
-            alert('Loi');
+            notifyError('Lưu không thành công');
         }
     };
     return (
