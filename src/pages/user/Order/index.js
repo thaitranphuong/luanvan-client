@@ -14,6 +14,7 @@ import api from '../../../utils/api';
 import shippingSlice from '../../../redux/slice/ShippingSlice';
 import { getUser } from '../../../utils/localstorage';
 import { useNavigate } from 'react-router-dom';
+import { notifyError } from '../../../utils/notify';
 
 function Order() {
     const [modalAddress, setModalAddress] = useState(false);
@@ -143,6 +144,8 @@ function Order() {
             localStorage.setItem('order', JSON.stringify(order));
             localStorage.setItem('checkoutProducts', JSON.stringify(checkoutProducts));
             navigate('/payment-vnpay');
+        } else {
+            notifyError('Chưa chọn phương thức thanh toán');
         }
     };
 
@@ -242,24 +245,27 @@ function Order() {
                 <div className={styles.payment}>
                     <div className={styles.payment_top}>
                         <div className={styles.payment_title}>Phương thức thanh toán</div>
-                        <div
-                            onClick={() => setPayment('COD')}
-                            className={clsx(styles.payment_option, { [styles.active]: payment === 'COD' })}
-                        >
-                            COD
+                        <div className={clsx(styles.payment_contain, { [styles.active]: payment === 'COD' })}>
+                            <div onClick={() => setPayment('COD')} className={styles.payment_option}>
+                                COD
+                            </div>
                         </div>
-                        <img
-                            onClick={() => setPayment('VNPAY')}
-                            className={clsx(styles.payment_option, { [styles.active]: payment === 'VNPAY' })}
-                            src={require('../../../assets/images/vnpay.png')}
-                            alt=""
-                        />
-                        <img
-                            onClick={() => setPayment('PAYPAL')}
-                            className={clsx(styles.payment_option, { [styles.active]: payment === 'PAYPAL' })}
-                            src={require('../../../assets/images/paypal.png')}
-                            alt=""
-                        />
+                        <div className={clsx(styles.payment_contain, { [styles.active]: payment === 'VNPAY' })}>
+                            <img
+                                onClick={() => setPayment('VNPAY')}
+                                className={styles.payment_option}
+                                src={require('../../../assets/images/vnpay.png')}
+                                alt=""
+                            />
+                        </div>
+                        <div className={clsx(styles.payment_contain, { [styles.active]: payment === 'PAYPAL' })}>
+                            <img
+                                onClick={() => setPayment('PAYPAL')}
+                                className={styles.payment_option}
+                                src={require('../../../assets/images/paypal.png')}
+                                alt=""
+                            />
+                        </div>
                     </div>
 
                     <div className={styles.payment_bottom}>
@@ -327,7 +333,10 @@ function Order() {
                             </div>
                         </div>
 
-                        <button onClick={handleCheckout} className={styles.payment_bottom_btn}>
+                        <button
+                            onClick={handleCheckout}
+                            className={clsx(styles.payment_bottom_btn, { [styles.disabled]: !payment })}
+                        >
                             ĐẶT HÀNG
                         </button>
                     </div>

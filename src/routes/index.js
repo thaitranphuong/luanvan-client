@@ -86,7 +86,7 @@ if (getToken()) {
     ) {
         privateRoute.push(
             { path: '/message', component: Message },
-            { path: '/cart', component: Cart },
+            { path: '/cart', component: Cart, layout: null },
             { path: '/order', component: Order, layout: null },
             { path: '/payment-vnpay', component: VNPay, layout: null },
             { path: '/payment-vnpay/result', component: VNPayResult, layout: null },
